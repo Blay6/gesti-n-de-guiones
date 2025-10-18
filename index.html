@@ -646,6 +646,138 @@
             font-family: 'Courier New', monospace;
         }
 
+        /* Botones de acción en categorías */
+        .category-item-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .category-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .category-item:hover .category-actions {
+            opacity: 1;
+        }
+
+        .category-item.active .category-actions {
+            opacity: 1;
+        }
+
+        .category-action-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #525252;
+            transition: all 0.15s;
+            padding: 0;
+        }
+
+        .category-action-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(1.1);
+        }
+
+        .category-item.active .category-action-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .category-item.active .category-action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .category-action-btn.delete:hover {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .category-item.active .category-action-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        /* Modal de edición de categoría */
+        .edit-category-highlight {
+            background: #eff6ff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 3px solid #2563eb;
+        }
+
+        .edit-category-highlight .current-name {
+            font-size: 13px;
+            color: #737373;
+            margin-bottom: 4px;
+        }
+
+        .edit-category-highlight .name-display {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 1.5px solid #fbbf24;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .warning-icon {
+            color: #f59e0b;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .warning-content {
+            flex: 1;
+        }
+
+        .warning-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+
+        .warning-text {
+            font-size: 12px;
+            color: #78350f;
+            line-height: 1.5;
+        }
+
+        .scripts-affected {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: #f59e0b;
+            color: white;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
         .category-dot {
             width: 8px;
             height: 8px;
@@ -1113,6 +1245,57 @@
         </div>
     </div>
 
+    <!-- Modal Editar Categoría -->
+    <div class="modal" id="editCategoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 class="modal-title">Editar Categoría</h2>
+                </div>
+                <button class="btn-close" onclick="closeModal('editCategoryModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="edit-category-highlight">
+                    <div class="current-name">Categoría actual</div>
+                    <div class="name-display" id="editCurrentCategoryName"></div>
+                </div>
+
+                <div class="warning-box" id="editWarningBox" style="display: none;">
+                    <svg class="warning-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <div class="warning-content">
+                        <div class="warning-title">
+                            Cambios en guiones existentes
+                            <span class="scripts-affected" id="affectedScriptsCount">0</span>
+                        </div>
+                        <div class="warning-text">
+                            Al cambiar el nombre, todos los guiones de esta categoría se actualizarán automáticamente.
+                        </div>
+                    </div>
+                </div>
+
+                <form onsubmit="saveEditCategory(event)">
+                    <input type="hidden" id="editCategoryOriginalName">
+                    <div class="form-group">
+                        <label>Nuevo Nombre de la Categoría</label>
+                        <input type="text" id="editCategoryName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ruta de los Clips</label>
+                        <input type="text" id="editCategoryPath" placeholder="Ej: C:\Videos\Clips" class="path-input">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('editCategoryModal')">Cancelar</button>
+                        <button type="submit" class="btn-save">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
 let scripts = [];
         let categories = [];
@@ -1177,12 +1360,125 @@ let scripts = [];
             }
         }
 
-        function filterCategory(category) {
+        function openEditCategoryModal(categoryName) {
+            const category = categories.find(cat => cat.name === categoryName);
+            if (!category) return;
+
+            // Mostrar información actual
+            document.getElementById('editCurrentCategoryName').textContent = category.name;
+            document.getElementById('editCategoryOriginalName').value = category.name;
+            document.getElementById('editCategoryName').value = category.name;
+            document.getElementById('editCategoryPath').value = category.path || '';
+
+            // Contar scripts afectados
+            const affectedCount = scripts.filter(s => s.category === categoryName).length;
+            const warningBox = document.getElementById('editWarningBox');
+            const affectedCountEl = document.getElementById('affectedScriptsCount');
+            
+            if (affectedCount > 0) {
+                affectedCountEl.textContent = affectedCount;
+                warningBox.style.display = 'flex';
+            } else {
+                warningBox.style.display = 'none';
+            }
+
+            document.getElementById('editCategoryModal').classList.add('active');
+            document.getElementById('editCategoryName').focus();
+        }
+
+        function saveEditCategory(event) {
+            event.preventDefault();
+            
+            const originalName = document.getElementById('editCategoryOriginalName').value;
+            const newName = document.getElementById('editCategoryName').value.trim();
+            const newPath = document.getElementById('editCategoryPath').value.trim();
+
+            if (!newName) return;
+
+            // Verificar si el nuevo nombre ya existe (excepto si es el mismo)
+            if (newName !== originalName && categories.some(cat => cat.name === newName)) {
+                alert('Ya existe una categoría con ese nombre');
+                return;
+            }
+
+            // Actualizar la categoría
+            const categoryIndex = categories.findIndex(cat => cat.name === originalName);
+            if (categoryIndex !== -1) {
+                categories[categoryIndex] = {
+                    name: newName,
+                    path: newPath
+                };
+
+                // Actualizar todos los scripts que usan esta categoría
+                scripts.forEach(script => {
+                    if (script.category === originalName) {
+                        script.category = newName;
+                    }
+                });
+
+                // Si estamos viendo esta categoría, actualizar el filtro
+                if (currentFilter === originalName) {
+                    currentFilter = newName;
+                }
+
+                saveData();
+                updateUI();
+                closeModal('editCategoryModal');
+            }
+        }
+
+        function deleteCategory(categoryName) {
+            const scriptsInCategory = scripts.filter(s => s.category === categoryName).length;
+            
+            let confirmMessage = `¿Estás seguro de eliminar la categoría "${categoryName}"?`;
+            if (scriptsInCategory > 0) {
+                confirmMessage += `\n\nTiene ${scriptsInCategory} guion(es) asociado(s). Los guiones se moverán a "General".`;
+            }
+
+            if (confirm(confirmMessage)) {
+                // Mover scripts a General
+                if (scriptsInCategory > 0) {
+                    // Asegurarse de que existe la categoría General
+                    if (!categories.some(cat => cat.name === 'General')) {
+                        categories.push({ name: 'General', path: '' });
+                    }
+
+                    scripts.forEach(script => {
+                        if (script.category === categoryName) {
+                            script.category = 'General';
+                        }
+                    });
+                }
+
+                // Eliminar la categoría
+                categories = categories.filter(cat => cat.name !== categoryName);
+
+                // Si estábamos viendo esta categoría, volver a "all"
+                if (currentFilter === categoryName) {
+                    currentFilter = 'all';
+                }
+
+                saveData();
+                updateUI();
+            }
+        }
+
+function filterCategory(category) {
             currentFilter = category;
             document.querySelectorAll('.category-item').forEach(item => {
                 item.classList.remove('active');
             });
-            event.target.closest('.category-item').classList.add('active');
+            
+            // Buscar el elemento correcto para agregar la clase active
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                const content = item.querySelector('.category-item-content span');
+                if (content && content.textContent.includes(category)) {
+                    item.classList.add('active');
+                } else if (category === 'all' && content && content.textContent.includes('Todos los guiones')) {
+                    item.classList.add('active');
+                }
+            });
             
             if (category === 'all') {
                 document.getElementById('mainTitle').textContent = 'Todos los guiones';
@@ -1543,7 +1839,7 @@ let scripts = [];
             return `${day} de ${month} de ${year}, ${hours}:${minutes}`;
         }
 
-        function renderCategories() {
+function renderCategories() {
             const categoryList = document.getElementById('categoryList');
             const allCategory = categoryList.querySelector('.category-item');
             categoryList.innerHTML = '';
@@ -1554,10 +1850,25 @@ let scripts = [];
                 const div = document.createElement('div');
                 div.className = 'category-item';
                 div.innerHTML = `
-                    <span><span class="category-icon">📁</span>${cat.name}</span>
+                    <div class="category-item-content" onclick="filterCategory('${cat.name.replace(/'/g, "\\'")}')">
+                        <span><span class="category-icon">📁</span>${cat.name}</span>
+                    </div>
+                    <div class="category-actions">
+                        <button class="category-action-btn" onclick="event.stopPropagation(); openEditCategoryModal('${cat.name.replace(/'/g, "\\'")}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                        <button class="category-action-btn delete" onclick="event.stopPropagation(); deleteCategory('${cat.name.replace(/'/g, "\\'")}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
                     <span class="category-badge">${count}</span>
                 `;
-                div.onclick = () => filterCategory(cat.name);
                 categoryList.appendChild(div);
             });
         }
