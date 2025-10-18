@@ -251,6 +251,142 @@
             color: #a3a3a3;
         }
 
+        /* Sistema de Filtros */
+        .filters-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 8px 0;
+        }
+
+        .toggle-filters-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #525252;
+            transition: all 0.2s;
+        }
+
+        .toggle-filters-btn:hover {
+            background: #e5e5e5;
+        }
+
+        .toggle-filters-btn.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+        }
+
+        .toggle-filters-btn svg {
+            transition: transform 0.2s;
+        }
+
+        .toggle-filters-btn.active svg {
+            transform: rotate(180deg);
+        }
+
+        .filters-panel {
+            display: none;
+            gap: 12px;
+            padding: 16px;
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            margin-top: 12px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .filters-panel.active {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-option {
+            padding: 8px 14px;
+            background: white;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #525252;
+            transition: all 0.15s;
+            font-weight: 500;
+        }
+
+        .filter-option:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .filter-option.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+            font-weight: 600;
+        }
+
+        .filter-divider {
+            width: 1px;
+            background: #e5e5e5;
+            margin: 0 8px;
+        }
+
+        .active-filters-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background: #2563eb;
+            color: white;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
         .scripts-container {
             flex: 1;
             overflow-y: auto;
@@ -279,6 +415,21 @@
         .script-card.used {
             border-color: #86efac;
             background: #f0fdf4;
+        }
+
+        .script-card.fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
         }
 
         .script-header {
@@ -413,12 +564,86 @@
             margin-bottom: 4px;
         }
 
-        .modal-category {
-            display: inline-flex;
+.category-path-container {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: #fafafa;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .path-icon {
+            color: #737373;
+            flex-shrink: 0;
+        }
+
+        .path-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .path-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .path-text {
+            font-size: 13px;
+            color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .btn-copy-path {
+            padding: 8px 14px;
+            background: white;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #525252;
+            display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 13px;
-            color: #737373;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .btn-copy-path:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+        }
+
+        .btn-copy-path.copied {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: white;
+        }
+
+        .category-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .category-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .category-input input.path-input {
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
         }
 
         .category-dot {
@@ -676,9 +901,14 @@
                 CATEGORÍAS
                 <button class="add-category-btn" onclick="toggleCategoryInput()">+</button>
             </h3>
-            <div class="category-input" id="categoryInput">
-                <input type="text" id="newCategoryInput" placeholder="Nueva categoría">
-                <button onclick="addCategory()">OK</button>
+<div class="category-input" id="categoryInput">
+                <div class="category-input-group">
+                    <input type="text" id="newCategoryInput" placeholder="Nombre de la categoría" style="width: 100%;">
+                    <div class="category-input-row">
+                        <input type="text" id="newCategoryPath" placeholder="Ruta de los clips (opcional)" class="path-input" style="flex: 1;">
+                        <button onclick="addCategory()">OK</button>
+                    </div>
+                </div>
             </div>
             <div class="category-list" id="categoryList">
                 <div class="category-item active" onclick="filterCategory('all')">
@@ -707,6 +937,62 @@
                     <path d="m21 21-4.35-4.35"></path>
                 </svg>
                 <input type="text" class="search-input" id="searchInput" placeholder="Buscar guiones...">
+            </div>
+
+            <!-- Panel de Filtros -->
+            <div class="filters-toggle">
+                <button class="toggle-filters-btn" id="toggleFiltersBtn" onclick="toggleFiltersPanel()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                    </svg>
+                    <span>Filtros</span>
+                    <span class="active-filters-count" id="activeFiltersCount" style="display: none;">0</span>
+                </button>
+            </div>
+
+            <div class="filters-panel" id="filtersPanel">
+                <div class="filter-group">
+                    <span class="filter-label">Mostrar</span>
+                    <div class="filter-options">
+                        <button class="filter-option active" data-status="available" onclick="setStatusFilter('available')">
+                            Disponibles
+                        </button>
+                        <button class="filter-option" data-status="used" onclick="setStatusFilter('used')">
+                            Utilizados
+                        </button>
+                        <button class="filter-option" data-status="all" onclick="setStatusFilter('all')">
+                            Todos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-divider"></div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Ordenar por</span>
+                    <div class="filter-options">
+                        <button class="filter-option active" data-sort="recent" onclick="setSortFilter('recent')">
+                            Más reciente
+                        </button>
+                        <button class="filter-option" data-sort="oldest" onclick="setSortFilter('oldest')">
+                            Más antiguo
+                        </button>
+                        <button class="filter-option" data-sort="alpha" onclick="setSortFilter('alpha')">
+                            A-Z
+                        </button>
+                        <button class="filter-option" data-sort="alpha-desc" onclick="setSortFilter('alpha-desc')">
+                            Z-A
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -741,8 +1027,28 @@
                     <button class="btn-close" onclick="closeModal('viewModal')">×</button>
                 </div>
             </div>
-            <div class="modal-body">
+<div class="modal-body">
                 <p class="script-date" id="viewDate"></p>
+                
+                <!-- Ruta de la categoría -->
+                <div class="category-path-container" id="categoryPathContainer" style="display: none;">
+                    <svg class="path-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <polyline points="13 2 13 9 20 9"></polyline>
+                    </svg>
+                    <div class="path-content">
+                        <div class="path-label">Ruta de Clips</div>
+                        <div class="path-text" id="categoryPath"></div>
+                    </div>
+                    <button class="btn-copy-path" onclick="copyCategoryPath()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span id="copyPathText">Copiar</span>
+                    </button>
+                </div>
+                
                 <div class="script-full-content" id="viewContent"></div>
             </div>
             <div class="modal-footer">
@@ -808,16 +1114,31 @@
     </div>
 
     <script>
-        let scripts = [];
+let scripts = [];
         let categories = [];
         let currentFilter = 'all';
         let currentViewIndex = -1;
         let filteredScripts = [];
         let searchQuery = '';
+        
+        // Nuevos filtros avanzados
+        let statusFilter = 'available';
+        let sortFilter = 'recent';
+        let filtersActive = false;
 
         function initializeData() {
             scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
-            categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+            
+            // Migrar categorías antiguas (strings) a nuevo formato (objetos)
+            categories = storedCategories.map(cat => {
+                if (typeof cat === 'string') {
+                    return { name: cat, path: '' };
+                }
+                return cat;
+            });
+            
+            saveData();
             updateUI();
         }
 
@@ -831,18 +1152,27 @@
             input.classList.toggle('active');
             if (input.classList.contains('active')) {
                 document.getElementById('newCategoryInput').focus();
+            } else {
+                document.getElementById('newCategoryInput').value = '';
+                document.getElementById('newCategoryPath').value = '';
             }
         }
 
         function addCategory() {
-            const input = document.getElementById('newCategoryInput');
-            const categoryName = input.value.trim();
+            const nameInput = document.getElementById('newCategoryInput');
+            const pathInput = document.getElementById('newCategoryPath');
+            const categoryName = nameInput.value.trim();
+            const categoryPath = pathInput.value.trim();
             
-            if (categoryName && !categories.includes(categoryName)) {
-                categories.push(categoryName);
+            if (categoryName && !categories.some(cat => cat.name === categoryName)) {
+                categories.push({
+                    name: categoryName,
+                    path: categoryPath || ''
+                });
                 saveData();
                 updateUI();
-                input.value = '';
+                nameInput.value = '';
+                pathInput.value = '';
                 toggleCategoryInput();
             }
         }
@@ -867,7 +1197,7 @@
             updateCategorySelect();
             document.getElementById('scriptTitle').value = '';
             document.getElementById('scriptContent').value = '';
-            document.getElementById('scriptCategory').value = categories[0] || 'General';
+            document.getElementById('scriptCategory').value = categories[0]?.name || 'General';
             document.getElementById('addModal').classList.add('active');
         }
 
@@ -887,8 +1217,8 @@
             } else {
                 categories.forEach(cat => {
                     const option = document.createElement('option');
-                    option.value = cat;
-                    option.textContent = cat;
+                    option.value = cat.name;
+                    option.textContent = cat.name;
                     select.appendChild(option);
                 });
             }
@@ -903,8 +1233,8 @@
             
             if (!category) {
                 category = 'General';
-                if (!categories.includes('General')) {
-                    categories.push('General');
+                if (!categories.some(cat => cat.name === 'General')) {
+                    categories.push({ name: 'General', path: '' });
                 }
             }
             
@@ -920,14 +1250,6 @@
             saveData();
             updateUI();
             closeModal('addModal');
-        }
-
-        function deleteScript(id) {
-            if (confirm('¿Estás seguro de eliminar este guión?')) {
-                scripts = scripts.filter(s => s.id !== id);
-                saveData();
-                updateUI();
-            }
         }
 
         function deleteCurrentScript() {
@@ -953,21 +1275,91 @@
                 document.getElementById('viewContent').textContent = script.content;
                 document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
                 
+                // Mostrar ruta de la categoría
+                const category = categories.find(cat => cat.name === script.category);
+                const pathContainer = document.getElementById('categoryPathContainer');
+                const pathText = document.getElementById('categoryPath');
+                
+                if (category && category.path) {
+                    pathText.textContent = category.path;
+                    pathContainer.style.display = 'flex';
+                } else {
+                    pathContainer.style.display = 'none';
+                }
+                
                 updateMarkUsedButton(script.used);
                 document.getElementById('viewModal').classList.add('active');
             }
+        }
+
+        function copyCategoryPath() {
+            const pathText = document.getElementById('categoryPath').textContent;
+            const btn = event.target.closest('.btn-copy-path');
+            const btnText = document.getElementById('copyPathText');
+            
+            navigator.clipboard.writeText(pathText).then(() => {
+                btn.classList.add('copied');
+                btnText.textContent = '¡Copiado!';
+                
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btnText.textContent = 'Copiar';
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+            });
         }
 
         function toggleUsedStatus() {
             if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
                 const script = filteredScripts[currentViewIndex];
                 const originalScript = scripts.find(s => s.id === script.id);
-                originalScript.used = !originalScript.used;
-                script.used = originalScript.used;
-                saveData();
-                updateMarkUsedButton(script.used);
-                renderScripts();
-                updateStats();
+                
+                if (!originalScript.used) {
+                    originalScript.used = true;
+                    script.used = true;
+                    saveData();
+                    updateStats();
+                    renderScripts();
+                    
+                    filteredScripts = getFilteredScripts();
+                    
+                    if (filteredScripts.length > 0) {
+                        if (currentViewIndex >= filteredScripts.length) {
+                            currentViewIndex = filteredScripts.length - 1;
+                        }
+                        
+                        const nextScript = filteredScripts[currentViewIndex];
+                        document.getElementById('viewTitle').textContent = nextScript.title;
+                        document.getElementById('viewCategory').textContent = nextScript.category;
+                        document.getElementById('viewContent').textContent = nextScript.content;
+                        document.getElementById('viewDate').textContent = `Creado: ${formatDate(nextScript.createdAt)}`;
+                        
+                        // Actualizar ruta
+                        const category = categories.find(cat => cat.name === nextScript.category);
+                        const pathContainer = document.getElementById('categoryPathContainer');
+                        const pathText = document.getElementById('categoryPath');
+                        
+                        if (category && category.path) {
+                            pathText.textContent = category.path;
+                            pathContainer.style.display = 'flex';
+                        } else {
+                            pathContainer.style.display = 'none';
+                        }
+                        
+                        updateMarkUsedButton(nextScript.used);
+                    } else {
+                        closeModal('viewModal');
+                        renderScripts();
+                    }
+                } else {
+                    originalScript.used = false;
+                    script.used = false;
+                    saveData();
+                    updateMarkUsedButton(script.used);
+                    renderScripts();
+                    updateStats();
+                }
             }
         }
 
@@ -1010,6 +1402,19 @@
             document.getElementById('viewCategory').textContent = script.category;
             document.getElementById('viewContent').textContent = script.content;
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
+            
+            // Actualizar ruta
+            const category = categories.find(cat => cat.name === script.category);
+            const pathContainer = document.getElementById('categoryPathContainer');
+            const pathText = document.getElementById('categoryPath');
+            
+            if (category && category.path) {
+                pathText.textContent = category.path;
+                pathContainer.style.display = 'flex';
+            } else {
+                pathContainer.style.display = 'none';
+            }
+            
             updateMarkUsedButton(script.used);
         }
 
@@ -1022,6 +1427,19 @@
             document.getElementById('viewCategory').textContent = script.category;
             document.getElementById('viewContent').textContent = script.content;
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
+            
+            // Actualizar ruta
+            const category = categories.find(cat => cat.name === script.category);
+            const pathContainer = document.getElementById('categoryPathContainer');
+            const pathText = document.getElementById('categoryPath');
+            
+            if (category && category.path) {
+                pathText.textContent = category.path;
+                pathContainer.style.display = 'flex';
+            } else {
+                pathContainer.style.display = 'none';
+            }
+            
             updateMarkUsedButton(script.used);
         }
 
@@ -1030,16 +1448,84 @@
             renderScripts();
         }
 
+        function toggleFiltersPanel() {
+            filtersActive = !filtersActive;
+            const panel = document.getElementById('filtersPanel');
+            const btn = document.getElementById('toggleFiltersBtn');
+            
+            panel.classList.toggle('active');
+            btn.classList.toggle('active');
+        }
+
+        function setStatusFilter(status) {
+            statusFilter = status;
+            
+            document.querySelectorAll('[data-status]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-status="${status}"]`).classList.add('active');
+            
+            updateActiveFiltersCount();
+            renderScripts();
+        }
+
+        function setSortFilter(sort) {
+            sortFilter = sort;
+            
+            document.querySelectorAll('[data-sort]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-sort="${sort}"]`).classList.add('active');
+            
+            updateActiveFiltersCount();
+            renderScripts();
+        }
+
+        function updateActiveFiltersCount() {
+            const count = (statusFilter !== 'available' ? 1 : 0) + (sortFilter !== 'recent' ? 1 : 0);
+            const badge = document.getElementById('activeFiltersCount');
+            
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
         function getFilteredScripts() {
             let filtered = currentFilter === 'all' 
                 ? scripts 
                 : scripts.filter(s => s.category === currentFilter);
+            
+            if (statusFilter === 'available') {
+                filtered = filtered.filter(s => !s.used);
+            } else if (statusFilter === 'used') {
+                filtered = filtered.filter(s => s.used);
+            }
             
             if (searchQuery) {
                 filtered = filtered.filter(s => 
                     s.title.toLowerCase().includes(searchQuery) ||
                     s.content.toLowerCase().includes(searchQuery)
                 );
+            }
+            
+            filtered = [...filtered];
+            
+            switch(sortFilter) {
+                case 'recent':
+                    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'alpha':
+                    filtered.sort((a, b) => a.title.localeCompare(b.title, 'es'));
+                    break;
+                case 'alpha-desc':
+                    filtered.sort((a, b) => b.title.localeCompare(a.title, 'es'));
+                    break;
             }
             
             return filtered;
@@ -1064,14 +1550,14 @@
             categoryList.appendChild(allCategory);
 
             categories.forEach(cat => {
-                const count = scripts.filter(s => s.category === cat).length;
+                const count = scripts.filter(s => s.category === cat.name).length;
                 const div = document.createElement('div');
                 div.className = 'category-item';
                 div.innerHTML = `
-                    <span><span class="category-icon">📁</span>${cat}</span>
+                    <span><span class="category-icon">📁</span>${cat.name}</span>
                     <span class="category-badge">${count}</span>
                 `;
-                div.onclick = () => filterCategory(cat);
+                div.onclick = () => filterCategory(cat.name);
                 categoryList.appendChild(div);
             });
         }
@@ -1093,12 +1579,31 @@
             }
 
             if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No se encontraron resultados</h3>
-                        <p>Intenta con otros términos de búsqueda</p>
-                    </div>
-                `;
+                const hasUsedScripts = scripts.some(s => s.used);
+                const isSearching = searchQuery.length > 0;
+                
+                if (isSearching) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No se encontraron resultados</h3>
+                            <p>Intenta con otros términos de búsqueda</p>
+                        </div>
+                    `;
+                } else if (hasUsedScripts) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <h3>🎉 ¡Excelente trabajo!</h3>
+                            <p>Has utilizado todos los guiones disponibles en esta categoría</p>
+                        </div>
+                    `;
+                } else {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No hay guiones en esta categoría</h3>
+                            <p>Agrega nuevos guiones para comenzar</p>
+                        </div>
+                    `;
+                }
                 return;
             }
 
@@ -1146,6 +1651,13 @@
         document.getElementById('searchInput').addEventListener('input', handleSearch);
         
         document.getElementById('newCategoryInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('newCategoryPath').focus();
+            }
+        });
+        
+        document.getElementById('newCategoryPath').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 addCategory();
             }
