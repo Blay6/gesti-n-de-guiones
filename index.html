@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scripts Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 13px;
+            color: #737373;
+        }
+
+.stats-section {
+    margin-bottom: 32px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #525252;
+}
+
+.stat-number {
+    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 16px;
+}
+
+        .categories-section h3 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-category-btn {
+            background: none;
+            border: none;
+            color: #737373;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .add-category-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .category-input {
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        .category-input.active {
+            display: flex;
+            gap: 8px;
+        }
+
+        .category-input input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .category-input input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .category-input button {
+            padding: 8px 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .category-item {
+            padding: 10px 12px;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #525252;
+        }
+
+        .category-item:hover {
+            background: #f5f5f5;
+        }
+
+        .category-item.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .category-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: #737373;
+        }
+
+        .category-item.active .category-badge {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .category-icon {
+            margin-right: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-header {
+            background: white;
+            padding: 24px 32px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-top h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #737373;
+        }
+
+        .btn-new-script {
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .btn-new-script:hover {
+            background: #1d4ed8;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fafafa;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a3a3a3;
+        }
+
+        .scripts-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 32px;
+        }
+
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .script-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .script-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .script-card.used {
+            border-color: #86efac;
+            background: #f0fdf4;
+        }
+
+        .script-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .script-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .script-status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d4d4d4;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .script-card.used .script-status-indicator {
+            background: #22c55e;
+        }
+
+        .script-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #737373;
+        }
+
+        .script-category-badge {
+            padding: 4px 10px;
+            background: #e5e5e5;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .script-content {
+            color: #525252;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            max-height: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .script-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(transparent, white);
+        }
+
+        .script-card.used .script-content::after {
+            background: linear-gradient(transparent, #f0fdf4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #a3a3a3;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: #525252;
+            margin-bottom: 8px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.modal-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+        .modal-title-section {
+            flex: 1;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .modal-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #737373;
+        }
+
+        .category-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+
+        .modal-actions-top {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #525252;
+            transition: all 0.15s;
+        }
+
+        .icon-btn:hover {
+            background: #e5e5e5;
+        }
+
+        .icon-btn.delete:hover {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #737373;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .btn-close:hover {
+            background: #f5f5f5;
+        }
+
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+        .script-full-content {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 14px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            border: 1px solid #e5e5e5;
+        }
+
+        .script-date {
+            font-size: 12px;
+            color: #737373;
+            margin-bottom: 20px;
+        }
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    gap: 8px;
+    background: white;
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #525252;
+        }
+
+        .nav-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-mark-used {
+            flex: 1;
+            padding: 10px 20px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #525252;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-mark-used:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-mark-used.marked {
+            background: #f0fdf4;
+            border-color: #86efac;
+            color: #16a34a;
+        }
+
+        .btn-copy-script {
+            flex: 1;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-copy-script:hover {
+            background: #1d4ed8;
+        }
+
+        /* Form Modal */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 10px 20px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-save {
+            flex: 1;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Scripts Manager</h1>
+            <p class="sidebar-subtitle">Organiza tus guiones</p>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-item">
+                <span>Total de guiones</span>
+                <span class="stat-number" id="totalScripts">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Disponibles</span>
+                <span class="stat-number" id="availableScripts">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Utilizados</span>
+                <span class="stat-number" id="usedScripts">0</span>
+            </div>
+        </div>
+
+        <div class="categories-section">
+            <h3>
+                CATEGORÍAS
+                <button class="add-category-btn" onclick="toggleCategoryInput()">+</button>
+            </h3>
+            <div class="category-input" id="categoryInput">
+                <input type="text" id="newCategoryInput" placeholder="Nueva categoría">
+                <button onclick="addCategory()">OK</button>
+            </div>
+            <div class="category-list" id="categoryList">
+                <div class="category-item active" onclick="filterCategory('all')">
+                    <span><span class="category-icon">📁</span>Todos los guiones</span>
+                    <span class="category-badge" id="count-all">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="main-header">
+            <div class="header-top">
+                <div>
+                    <h2 id="mainTitle">Todos los guiones</h2>
+                    <p class="header-subtitle"><span id="scriptsCount">0</span> guiones</p>
+                </div>
+                <button class="btn-new-script" onclick="openAddModal()">
+                    <span>+</span>
+                    Nuevo guión
+                </button>
+            </div>
+            <div class="search-container">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar guiones...">
+            </div>
+        </div>
+
+        <div class="scripts-container">
+            <div class="scripts-grid" id="scriptsGrid">
+                <div class="empty-state">
+                    <h3>No hay guiones todavía</h3>
+                    <p>Comienza agregando tu primer guión</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 class="modal-title" id="viewTitle"></h2>
+                    <div class="modal-category">
+                        <span class="category-dot"></span>
+                        <span id="viewCategory"></span>
+                    </div>
+                </div>
+                <div class="modal-actions-top">
+                    <button class="icon-btn delete" onclick="deleteCurrentScript()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                    <button class="btn-close" onclick="closeModal('viewModal')">×</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="script-date" id="viewDate"></p>
+                <div class="script-full-content" id="viewContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="nav-btn" onclick="prevScript()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="nav-btn" onclick="nextScript()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                <button class="btn-mark-used" id="btnMarkUsed" onclick="toggleUsedStatus()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                    <span id="markUsedText">Marcar como utilizado</span>
+                </button>
+                <button class="btn-copy-script" onclick="copyCurrentScript()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copiar guión
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 class="modal-title">Nuevo Guión</h2>
+                </div>
+                <button class="btn-close" onclick="closeModal('addModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="saveScript(event)">
+                    <div class="form-group">
+                        <label>Título del Guión</label>
+                        <input type="text" id="scriptTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="scriptCategory">
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Contenido del Guión</label>
+                        <textarea id="scriptContent" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('addModal')">Cancelar</button>
+                        <button type="submit" class="btn-save">Guardar guión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let scripts = [];
+        let categories = [];
+        let currentFilter = 'all';
+        let currentViewIndex = -1;
+        let filteredScripts = [];
+        let searchQuery = '';
+
+        function initializeData() {
+            scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
+            categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            updateUI();
+        }
+
+        function saveData() {
+            localStorage.setItem('scripts', JSON.stringify(scripts));
+            localStorage.setItem('categories', JSON.stringify(categories));
+        }
+
+        function toggleCategoryInput() {
+            const input = document.getElementById('categoryInput');
+            input.classList.toggle('active');
+            if (input.classList.contains('active')) {
+                document.getElementById('newCategoryInput').focus();
+            }
+        }
+
+        function addCategory() {
+            const input = document.getElementById('newCategoryInput');
+            const categoryName = input.value.trim();
+            
+            if (categoryName && !categories.includes(categoryName)) {
+                categories.push(categoryName);
+                saveData();
+                updateUI();
+                input.value = '';
+                toggleCategoryInput();
+            }
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.category-item').classList.add('active');
+            
+            if (category === 'all') {
+                document.getElementById('mainTitle').textContent = 'Todos los guiones';
+            } else {
+                document.getElementById('mainTitle').textContent = category;
+            }
+            
+            renderScripts();
+        }
+
+        function openAddModal() {
+            updateCategorySelect();
+            document.getElementById('scriptTitle').value = '';
+            document.getElementById('scriptContent').value = '';
+            document.getElementById('scriptCategory').value = categories[0] || 'General';
+            document.getElementById('addModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function updateCategorySelect() {
+            const select = document.getElementById('scriptCategory');
+            select.innerHTML = '';
+            
+            if (categories.length === 0) {
+                const option = document.createElement('option');
+                option.value = 'General';
+                option.textContent = 'General';
+                select.appendChild(option);
+            } else {
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        function saveScript(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('scriptTitle').value.trim();
+            let category = document.getElementById('scriptCategory').value.trim();
+            const content = document.getElementById('scriptContent').value.trim();
+            
+            if (!category) {
+                category = 'General';
+                if (!categories.includes('General')) {
+                    categories.push('General');
+                }
+            }
+            
+            scripts.push({
+                id: Date.now(),
+                title,
+                category,
+                content,
+                used: false,
+                createdAt: new Date().toISOString()
+            });
+            
+            saveData();
+            updateUI();
+            closeModal('addModal');
+        }
+
+        function deleteScript(id) {
+            if (confirm('¿Estás seguro de eliminar este guión?')) {
+                scripts = scripts.filter(s => s.id !== id);
+                saveData();
+                updateUI();
+            }
+        }
+
+        function deleteCurrentScript() {
+            if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
+                const script = filteredScripts[currentViewIndex];
+                if (confirm('¿Estás seguro de eliminar este guión?')) {
+                    scripts = scripts.filter(s => s.id !== script.id);
+                    saveData();
+                    closeModal('viewModal');
+                    updateUI();
+                }
+            }
+        }
+
+        function viewScript(id) {
+            const script = scripts.find(s => s.id === id);
+            if (script) {
+                filteredScripts = getFilteredScripts();
+                currentViewIndex = filteredScripts.findIndex(s => s.id === id);
+                
+                document.getElementById('viewTitle').textContent = script.title;
+                document.getElementById('viewCategory').textContent = script.category;
+                document.getElementById('viewContent').textContent = script.content;
+                document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
+                
+                updateMarkUsedButton(script.used);
+                document.getElementById('viewModal').classList.add('active');
+            }
+        }
+
+        function toggleUsedStatus() {
+            if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
+                const script = filteredScripts[currentViewIndex];
+                const originalScript = scripts.find(s => s.id === script.id);
+                originalScript.used = !originalScript.used;
+                script.used = originalScript.used;
+                saveData();
+                updateMarkUsedButton(script.used);
+                renderScripts();
+                updateStats();
+            }
+        }
+
+        function updateMarkUsedButton(isUsed) {
+            const btn = document.getElementById('btnMarkUsed');
+            const text = document.getElementById('markUsedText');
+            
+            if (isUsed) {
+                btn.classList.add('marked');
+                text.textContent = 'Marcar como disponible';
+            } else {
+                btn.classList.remove('marked');
+                text.textContent = 'Marcar como utilizado';
+            }
+        }
+
+        function copyCurrentScript() {
+            const content = document.getElementById('viewContent').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = event.target.closest('.btn-copy-script');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Copiado
+                `;
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        function nextScript() {
+            if (filteredScripts.length === 0) return;
+            currentViewIndex = (currentViewIndex + 1) % filteredScripts.length;
+            const script = filteredScripts[currentViewIndex];
+            
+            document.getElementById('viewTitle').textContent = script.title;
+            document.getElementById('viewCategory').textContent = script.category;
+            document.getElementById('viewContent').textContent = script.content;
+            document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
+            updateMarkUsedButton(script.used);
+        }
+
+        function prevScript() {
+            if (filteredScripts.length === 0) return;
+            currentViewIndex = (currentViewIndex - 1 + filteredScripts.length) % filteredScripts.length;
+            const script = filteredScripts[currentViewIndex];
+            
+            document.getElementById('viewTitle').textContent = script.title;
+            document.getElementById('viewCategory').textContent = script.category;
+            document.getElementById('viewContent').textContent = script.content;
+            document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
+            updateMarkUsedButton(script.used);
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            renderScripts();
+        }
+
+        function getFilteredScripts() {
+            let filtered = currentFilter === 'all' 
+                ? scripts 
+                : scripts.filter(s => s.category === currentFilter);
+            
+            if (searchQuery) {
+                filtered = filtered.filter(s => 
+                    s.title.toLowerCase().includes(searchQuery) ||
+                    s.content.toLowerCase().includes(searchQuery)
+                );
+            }
+            
+            return filtered;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            
+            return `${day} de ${month} de ${year}, ${hours}:${minutes}`;
+        }
+
+        function renderCategories() {
+            const categoryList = document.getElementById('categoryList');
+            const allCategory = categoryList.querySelector('.category-item');
+            categoryList.innerHTML = '';
+            categoryList.appendChild(allCategory);
+
+            categories.forEach(cat => {
+                const count = scripts.filter(s => s.category === cat).length;
+                const div = document.createElement('div');
+                div.className = 'category-item';
+                div.innerHTML = `
+                    <span><span class="category-icon">📁</span>${cat}</span>
+                    <span class="category-badge">${count}</span>
+                `;
+                div.onclick = () => filterCategory(cat);
+                categoryList.appendChild(div);
+            });
+        }
+
+        function renderScripts() {
+            const grid = document.getElementById('scriptsGrid');
+            const filtered = getFilteredScripts();
+
+            document.getElementById('scriptsCount').textContent = filtered.length;
+
+            if (scripts.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No hay guiones todavía</h3>
+                        <p>Comienza agregando tu primer guión</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intenta con otros términos de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(script => `
+                <div class="script-card ${script.used ? 'used' : ''}" onclick="viewScript(${script.id})">
+                    <div class="script-header">
+                        <div style="flex: 1;">
+                            <div class="script-title">${script.title}</div>
+                        </div>
+                        <div class="script-status-indicator"></div>
+                    </div>
+                    <div class="script-meta">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        ${new Date(script.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        <span class="script-category-badge">${script.used ? 'Utilizado' : 'Disponible'}</span>
+                    </div>
+                    <div class="script-content">${script.content}</div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            const total = scripts.length;
+            const used = scripts.filter(s => s.used).length;
+            const available = total - used;
+
+            document.getElementById('totalScripts').textContent = total;
+            document.getElementById('availableScripts').textContent = available;
+            document.getElementById('usedScripts').textContent = used;
+            document.getElementById('count-all').textContent = total;
+        }
+
+        function updateUI() {
+            renderCategories();
+            renderScripts();
+            updateStats();
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', handleSearch);
+        
+        document.getElementById('newCategoryInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addCategory();
+            }
+        });
+
+        // Initialize
+        initializeData();
+    </script>
+</body>
+</html>
