@@ -1032,6 +1032,15 @@
             background: white;
         }
 
+        .form-group select option[value=""] {
+            color: #a3a3a3;
+            font-style: italic;
+        }
+
+        .form-group select option:not([value=""]) {
+            color: #1a1a1a;
+        }
+
         .form-group textarea {
             min-height: 200px;
             resize: vertical;
@@ -1662,64 +1671,93 @@ function filterCategory(category) {
             renderScripts();
         }
 
-        function openAddModal() {
-            updateCategorySelect();
-            document.getElementById('scriptTitle').value = '';
-            document.getElementById('scriptContent').value = '';
-            document.getElementById('scriptCategory').value = categories[0]?.name || 'General';
-            document.getElementById('addModal').classList.add('active');
-        }
+function openAddModal() {
+    updateCategorySelect();
+    document.getElementById('scriptContent').value = '';
+    
+    // Si hay una categoría seleccionada y no es "all"
+    if (currentFilter !== 'all') {
+        // Establecer el título automáticamente con el nombre de la categoría
+        document.getElementById('scriptTitle').value = currentFilter;
+        
+        // Establecer la categoría seleccionada automáticamente
+        document.getElementById('scriptCategory').value = currentFilter;
+    } else {
+        // Si está en "Todos los guiones", dejar el título vacío
+        document.getElementById('scriptTitle').value = '';
+        
+        // Establecer el select en el estado "sin categoría"
+        document.getElementById('scriptCategory').value = '';
+    }
+    
+    document.getElementById('addModal').classList.add('active');
+}
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
 
-        function updateCategorySelect() {
-            const select = document.getElementById('scriptCategory');
-            select.innerHTML = '';
-            
-            if (categories.length === 0) {
-                const option = document.createElement('option');
-                option.value = 'General';
-                option.textContent = 'General';
-                select.appendChild(option);
-            } else {
-                categories.forEach(cat => {
-                    const option = document.createElement('option');
-                    option.value = cat.name;
-                    option.textContent = cat.name;
-                    select.appendChild(option);
-                });
-            }
-        }
+function updateCategorySelect() {
+    const select = document.getElementById('scriptCategory');
+    select.innerHTML = '';
+    
+    // Agregar opción "Sin categoría" al inicio
+    const emptyOption = document.createElement('option');
+    emptyOption.value = '';
+    emptyOption.textContent = 'Sin categoría';
+    emptyOption.style.color = '#a3a3a3';
+    select.appendChild(emptyOption);
+    
+    // Agregar todas las categorías disponibles
+    if (categories.length === 0) {
+        const option = document.createElement('option');
+        option.value = 'General';
+        option.textContent = 'General';
+        select.appendChild(option);
+    } else {
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.name;
+            option.textContent = cat.name;
+            select.appendChild(option);
+        });
+    }
+}
 
-        function saveScript(event) {
-            event.preventDefault();
-            
-            const title = document.getElementById('scriptTitle').value.trim();
-            let category = document.getElementById('scriptCategory').value.trim();
-            const content = document.getElementById('scriptContent').value.trim();
-            
-            if (!category) {
-                category = 'General';
-                if (!categories.some(cat => cat.name === 'General')) {
-                    categories.push({ name: 'General', path: '' });
-                }
-            }
-            
-            scripts.push({
-                id: Date.now(),
-                title,
-                category,
-                content,
-                used: false,
-                createdAt: new Date().toISOString()
-            });
-            
-            saveData();
-            updateUI();
-            closeModal('addModal');
+function saveScript(event) {
+    event.preventDefault();
+    
+    const title = document.getElementById('scriptTitle').value.trim();
+    let category = document.getElementById('scriptCategory').value.trim();
+    const content = document.getElementById('scriptContent').value.trim();
+    
+    // Validar que el título no esté vacío
+    if (!title) {
+        alert('Por favor, ingresa un título para el guión');
+        return;
+    }
+    
+    // Si no hay categoría seleccionada, asignar "General"
+    if (!category) {
+        category = 'General';
+        if (!categories.some(cat => cat.name === 'General')) {
+            categories.push({ name: 'General', path: '' });
         }
+    }
+    
+    scripts.push({
+        id: Date.now(),
+        title,
+        category,
+        content,
+        used: false,
+        createdAt: new Date().toISOString()
+    });
+    
+    saveData();
+    updateUI();
+    closeModal('addModal');
+}
 
         function deleteCurrentScript() {
             if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
