@@ -173,6 +173,74 @@
             margin-right: 8px;
         }
 
+        /* Buscador de categorías */
+.category-search-container {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.category-search-input {
+    width: 100%;
+    padding: 8px 10px 8px 32px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #fafafa;
+    transition: all 0.15s;
+}
+
+.category-search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: white;
+}
+
+.category-search-input::placeholder {
+    color: #a3a3a3;
+}
+
+.category-search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a3a3a3;
+    pointer-events: none;
+}
+
+.category-search-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #737373;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.category-search-clear:hover {
+    background: #e5e5e5;
+    color: #1a1a1a;
+}
+
+.category-item.hidden {
+    display: none;
+}
+
+.category-no-results {
+    padding: 16px 12px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 12px;
+}
+
         /* Main Content */
         .main-content {
             flex: 1;
@@ -1028,11 +1096,32 @@
             </div>
         </div>
 
-        <div class="categories-section">
-            <h3>
-                CATEGORÍAS
-                <button class="add-category-btn" onclick="toggleCategoryInput()">+</button>
-            </h3>
+<div class="categories-section">
+    <h3>
+        CATEGORÍAS
+        <button class="add-category-btn" onclick="toggleCategoryInput()">+</button>
+    </h3>
+    
+    <!-- NUEVO: Buscador de categorías -->
+    <div class="category-search-container">
+        <svg class="category-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input 
+            type="text" 
+            class="category-search-input" 
+            id="categorySearchInput" 
+            placeholder="Buscar categoría..."
+            oninput="handleCategorySearch()"
+        >
+        <button class="category-search-clear" id="categorySearchClear" onclick="clearCategorySearch()" style="display: none;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
 <div class="category-input" id="categoryInput">
                 <div class="category-input-group">
                     <input type="text" id="newCategoryInput" placeholder="Nombre de la categoría" style="width: 100%;">
@@ -1324,6 +1413,90 @@ let scripts = [];
             saveData();
             updateUI();
         }
+
+        // NUEVAS FUNCIONES: Búsqueda de categorías
+function handleCategorySearch() {
+    const searchInput = document.getElementById('categorySearchInput');
+    const clearBtn = document.getElementById('categorySearchClear');
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    // Mostrar/ocultar botón de limpiar
+    if (searchTerm) {
+        clearBtn.style.display = 'flex';
+    } else {
+        clearBtn.style.display = 'none';
+    }
+    
+    filterCategoriesDisplay(searchTerm);
+}
+
+function clearCategorySearch() {
+    const searchInput = document.getElementById('categorySearchInput');
+    const clearBtn = document.getElementById('categorySearchClear');
+    
+    searchInput.value = '';
+    clearBtn.style.display = 'none';
+    searchInput.focus();
+    
+    filterCategoriesDisplay('');
+}
+
+function filterCategoriesDisplay(searchTerm) {
+    const categoryList = document.getElementById('categoryList');
+    const categoryItems = categoryList.querySelectorAll('.category-item');
+    let visibleCount = 0;
+    let hasAllCategory = false;
+    
+    categoryItems.forEach((item, index) => {
+        // La primera categoría es "Todos los guiones" - siempre visible si no hay búsqueda
+        if (index === 0) {
+            hasAllCategory = true;
+            if (searchTerm) {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
+                }
+            } else {
+                item.classList.remove('hidden');
+                visibleCount++;
+            }
+            return;
+        }
+        
+        // Resto de categorías
+        const categoryContent = item.querySelector('.category-item-content span');
+        if (categoryContent) {
+            const categoryText = categoryContent.textContent.toLowerCase();
+            
+            if (!searchTerm || categoryText.includes(searchTerm)) {
+                item.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                item.classList.add('hidden');
+            }
+        }
+    });
+    
+    // Mostrar mensaje si no hay resultados
+    let noResultsMsg = categoryList.querySelector('.category-no-results');
+    
+    if (visibleCount === 0 || (visibleCount === 1 && hasAllCategory && searchTerm)) {
+        if (!noResultsMsg) {
+            noResultsMsg = document.createElement('div');
+            noResultsMsg.className = 'category-no-results';
+            categoryList.appendChild(noResultsMsg);
+        }
+        noResultsMsg.textContent = 'No se encontraron categorías';
+        noResultsMsg.style.display = 'block';
+    } else {
+        if (noResultsMsg) {
+            noResultsMsg.style.display = 'none';
+        }
+    }
+}
 
         function saveData() {
             localStorage.setItem('scripts', JSON.stringify(scripts));
@@ -1840,38 +2013,46 @@ function filterCategory(category) {
         }
 
 function renderCategories() {
-            const categoryList = document.getElementById('categoryList');
-            const allCategory = categoryList.querySelector('.category-item');
-            categoryList.innerHTML = '';
-            categoryList.appendChild(allCategory);
+    const categoryList = document.getElementById('categoryList');
+    const allCategory = categoryList.querySelector('.category-item');
+    const searchInput = document.getElementById('categorySearchInput');
+    const currentSearchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    
+    categoryList.innerHTML = '';
+    categoryList.appendChild(allCategory);
 
-            categories.forEach(cat => {
-                const count = scripts.filter(s => s.category === cat.name).length;
-                const div = document.createElement('div');
-                div.className = 'category-item';
-                div.innerHTML = `
-                    <div class="category-item-content" onclick="filterCategory('${cat.name.replace(/'/g, "\\'")}')">
-                        <span><span class="category-icon">📁</span>${cat.name}</span>
-                    </div>
-                    <div class="category-actions">
-                        <button class="category-action-btn" onclick="event.stopPropagation(); openEditCategoryModal('${cat.name.replace(/'/g, "\\'")}')">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg>
-                        </button>
-                        <button class="category-action-btn delete" onclick="event.stopPropagation(); deleteCategory('${cat.name.replace(/'/g, "\\'")}')">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <span class="category-badge">${count}</span>
-                `;
-                categoryList.appendChild(div);
-            });
-        }
+    categories.forEach(cat => {
+        const count = scripts.filter(s => s.category === cat.name).length;
+        const div = document.createElement('div');
+        div.className = 'category-item';
+        div.innerHTML = `
+            <div class="category-item-content" onclick="filterCategory('${cat.name.replace(/'/g, "\\'")}')">
+                <span><span class="category-icon">📁</span>${cat.name}</span>
+            </div>
+            <div class="category-actions">
+                <button class="category-action-btn" onclick="event.stopPropagation(); openEditCategoryModal('${cat.name.replace(/'/g, "\\'")}')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </button>
+                <button class="category-action-btn delete" onclick="event.stopPropagation(); deleteCategory('${cat.name.replace(/'/g, "\\'")}')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>
+            <span class="category-badge">${count}</span>
+        `;
+        categoryList.appendChild(div);
+    });
+    
+    // Reaplicar filtro de búsqueda si existe
+    if (currentSearchTerm) {
+        filterCategoriesDisplay(currentSearchTerm);
+    }
+}
 
         function renderScripts() {
             const grid = document.getElementById('scriptsGrid');
