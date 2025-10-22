@@ -455,6 +455,57 @@
             margin-left: 4px;
         }
 
+        /* Botones de acción rápida */
+.quick-action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.btn-quick-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #525252;
+    transition: all 0.2s;
+}
+
+.btn-quick-action:hover {
+    background: #f5f5f5;
+    border-color: #2563eb;
+}
+
+.btn-quick-action:active {
+    transform: scale(0.98);
+}
+
+.btn-quick-action.copied {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: white;
+}
+
+.btn-quick-action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #fafafa;
+}
+
+.btn-quick-action:disabled:hover {
+    border-color: #e5e5e5;
+}
+
+.btn-quick-action svg {
+    flex-shrink: 0;
+}
+
         .scripts-container {
             flex: 1;
             overflow-y: auto;
@@ -881,6 +932,10 @@
             color: #ef4444;
         }
 
+        .icon-btn:hover:not(.delete) {
+            background: #eff6ff;
+            color: #2563eb;
+        }
         .btn-close {
             background: none;
             border: none;
@@ -1169,24 +1224,43 @@
                 <input type="text" class="search-input" id="searchInput" placeholder="Buscar guiones...">
             </div>
 
-            <!-- Panel de Filtros -->
-            <div class="filters-toggle">
-                <button class="toggle-filters-btn" id="toggleFiltersBtn" onclick="toggleFiltersPanel()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="4" y1="21" x2="4" y2="14"></line>
-                        <line x1="4" y1="10" x2="4" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12" y2="3"></line>
-                        <line x1="20" y1="21" x2="20" y2="16"></line>
-                        <line x1="20" y1="12" x2="20" y2="3"></line>
-                        <line x1="1" y1="14" x2="7" y2="14"></line>
-                        <line x1="9" y1="8" x2="15" y2="8"></line>
-                        <line x1="17" y1="16" x2="23" y2="16"></line>
-                    </svg>
-                    <span>Filtros</span>
-                    <span class="active-filters-count" id="activeFiltersCount" style="display: none;">0</span>
-                </button>
-            </div>
+<!-- Panel de Filtros y Acciones Rápidas -->
+<div class="filters-toggle">
+    <button class="toggle-filters-btn" id="toggleFiltersBtn" onclick="toggleFiltersPanel()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="4" y1="21" x2="4" y2="14"></line>
+            <line x1="4" y1="10" x2="4" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12" y2="3"></line>
+            <line x1="20" y1="21" x2="20" y2="16"></line>
+            <line x1="20" y1="12" x2="20" y2="3"></line>
+            <line x1="1" y1="14" x2="7" y2="14"></line>
+            <line x1="9" y1="8" x2="15" y2="8"></line>
+            <line x1="17" y1="16" x2="23" y2="16"></line>
+        </svg>
+        <span>Filtros</span>
+        <span class="active-filters-count" id="activeFiltersCount" style="display: none;">0</span>
+    </button>
+
+    <!-- Botones de Acción Rápida -->
+    <div class="quick-action-buttons">
+        <button class="btn-quick-action" id="btnQuickCopyPath" onclick="quickCopyPath()" title="Copiar ruta de clips y abrir primer guión">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                <polyline points="13 2 13 9 20 9"></polyline>
+            </svg>
+            <span id="quickCopyPathText">Copiar Ruta</span>
+        </button>
+
+        <button class="btn-quick-action" id="btnQuickCopyScript" onclick="quickCopyScript()" title="Copiar guión y abrirlo">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="quickCopyScriptText">Copiar Guión</span>
+        </button>
+    </div>
+</div>
 
             <div class="filters-panel" id="filtersPanel">
                 <div class="filter-group">
@@ -1247,15 +1321,21 @@
                         <span id="viewCategory"></span>
                     </div>
                 </div>
-                <div class="modal-actions-top">
-                    <button class="icon-btn delete" onclick="deleteCurrentScript()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        </svg>
-                    </button>
-                    <button class="btn-close" onclick="closeModal('viewModal')">×</button>
-                </div>
+<div class="modal-actions-top">
+    <button class="icon-btn" onclick="openEditScriptModal()" title="Editar guión">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+    </button>
+    <button class="icon-btn delete" onclick="deleteCurrentScript()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+    </button>
+    <button class="btn-close" onclick="closeModal('viewModal')">×</button>
+</div>
             </div>
 <div class="modal-body">
                 <p class="script-date" id="viewDate"></p>
@@ -1387,6 +1467,46 @@
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal('editCategoryModal')">Cancelar</button>
+                        <button type="submit" class="btn-save">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+    <!-- Modal Editar Guión -->
+    <div class="modal" id="editScriptModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 class="modal-title">Editar Guión</h2>
+                </div>
+                <button class="btn-close" onclick="closeModal('editScriptModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="edit-category-highlight">
+                    <div class="current-name">Editando</div>
+                    <div class="name-display" id="editCurrentScriptTitle"></div>
+                </div>
+
+                <form onsubmit="saveEditScript(event)">
+                    <input type="hidden" id="editScriptId">
+                    <div class="form-group">
+                        <label>Título del Guión</label>
+                        <input type="text" id="editScriptTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="editScriptCategory">
+                            <option value="">Sin categoría</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Contenido del Guión</label>
+                        <textarea id="editScriptContent" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('editScriptModal')">Cancelar</button>
                         <button type="submit" class="btn-save">Guardar cambios</button>
                     </div>
                 </form>
@@ -1609,6 +1729,96 @@ function filterCategoriesDisplay(searchTerm) {
             }
         }
 
+        function openEditScriptModal() {
+            if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
+                const script = filteredScripts[currentViewIndex];
+                const originalScript = scripts.find(s => s.id === script.id);
+                
+                if (!originalScript) return;
+
+                // Llenar el formulario con los datos actuales
+                document.getElementById('editCurrentScriptTitle').textContent = originalScript.title;
+                document.getElementById('editScriptId').value = originalScript.id;
+                document.getElementById('editScriptTitle').value = originalScript.title;
+                document.getElementById('editScriptContent').value = originalScript.content;
+                
+                // Actualizar select de categorías
+                updateEditScriptCategorySelect();
+                document.getElementById('editScriptCategory').value = originalScript.category;
+
+                // Cerrar modal de visualización y abrir modal de edición
+                closeModal('viewModal');
+                document.getElementById('editScriptModal').classList.add('active');
+                document.getElementById('editScriptTitle').focus();
+            }
+        }
+
+        function updateEditScriptCategorySelect() {
+            const select = document.getElementById('editScriptCategory');
+            select.innerHTML = '';
+            
+            // Agregar opción "Sin categoría"
+            const emptyOption = document.createElement('option');
+            emptyOption.value = '';
+            emptyOption.textContent = 'Sin categoría';
+            emptyOption.style.color = '#a3a3a3';
+            select.appendChild(emptyOption);
+            
+            // Agregar todas las categorías disponibles
+            if (categories.length === 0) {
+                const option = document.createElement('option');
+                option.value = 'General';
+                option.textContent = 'General';
+                select.appendChild(option);
+            } else {
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.name;
+                    option.textContent = cat.name;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        function saveEditScript(event) {
+            event.preventDefault();
+            
+            const scriptId = parseInt(document.getElementById('editScriptId').value);
+            const title = document.getElementById('editScriptTitle').value.trim();
+            let category = document.getElementById('editScriptCategory').value.trim();
+            const content = document.getElementById('editScriptContent').value.trim();
+            
+            // Validar que el título no esté vacío
+            if (!title) {
+                alert('Por favor, ingresa un título para el guión');
+                return;
+            }
+            
+            // Si no hay categoría seleccionada, asignar "General"
+            if (!category) {
+                category = 'General';
+                if (!categories.some(cat => cat.name === 'General')) {
+                    categories.push({ name: 'General', path: '' });
+                }
+            }
+            
+            // Buscar y actualizar el script
+            const scriptIndex = scripts.findIndex(s => s.id === scriptId);
+            if (scriptIndex !== -1) {
+                scripts[scriptIndex].title = title;
+                scripts[scriptIndex].category = category;
+                scripts[scriptIndex].content = content;
+                scripts[scriptIndex].updatedAt = new Date().toISOString();
+                
+                saveData();
+                updateUI();
+                closeModal('editScriptModal');
+                
+                // Mostrar mensaje de confirmación
+                alert('¡Guión actualizado exitosamente!');
+            }
+        }
+
         function deleteCategory(categoryName) {
             const scriptsInCategory = scripts.filter(s => s.category === categoryName).length;
             
@@ -1669,6 +1879,9 @@ function filterCategory(category) {
             }
             
             renderScripts();
+
+            // Actualizar botones de acción rápida
+            updateQuickActionButtons();
         }
 
 function openAddModal() {
@@ -2158,6 +2371,9 @@ function renderCategories() {
                     <div class="script-content">${script.content}</div>
                 </div>
             `).join('');
+
+            // Actualizar estado de botones de acción rápida
+            updateQuickActionButtons();
         }
 
         function updateStats() {
@@ -2176,6 +2392,104 @@ function renderCategories() {
             renderScripts();
             updateStats();
         }
+
+        // Funciones de Acción Rápida
+function quickCopyPath() {
+    const btn = document.getElementById('btnQuickCopyPath');
+    const btnText = document.getElementById('quickCopyPathText');
+    
+    // Obtener la categoría actual
+    let currentCategory = null;
+    if (currentFilter !== 'all') {
+        currentCategory = categories.find(cat => cat.name === currentFilter);
+    }
+    
+    // Verificar si hay ruta disponible
+    if (!currentCategory || !currentCategory.path) {
+        alert('Esta categoría no tiene una ruta de clips configurada');
+        return;
+    }
+    
+    // Copiar la ruta
+    navigator.clipboard.writeText(currentCategory.path).then(() => {
+        btn.classList.add('copied');
+        btnText.textContent = '¡Copiado!';
+        
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btnText.textContent = 'Copiar Ruta';
+        }, 2000);
+        
+        // Abrir el primer guión disponible
+        openFirstAvailableScript();
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+        alert('No se pudo copiar la ruta');
+    });
+}
+
+function quickCopyScript() {
+    const btn = document.getElementById('btnQuickCopyScript');
+    const btnText = document.getElementById('quickCopyScriptText');
+    
+    // Obtener el primer guión filtrado
+    const filtered = getFilteredScripts();
+    
+    if (filtered.length === 0) {
+        alert('No hay guiones disponibles para copiar');
+        return;
+    }
+    
+    const firstScript = filtered[0];
+    
+    // Copiar el contenido del guión
+    navigator.clipboard.writeText(firstScript.content).then(() => {
+        btn.classList.add('copied');
+        btnText.textContent = '¡Copiado!';
+        
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btnText.textContent = 'Copiar Guión';
+        }, 2000);
+        
+        // Abrir el guión
+        viewScript(firstScript.id);
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+        alert('No se pudo copiar el guión');
+    });
+}
+
+function openFirstAvailableScript() {
+    const filtered = getFilteredScripts();
+    
+    if (filtered.length === 0) {
+        alert('No hay guiones disponibles en esta categoría');
+        return;
+    }
+    
+    // Abrir el primer guión
+    viewScript(filtered[0].id);
+}
+
+function updateQuickActionButtons() {
+    const btnPath = document.getElementById('btnQuickCopyPath');
+    const btnScript = document.getElementById('btnQuickCopyScript');
+    
+    const filtered = getFilteredScripts();
+    const hasScripts = filtered.length > 0;
+    
+    // Verificar si hay ruta de clips
+    let hasPath = false;
+    if (currentFilter !== 'all') {
+        const currentCategory = categories.find(cat => cat.name === currentFilter);
+        hasPath = currentCategory && currentCategory.path;
+    }
+    
+    // Habilitar/deshabilitar botones
+    btnPath.disabled = !hasPath || !hasScripts;
+    btnScript.disabled = !hasScripts;
+}
 
         // Event Listeners
         document.getElementById('searchInput').addEventListener('input', handleSearch);
