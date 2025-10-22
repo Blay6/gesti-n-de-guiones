@@ -506,6 +506,71 @@
     flex-shrink: 0;
 }
 
+/* Tooltips para atajos de teclado */
+.btn-quick-action {
+    position: relative;
+}
+
+.btn-quick-action::after {
+    content: attr(data-shortcut);
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: #1a1a1a;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.btn-quick-action:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    bottom: -36px;
+}
+
+.btn-copy-path::after,
+.btn-copy-script::after {
+    content: attr(data-shortcut);
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: #1a1a1a;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.btn-copy-path:hover::after,
+.btn-copy-script:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    bottom: -36px;
+}
+
+.modal-footer .btn-copy-script {
+    position: relative;
+}
+
         .scripts-container {
             flex: 1;
             overflow-y: auto;
@@ -1244,7 +1309,7 @@
 
     <!-- Botones de Acción Rápida -->
     <div class="quick-action-buttons">
-        <button class="btn-quick-action" id="btnQuickCopyPath" onclick="quickCopyPath()" title="Copiar ruta de clips y abrir primer guión">
+        <button class="btn-quick-action" id="btnQuickCopyPath" onclick="quickCopyPath()" data-shortcut="Ctrl + Shift + X">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                 <polyline points="13 2 13 9 20 9"></polyline>
@@ -1252,7 +1317,7 @@
             <span id="quickCopyPathText">Copiar Ruta</span>
         </button>
 
-        <button class="btn-quick-action" id="btnQuickCopyScript" onclick="quickCopyScript()" title="Copiar guión y abrirlo">
+        <button class="btn-quick-action" id="btnQuickCopyScript" onclick="quickCopyScript()" data-shortcut="Ctrl + Shift + S">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -1350,7 +1415,7 @@
                         <div class="path-label">Ruta de Clips</div>
                         <div class="path-text" id="categoryPath"></div>
                     </div>
-                    <button class="btn-copy-path" onclick="copyCategoryPath()">
+                    <button class="btn-copy-path" onclick="copyCategoryPath()" data-shortcut="Ctrl + Shift + X">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -1378,7 +1443,7 @@
                     </svg>
                     <span id="markUsedText">Marcar como utilizado</span>
                 </button>
-                <button class="btn-copy-script" onclick="copyCurrentScript()">
+                <button class="btn-copy-script" onclick="copyCurrentScript()" data-shortcut="Ctrl + Shift + S">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -2491,24 +2556,63 @@ function updateQuickActionButtons() {
     btnScript.disabled = !hasScripts;
 }
 
-        // Event Listeners
-        document.getElementById('searchInput').addEventListener('input', handleSearch);
-        
-        document.getElementById('newCategoryInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                document.getElementById('newCategoryPath').focus();
-            }
-        });
-        
-        document.getElementById('newCategoryPath').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                addCategory();
-            }
-        });
+// Event Listeners
+document.getElementById('searchInput').addEventListener('input', handleSearch);
 
-        // Initialize
-        initializeData();
+document.getElementById('newCategoryInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('newCategoryPath').focus();
+    }
+});
+
+document.getElementById('newCategoryPath').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        addCategory();
+    }
+});
+
+// Sistema de Atajos de Teclado
+document.addEventListener('keydown', (e) => {
+    // Ctrl + Shift + C: Copiar guión
+    if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+        e.preventDefault();
+        
+        // Si el modal está abierto, copiar el guión actual
+        const viewModal = document.getElementById('viewModal');
+        if (viewModal.classList.contains('active')) {
+            copyCurrentScript();
+        } else {
+            // Si no, usar el botón de acción rápida
+            const btn = document.getElementById('btnQuickCopyScript');
+            if (!btn.disabled) {
+                quickCopyScript();
+            }
+        }
+    }
+    
+    // Ctrl + Shift + X: Copiar ruta
+    if (e.ctrlKey && e.shiftKey && e.key === 'X') {
+        e.preventDefault();
+        
+        // Si el modal está abierto y hay ruta, copiarla
+        const viewModal = document.getElementById('viewModal');
+        const pathContainer = document.getElementById('categoryPathContainer');
+        
+        if (viewModal.classList.contains('active') && pathContainer.style.display !== 'none') {
+            copyCategoryPath();
+        } else {
+            // Si no, usar el botón de acción rápida
+            const btn = document.getElementById('btnQuickCopyPath');
+            if (!btn.disabled) {
+                quickCopyPath();
+            }
+        }
+    }
+});
+
+// Initialize
+initializeData();
     </script>
 </body>
 </html>
