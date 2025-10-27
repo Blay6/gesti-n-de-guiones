@@ -1196,6 +1196,205 @@
             font-size: 14px;
         }
 
+/* Sistema de PestaÃ±as (Tabs) */
+.modal-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #e5e5e5;
+    margin: -24px -24px 24px -24px;
+    padding: 0 24px;
+    background: #fafafa;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 16px 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: #737373;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+}
+
+.tab-button:hover {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.tab-button.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    background: white;
+}
+
+.tab-button svg {
+    transition: transform 0.3s ease;
+}
+
+.tab-button.active svg {
+    transform: scale(1.1);
+}
+
+/* Contenido de las pestaÃ±as */
+.tab-content {
+    display: none;
+    animation: fadeInTab 0.4s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInTab {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para carga masiva de guiones */
+.bulk-info {
+    background: #eff6ff;
+    border: 1.5px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #1e40af;
+    line-height: 1.6;
+}
+
+.bulk-info strong {
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+.bulk-info code {
+    background: #dbeafe;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: #1e3a8a;
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.file-input-wrapper input[type=file] {
+    position: absolute;
+    left: -9999px;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: white;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13px;
+    color: #525252;
+    font-weight: 600;
+}
+
+.file-input-label:hover {
+    border-color: #2563eb;
+    background: #f9fafb;
+    color: #2563eb;
+}
+
+.file-input-label.has-file {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    color: #16a34a;
+    border-style: solid;
+}
+
+.btn-bulk-add {
+    width: 100%;
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-bulk-add:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.btn-bulk-add:active {
+    transform: translateY(0);
+}
+
+.btn-bulk-add:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.bulk-result {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 10px;
+}
+
+.bulk-result.success {
+    display: flex;
+    background: #f0fdf4;
+    border: 1.5px solid #86efac;
+    color: #16a34a;
+}
+
+.bulk-result.error {
+    display: flex;
+    background: #fef2f2;
+    border: 1.5px solid #fca5a5;
+    color: #dc2626;
+}
+
+.bulk-result.warning {
+    display: flex;
+    background: #fef3c7;
+    border: 1.5px solid #fbbf24;
+    color: #92400e;
+}
+
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
@@ -1454,16 +1653,41 @@
         </div>
     </div>
 
-    <!-- Modal Agregar -->
-    <div class="modal" id="addModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title-section">
-                    <h2 class="modal-title">Nuevo Guión</h2>
-                </div>
-                <button class="btn-close" onclick="closeModal('addModal')">×</button>
+<!-- Modal Agregar con PestaÃ±as -->
+<div class="modal" id="addModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title-section">
+                <h2 class="modal-title">Agregar Guiones</h2>
             </div>
-            <div class="modal-body">
+            <button class="btn-close" onclick="closeModal('addModal')">×</button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Sistema de PestaÃ±as -->
+            <div class="modal-tabs">
+                <button class="tab-button active" id="tabSingle" onclick="switchTab('single')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span>Nuevo Guión</span>
+                </button>
+                <button class="tab-button" id="tabBulk" onclick="switchTab('bulk')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>Carga Masiva</span>
+                </button>
+            </div>
+
+            <!-- PESTAÃ'A 1: Nuevo GuiÃ³n Individual -->
+            <div class="tab-content active" id="contentSingle">
                 <form onsubmit="saveScript(event)">
                     <div class="form-group">
                         <label>Título del Guión</label>
@@ -1485,8 +1709,62 @@
                     </div>
                 </form>
             </div>
+
+            <!-- PESTAÃ'A 2: Carga Masiva -->
+            <div class="tab-content" id="contentBulk">
+                <div class="bulk-info">
+                    <strong>💡 Cómo funciona:</strong> Pega múltiples guiones en el área de texto o carga un archivo <code>.txt</code>. 
+                    Separa cada guión con <code>---</code> en una línea nueva.
+                    <br><br>
+                    <strong>Ejemplo:</strong><br>
+                    <code>Este es el guion 1<br>---<br>Este es el guion 2<br>---<br>Este es el guion 3</code>
+                </div>
+
+                <div class="form-group">
+                    <label>Categoría para todos los guiones</label>
+                    <select id="bulkCategory">
+                        <option value="General">General</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pegar Guiones (separados por ---)</label>
+                    <textarea id="bulkScriptContent" placeholder="Guion 1&#10;---&#10;Guion 2&#10;---&#10;Guion 3" style="min-height: 150px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>O Cargar desde Archivo</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="bulkFileInput" accept=".txt" onchange="handleBulkFileSelect(event)">
+                        <label for="bulkFileInput" class="file-input-label" id="fileInputLabel">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            <span id="fileInputText">Seleccionar archivo .txt</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-bulk-add" onclick="agregarGuionesMasivos()" id="btnBulkAdd">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Agregar Guiones Masivos
+                </button>
+
+                <div class="bulk-result" id="bulkResult">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span id="bulkResultText"></span>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
     <!-- Modal Editar Categoría -->
     <div class="modal" id="editCategoryModal">
@@ -1951,6 +2229,9 @@ function filterCategory(category) {
 
 function openAddModal() {
     updateCategorySelect();
+    updateBulkCategorySelect();
+    
+    // Limpiar formulario individual
     document.getElementById('scriptContent').value = '';
     
     // Si hay una categoría seleccionada y no es "all"
@@ -1960,15 +2241,46 @@ function openAddModal() {
         
         // Establecer la categoría seleccionada automáticamente
         document.getElementById('scriptCategory').value = currentFilter;
+        document.getElementById('bulkCategory').value = currentFilter;
     } else {
         // Si está en "Todos los guiones", dejar el título vacío
         document.getElementById('scriptTitle').value = '';
         
         // Establecer el select en el estado "sin categoría"
         document.getElementById('scriptCategory').value = '';
+        document.getElementById('bulkCategory').value = 'General';
     }
     
+    // Limpiar campos de carga masiva
+    document.getElementById('bulkScriptContent').value = '';
+    resetBulkFileInput();
+    
+    // Activar la primera pestaña por defecto
+    switchTab('single');
+    
     document.getElementById('addModal').classList.add('active');
+}
+
+function switchTab(tabName) {
+    // Actualizar botones de pestañas
+    const tabs = document.querySelectorAll('.tab-button');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    if (tabName === 'single') {
+        document.getElementById('tabSingle').classList.add('active');
+    } else {
+        document.getElementById('tabBulk').classList.add('active');
+    }
+    
+    // Actualizar contenido de pestañas
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active'));
+    
+    if (tabName === 'single') {
+        document.getElementById('contentSingle').classList.add('active');
+    } else {
+        document.getElementById('contentBulk').classList.add('active');
+    }
 }
 
         function closeModal(modalId) {
@@ -1985,6 +2297,26 @@ function updateCategorySelect() {
     emptyOption.textContent = 'Sin categoría';
     emptyOption.style.color = '#a3a3a3';
     select.appendChild(emptyOption);
+    
+    // Agregar todas las categorías disponibles
+    if (categories.length === 0) {
+        const option = document.createElement('option');
+        option.value = 'General';
+        option.textContent = 'General';
+        select.appendChild(option);
+    } else {
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.name;
+            option.textContent = cat.name;
+            select.appendChild(option);
+        });
+    }
+}
+
+function updateBulkCategorySelect() {
+    const select = document.getElementById('bulkCategory');
+    select.innerHTML = '';
     
     // Agregar todas las categorías disponibles
     if (categories.length === 0) {
@@ -2610,6 +2942,172 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// ============================================
+// FUNCIONES PARA CARGA MASIVA DE GUIONES
+// ============================================
+
+function handleBulkFileSelect(event) {
+    const file = event.target.files[0];
+    const label = document.getElementById('fileInputLabel');
+    const labelText = document.getElementById('fileInputText');
+    
+    if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const content = e.target.result;
+            document.getElementById('bulkScriptContent').value = content;
+            
+            // Actualizar visual del botón
+            label.classList.add('has-file');
+            labelText.textContent = `✓ ${file.name}`;
+        };
+        
+        reader.onerror = function() {
+            showBulkResult('error', 'Error al leer el archivo');
+            resetBulkFileInput();
+        };
+        
+        reader.readAsText(file);
+    } else {
+        resetBulkFileInput();
+    }
+}
+
+function resetBulkFileInput() {
+    const label = document.getElementById('fileInputLabel');
+    const labelText = document.getElementById('fileInputText');
+    
+    label.classList.remove('has-file');
+    labelText.textContent = 'Seleccionar archivo .txt';
+    document.getElementById('bulkFileInput').value = '';
+}
+
+function agregarGuionesMasivos() {
+    const bulkContent = document.getElementById('bulkScriptContent').value.trim();
+    const category = document.getElementById('bulkCategory').value.trim() || 'General';    const resultDiv = document.getElementById('bulkResult');
+    const btn = document.getElementById('btnBulkAdd');
+    
+    // Validar que hay contenido
+    if (!bulkContent) {
+        showBulkResult('warning', 'Por favor, pega guiones o carga un archivo');
+        return;
+    }
+    
+    // Deshabilitar botón durante el proceso
+    btn.disabled = true;
+    btn.innerHTML = '<span>Procesando...</span>';
+    
+    // Dividir por el separador ---
+    const guionesRaw = bulkContent.split('---');
+    
+    // Limpiar y filtrar guiones vacíos
+    const guiones = guionesRaw
+        .map(g => g.trim())
+        .filter(g => g.length > 0);
+    
+    if (guiones.length === 0) {
+        showBulkResult('warning', 'No se encontraron guiones válidos');
+        resetBulkButton();
+        return;
+    }
+    
+    // Asegurar que la categoría existe
+    if (!categories.some(cat => cat.name === category)) {
+        categories.push({ name: category, path: '' });
+    }
+    
+    // Contadores
+    let agregados = 0;
+    let duplicados = 0;
+    
+    // Procesar cada guion
+    guiones.forEach((contenido, index) => {
+        // Verificar si ya existe (comparando contenido exacto en la misma categoría)
+        const existe = scripts.some(s => 
+            s.content.trim() === contenido.trim() && 
+            s.category === category
+        );
+        
+        if (!existe) {
+            // Crear título automático
+            const titulo = `${category} ${scripts.filter(s => s.category === category).length + agregados + 1}`;
+            
+            // Agregar guion
+            scripts.push({
+                id: Date.now() + index, // Asegurar IDs únicos
+                title: titulo,
+                category: category,
+                content: contenido,
+                used: false,
+                createdAt: new Date().toISOString()
+            });
+            
+            agregados++;
+        } else {
+            duplicados++;
+        }
+    });
+    
+    // Guardar y actualizar UI
+    if (agregados > 0) {
+        saveData();
+        updateUI();
+    }
+    
+    // Mostrar resultado
+    let mensaje = '';
+    if (agregados > 0 && duplicados === 0) {
+        mensaje = `✓ ${agregados} guion(es) agregado(s) exitosamente`;
+        showBulkResult('success', mensaje);
+    } else if (agregados > 0 && duplicados > 0) {
+        mensaje = `✓ ${agregados} agregado(s), ${duplicados} duplicado(s) omitido(s)`;
+        showBulkResult('warning', mensaje);
+    } else if (agregados === 0 && duplicados > 0) {
+        mensaje = `⚠ Todos los guiones ya existen (${duplicados} duplicados)`;
+        showBulkResult('warning', mensaje);
+    }
+    
+    // Limpiar campos
+    document.getElementById('bulkScriptContent').value = '';
+    resetBulkFileInput();
+    
+    // Restaurar botón
+    setTimeout(() => {
+        resetBulkButton();
+    }, 2000);
+}
+
+function showBulkResult(type, message) {
+    const resultDiv = document.getElementById('bulkResult');
+    const resultText = document.getElementById('bulkResultText');
+    
+    resultDiv.className = 'bulk-result ' + type;
+    resultText.textContent = message;
+    
+    // Ocultar después de 5 segundos
+    setTimeout(() => {
+        resultDiv.className = 'bulk-result';
+    }, 5000);
+}
+
+function resetBulkButton() {
+    const btn = document.getElementById('btnBulkAdd');
+    btn.disabled = false;
+    btn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        Agregar Guiones Masivos
+    `;
+}
+
+// ============================================
+// FIN DE FUNCIONES DE CARGA MASIVA
+// ============================================
 
 // Initialize
 initializeData();
