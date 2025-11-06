@@ -1395,6 +1395,290 @@
     color: #92400e;
 }
 
+/* ============================================
+   SISTEMA DE SELECCIÃN MÃLTIPLE
+   ============================================ */
+
+.selection-mode-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    color: white;
+    padding: 16px 32px;
+    display: none;
+    align-items: center;
+    gap: 16px;
+    z-index: 999;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideUpBar 0.3s ease-out;
+}
+
+.selection-mode-bar.active {
+    display: flex;
+}
+
+@keyframes slideUpBar {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.selection-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.selection-count {
+    background: #2563eb;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.selection-text {
+    font-size: 14px;
+    color: #e5e5e5;
+}
+
+.selection-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-selection-action {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-cancel-selection {
+    background: #3f3f46;
+    color: white;
+}
+
+.btn-cancel-selection:hover {
+    background: #52525b;
+}
+
+.btn-delete-selected {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-delete-selected:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.script-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.script-card.selection-mode {
+    cursor: pointer;
+    user-select: none;
+}
+
+.script-card.selected {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: scale(0.98);
+}
+
+.script-checkbox {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #d4d4d4;
+    border-radius: 6px;
+    background: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.script-card.selection-mode .script-checkbox {
+    display: flex;
+}
+
+.script-card.selected .script-checkbox {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.script-checkbox svg {
+    display: none;
+    color: white;
+}
+
+.script-card.selected .script-checkbox svg {
+    display: block;
+}
+
+.btn-select-mode {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #525252;
+    transition: all 0.2s;
+}
+
+.btn-select-mode:hover {
+    background: #f5f5f5;
+    border-color: #2563eb;
+}
+
+.btn-select-mode.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+/* ============================================
+   MODAL DE CONFIRMACIÃN IN-APP
+   ============================================ */
+
+.confirm-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.confirm-dialog.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.confirm-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirm-icon {
+    width: 56px;
+    height: 56px;
+    background: #fee2e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.confirm-icon svg {
+    color: #ef4444;
+}
+
+.confirm-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.confirm-message {
+    font-size: 14px;
+    color: #737373;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-confirm {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-confirm-cancel {
+    background: #f5f5f5;
+    color: #525252;
+}
+
+.btn-confirm-cancel:hover {
+    background: #e5e5e5;
+}
+
+.btn-confirm-delete {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-confirm-delete:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
@@ -1508,6 +1792,13 @@
 
     <!-- Botones de Acción Rápida -->
     <div class="quick-action-buttons">
+        <button class="btn-select-mode" id="btnSelectMode" onclick="toggleSelectionMode()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 11l3 3L22 4"></path>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            <span>Seleccionar</span>
+        </button>
         <button class="btn-quick-action" id="btnQuickCopyPath" onclick="quickCopyPath()" data-shortcut="Ctrl + Shift + X">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
@@ -1857,6 +2148,48 @@
         </div>
     </div>
 
+    <!-- Barra de Selección Múltiple -->
+    <div class="selection-mode-bar" id="selectionModeBar">
+        <div class="selection-info">
+            <div class="selection-count" id="selectionCount">0</div>
+            <div class="selection-text">guiones seleccionados</div>
+        </div>
+        <div class="selection-actions">
+            <button class="btn-selection-action btn-cancel-selection" onclick="cancelSelectionMode()">
+                Cancelar
+            </button>
+            <button class="btn-selection-action btn-delete-selected" onclick="deleteSelectedScripts()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Eliminar seleccionados
+            </button>
+        </div>
+    </div>
+
+    <!-- Diálogo de Confirmación -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <div class="confirm-content">
+            <div class="confirm-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
+            <h3 class="confirm-title" id="confirmTitle">¿Eliminar guión?</h3>
+            <p class="confirm-message" id="confirmMessage">Esta acción no se puede deshacer.</p>
+            <div class="confirm-actions">
+                <button class="btn-confirm btn-confirm-cancel" onclick="closeConfirmDialog()">
+                    Cancelar
+                </button>
+                <button class="btn-confirm btn-confirm-delete" id="btnConfirmDelete" onclick="confirmDelete()">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
 let scripts = [];
         let categories = [];
@@ -1869,6 +2202,10 @@ let scripts = [];
         let statusFilter = 'available';
         let sortFilter = 'recent';
         let filtersActive = false;
+        // Variables para selección múltiple
+        let selectionMode = false;
+        let selectedScripts = new Set();
+        let confirmCallback = null;
 
         function initializeData() {
             scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
@@ -2165,37 +2502,41 @@ function filterCategoriesDisplay(searchTerm) {
         function deleteCategory(categoryName) {
             const scriptsInCategory = scripts.filter(s => s.category === categoryName).length;
             
-            let confirmMessage = `¿Estás seguro de eliminar la categoría "${categoryName}"?`;
+            let message = `Se eliminará permanentemente la categoría "${categoryName}".`;
             if (scriptsInCategory > 0) {
-                confirmMessage += `\n\nTiene ${scriptsInCategory} guion(es) asociado(s). Los guiones se moverán a "General".`;
+                message += ` Los ${scriptsInCategory} guion(es) asociado(s) se moverán a "General".`;
             }
 
-            if (confirm(confirmMessage)) {
-                // Mover scripts a General
-                if (scriptsInCategory > 0) {
-                    // Asegurarse de que existe la categoría General
-                    if (!categories.some(cat => cat.name === 'General')) {
-                        categories.push({ name: 'General', path: '' });
+            showConfirmDialog(
+                '¿Eliminar categoría?',
+                message,
+                () => {
+                    // Mover scripts a General
+                    if (scriptsInCategory > 0) {
+                        // Asegurarse de que existe la categoría General
+                        if (!categories.some(cat => cat.name === 'General')) {
+                            categories.push({ name: 'General', path: '' });
+                        }
+
+                        scripts.forEach(script => {
+                            if (script.category === categoryName) {
+                                script.category = 'General';
+                            }
+                        });
                     }
 
-                    scripts.forEach(script => {
-                        if (script.category === categoryName) {
-                            script.category = 'General';
-                        }
-                    });
+                    // Eliminar la categoría
+                    categories = categories.filter(cat => cat.name !== categoryName);
+
+                    // Si estábamos viendo esta categoría, volver a "all"
+                    if (currentFilter === categoryName) {
+                        currentFilter = 'all';
+                    }
+
+                    saveData();
+                    updateUI();
                 }
-
-                // Eliminar la categoría
-                categories = categories.filter(cat => cat.name !== categoryName);
-
-                // Si estábamos viendo esta categoría, volver a "all"
-                if (currentFilter === categoryName) {
-                    currentFilter = 'all';
-                }
-
-                saveData();
-                updateUI();
-            }
+            );
         }
 
 function filterCategory(category) {
@@ -2372,12 +2713,16 @@ function saveScript(event) {
         function deleteCurrentScript() {
             if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
                 const script = filteredScripts[currentViewIndex];
-                if (confirm('¿Estás seguro de eliminar este guión?')) {
-                    scripts = scripts.filter(s => s.id !== script.id);
-                    saveData();
-                    closeModal('viewModal');
-                    updateUI();
-                }
+                showConfirmDialog(
+                    '¿Eliminar este guión?',
+                    `Se eliminará permanentemente "${script.title}"`,
+                    () => {
+                        scripts = scripts.filter(s => s.id !== script.id);
+                        saveData();
+                        closeModal('viewModal');
+                        updateUI();
+                    }
+                );
             }
         }
 
@@ -2748,8 +3093,14 @@ function renderCategories() {
             }
 
             grid.innerHTML = filtered.map(script => `
-                <div class="script-card ${script.used ? 'used' : ''}" onclick="viewScript(${script.id})">
-                    <div class="script-header">
+                <div class="script-card ${script.used ? 'used' : ''} ${selectionMode ? 'selection-mode' : ''} ${selectedScripts.has(script.id) ? 'selected' : ''}" 
+                    onclick="${selectionMode ? `toggleScriptSelection(${script.id})` : `viewScript(${script.id})`}">
+                    <div class="script-checkbox">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                            <div class="script-header">
                         <div style="flex: 1;">
                             <div class="script-title">${script.title}</div>
                         </div>
@@ -3108,6 +3459,118 @@ function resetBulkButton() {
 // ============================================
 // FIN DE FUNCIONES DE CARGA MASIVA
 // ============================================
+
+// ============================================
+// SISTEMA DE CONFIRMACIÃN IN-APP
+// ============================================
+
+function showConfirmDialog(title, message, callback) {
+    confirmCallback = callback;
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    document.getElementById('confirmDialog').classList.add('active');
+}
+
+function closeConfirmDialog() {
+    document.getElementById('confirmDialog').classList.remove('active');
+    confirmCallback = null;
+}
+
+function confirmDelete() {
+    if (confirmCallback) {
+        confirmCallback();
+        closeConfirmDialog();
+    }
+}
+
+// Cerrar con ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const confirmDialog = document.getElementById('confirmDialog');
+        if (confirmDialog.classList.contains('active')) {
+            closeConfirmDialog();
+        }
+    }
+});
+
+// ============================================
+// SISTEMA DE SELECCIÃN MÃLTIPLE
+// ============================================
+
+function toggleSelectionMode() {
+    selectionMode = !selectionMode;
+    selectedScripts.clear();
+    
+    const btn = document.getElementById('btnSelectMode');
+    const bar = document.getElementById('selectionModeBar');
+    
+    if (selectionMode) {
+        btn.classList.add('active');
+        bar.classList.add('active');
+    } else {
+        btn.classList.remove('active');
+        bar.classList.remove('active');
+    }
+    
+    updateSelectionCount();
+    renderScripts();
+}
+
+function cancelSelectionMode() {
+    selectionMode = false;
+    selectedScripts.clear();
+    
+    document.getElementById('btnSelectMode').classList.remove('active');
+    document.getElementById('selectionModeBar').classList.remove('active');
+    
+    renderScripts();
+}
+
+function toggleScriptSelection(scriptId) {
+    if (selectedScripts.has(scriptId)) {
+        selectedScripts.delete(scriptId);
+    } else {
+        selectedScripts.add(scriptId);
+    }
+    
+    updateSelectionCount();
+    renderScripts();
+}
+
+function updateSelectionCount() {
+    const count = selectedScripts.size;
+    document.getElementById('selectionCount').textContent = count;
+}
+
+function deleteSelectedScripts() {
+    if (selectedScripts.size === 0) {
+        return;
+    }
+    
+    const count = selectedScripts.size;
+    const message = count === 1 
+        ? 'Se eliminará permanentemente 1 guión seleccionado.'
+        : `Se eliminarán permanentemente ${count} guiones seleccionados.`;
+    
+    showConfirmDialog(
+        `¿Eliminar ${count} guión${count > 1 ? 'es' : ''}?`,
+        message,
+        () => {
+            // Eliminar los scripts seleccionados
+            scripts = scripts.filter(s => !selectedScripts.has(s.id));
+            
+            // Limpiar selección
+            selectedScripts.clear();
+            
+            // Salir del modo selección
+            cancelSelectionMode();
+            
+            // Guardar y actualizar
+            saveData();
+            updateUI();
+        }
+    );
+}
 
 // Initialize
 initializeData();
