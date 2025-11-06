@@ -2872,12 +2872,21 @@ function saveScript(event) {
             const exportPathContainer = document.getElementById('categoryExportPathContainer');
             const exportPathText = document.getElementById('categoryExportPath');
 
+            console.log('=== DEBUG: viewScript - Ruta de Exportación ===');
+            console.log('Categoría:', category);
+            console.log('exportPath:', category ? category.exportPath : 'sin categoría');
+            console.log('Contenedor encontrado:', !!exportPathContainer);
+            console.log('Elemento texto encontrado:', !!exportPathText);
+
             if (category && category.exportPath) {
                 exportPathText.textContent = category.exportPath;
                 exportPathContainer.style.display = 'flex';
+                console.log('✓ Ruta de exportación mostrada:', category.exportPath);
             } else {
                 exportPathContainer.style.display = 'none';
+                console.log('⚠ No hay ruta de exportación para mostrar');
             }
+            console.log('===============================================');
 
             updateMarkUsedButton(script.used);
             document.getElementById('viewModal').classList.add('active');            }
@@ -2902,22 +2911,99 @@ function saveScript(event) {
         }
 
         function copyCategoryExportPath() {
-            const exportPathText = document.getElementById('categoryExportPath').textContent;
+            const exportPathElement = document.getElementById('categoryExportPath');
+            
+            // Debug: Verificar si el elemento existe
+            if (!exportPathElement) {
+                console.error('ERROR: No se encontró el elemento categoryExportPath');
+                alert('Error del sistema: Elemento no encontrado. Por favor, recarga la página.');
+                return;
+            }
+            
+            // Obtener el texto y limpiarlo
+            const exportPathText = exportPathElement.textContent.trim();
+            
+            // Debug: Mostrar información en consola
+            console.log('=== DEBUG: copyCategoryExportPath ===');
+            console.log('Elemento encontrado:', exportPathElement);
+            console.log('Contenido del elemento:', exportPathElement.textContent);
+            console.log('Texto limpio:', exportPathText);
+            console.log('Longitud del texto:', exportPathText.length);
+            console.log('=====================================');
+            
+            // Validar que hay contenido
+            if (!exportPathText || exportPathText.length === 0) {
+                console.error('ERROR: El texto está vacío');
+                alert('No hay ruta de exportación disponible para copiar.\n\nPor favor, verifica que la categoría tenga configurada una ruta de exportación.');
+                return;
+            }
+            
+            // Obtener referencias a los elementos del botón
             const btn = event.target.closest('.btn-copy-export-path');
             const btnText = document.getElementById('copyExportPathText');
             
-            navigator.clipboard.writeText(exportPathText).then(() => {
-                btn.classList.add('copied');
-                btnText.textContent = '¡Copiado!';
+            // Intentar copiar usando el API moderno
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(exportPathText)
+                    .then(() => {
+                        console.log('✓ Copiado exitosamente:', exportPathText);
+                        
+                        if (btn && btnText) {
+                            btn.classList.add('copied');
+                            btnText.textContent = '¡Copiado!';
+                            
+                            setTimeout(() => {
+                                btn.classList.remove('copied');
+                                btnText.textContent = 'Copiar';
+                            }, 2000);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error en clipboard.writeText:', err);
+                        // Intentar método alternativo
+                        fallbackCopyToClipboard(exportPathText, btn, btnText);
+                    });
+            } else {
+                // Si no hay API de clipboard, usar método alternativo
+                console.warn('API de Clipboard no disponible, usando método alternativo');
+                fallbackCopyToClipboard(exportPathText, btn, btnText);
+            }
+        }
+
+        // Función auxiliar para copiar con método alternativo
+        function fallbackCopyToClipboard(text, btn, btnText) {
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                textArea.style.top = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
                 
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    btnText.textContent = 'Copiar';
-                }, 2000);
-            }).catch(err => {
-                console.error('Error al copiar:', err);
-                alert('No se pudo copiar la ruta de exportación');
-            });
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    console.log('✓ Copiado exitosamente (método alternativo):', text);
+                    
+                    if (btn && btnText) {
+                        btn.classList.add('copied');
+                        btnText.textContent = '¡Copiado!';
+                        
+                        setTimeout(() => {
+                            btn.classList.remove('copied');
+                            btnText.textContent = 'Copiar';
+                        }, 2000);
+                    }
+                } else {
+                    throw new Error('execCommand falló');
+                }
+            } catch (err) {
+                console.error('Error en método alternativo:', err);
+                alert('No se pudo copiar la ruta de exportación.\n\nRuta: ' + text + '\n\nPor favor, copia manualmente esta ruta.');
+            }
         }
 
         function toggleUsedStatus() {
@@ -3025,7 +3111,7 @@ function saveScript(event) {
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
             
             // Actualizar ruta de clips
-            const category = categories.find(cat => cat.name === nextScript.category);
+            const category = categories.find(cat => cat.name === script.category);
             const pathContainer = document.getElementById('categoryPathContainer');
             const pathText = document.getElementById('categoryPath');
 
@@ -3047,7 +3133,7 @@ function saveScript(event) {
                 exportPathContainer.style.display = 'none';
             }
 
-            updateMarkUsedButton(nextScript.used);
+            updateMarkUsedButton(script.used);
         }
 
         function prevScript() {
@@ -3060,7 +3146,7 @@ function saveScript(event) {
             document.getElementById('viewContent').textContent = script.content;
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
             
-            // Actualizar ruta
+            // Actualizar ruta de clips
             const category = categories.find(cat => cat.name === script.category);
             const pathContainer = document.getElementById('categoryPathContainer');
             const pathText = document.getElementById('categoryPath');
@@ -3070,6 +3156,17 @@ function saveScript(event) {
                 pathContainer.style.display = 'flex';
             } else {
                 pathContainer.style.display = 'none';
+            }
+            
+            // Actualizar ruta de exportación
+            const exportPathContainer = document.getElementById('categoryExportPathContainer');
+            const exportPathText = document.getElementById('categoryExportPath');
+            
+            if (category && category.exportPath) {
+                exportPathText.textContent = category.exportPath;
+                exportPathContainer.style.display = 'flex';
+            } else {
+                exportPathContainer.style.display = 'none';
             }
             
             updateMarkUsedButton(script.used);
