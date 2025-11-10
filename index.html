@@ -19,109 +19,31 @@
             overflow: hidden;
         }
 
-/* ============================================
-   SISTEMA DE SIDEBAR RESPONSIVA CON HAMBURGUESA
-   ============================================ */
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+        }
 
-/* Botón Hamburguesa */
-.hamburger-btn {
-    display: none;
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 1001;
-    width: 48px;
-    height: 48px;
-    background: white;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 12px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
 
-.hamburger-btn:hover {
-    background: #f5f5f5;
-    transform: scale(1.05);
-}
+        .sidebar-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
 
-.hamburger-btn:active {
-    transform: scale(0.95);
-}
-
-/* Overlay para cerrar sidebar */
-.sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.sidebar-overlay.active {
-    display: block;
-    opacity: 1;
-}
-
-/* Sidebar */
-.sidebar {
-    width: 260px;
-    background: white;
-    border-right: 1px solid #e5e5e5;
-    display: flex;
-    flex-direction: column;
-    padding: 24px 16px;
-    overflow-y: auto;
-    transition: transform 0.3s ease;
-    position: relative;
-}
-
-/* Botón cerrar sidebar (solo móviles) */
-.sidebar-close-btn {
-    display: none;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 32px;
-    height: 32px;
-    background: #f5f5f5;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    color: #525252;
-    transition: all 0.2s;
-    z-index: 10;
-}
-
-.sidebar-close-btn:hover {
-    background: #e5e5e5;
-    transform: rotate(90deg);
-}
-
-.sidebar-header {
-    margin-bottom: 32px;
-}
-
-.sidebar-header h1 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 4px;
-}
-
-.sidebar-subtitle {
-    font-size: 13px;
-    color: #737373;
-}
+        .sidebar-subtitle {
+            font-size: 13px;
+            color: #737373;
+        }
 
 .stats-section {
     margin-bottom: 32px;
@@ -144,114 +66,114 @@
     font-size: 16px;
 }
 
-.categories-section h3 {
-    font-size: 11px;
-    font-weight: 700;
-    color: #737373;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .categories-section h3 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.add-category-btn {
-    background: none;
-    border: none;
-    color: #737373;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-}
+        .add-category-btn {
+            background: none;
+            border: none;
+            color: #737373;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
 
-.add-category-btn:hover {
-    background: #f5f5f5;
-}
+        .add-category-btn:hover {
+            background: #f5f5f5;
+        }
 
-.category-input {
-    display: none;
-    margin-bottom: 12px;
-}
+        .category-input {
+            display: none;
+            margin-bottom: 12px;
+        }
 
-.category-input.active {
-    display: flex;
-    gap: 8px;
-}
+        .category-input.active {
+            display: flex;
+            gap: 8px;
+        }
 
-.category-input input {
-    flex: 1;
-    padding: 8px 10px;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 6px;
-    font-size: 13px;
-}
+        .category-input input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 13px;
+        }
 
-.category-input input:focus {
-    outline: none;
-    border-color: #2563eb;
-}
+        .category-input input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
 
-.category-input button {
-    padding: 8px 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-}
+        .category-input button {
+            padding: 8px 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-.category-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
 
-.category-item {
-    padding: 10px 12px;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    color: #525252;
-}
+        .category-item {
+            padding: 10px 12px;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #525252;
+        }
 
-.category-item:hover {
-    background: #f5f5f5;
-}
+        .category-item:hover {
+            background: #f5f5f5;
+        }
 
-.category-item.active {
-    background: #2563eb;
-    color: white;
-}
+        .category-item.active {
+            background: #2563eb;
+            color: white;
+        }
 
-.category-badge {
-    font-size: 12px;
-    font-weight: 600;
-    color: #737373;
-}
+        .category-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: #737373;
+        }
 
-.category-item.active .category-badge {
-    color: rgba(255, 255, 255, 0.8);
-}
+        .category-item.active .category-badge {
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-.category-icon {
-    margin-right: 8px;
-}
+        .category-icon {
+            margin-right: 8px;
+        }
 
-/* Buscador de categorías */
+        /* Buscador de categorías */
 .category-search-container {
     position: relative;
     margin-bottom: 12px;
@@ -317,24 +239,6 @@
     text-align: center;
     color: #a3a3a3;
     font-size: 12px;
-}
-
-/* Scrollbar personalizado para sidebar */
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-    background: #f5f5f5;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-    background: #d4d4d4;
-    border-radius: 3px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: #a3a3a3;
 }
 
         /* Main Content */
@@ -628,32 +532,14 @@
     letter-spacing: 0.5px;
 }
 
-/* Ocultar tooltips en pantallas táctiles */
-@media (hover: none) and (pointer: coarse) {
-    .btn-quick-action::after,
-    .btn-copy-path::after,
-    .btn-copy-export-path::after,
-    .path-text::after,
-    .btn-copy-prompt-clean::after {
-        display: none !important;
-    }
-}
-
 .btn-quick-action:hover::after {
     opacity: 1;
     transform: translateX(-50%) scale(1);
     bottom: -36px;
 }
 
-/* Tooltips para botones de copia de ruta - Mostrar atajo de teclado */
-.btn-copy-path,
-.btn-copy-export-path {
-    position: relative;
-}
-
-/* Tooltip del BOTÓN: Muestra el atajo de teclado */
 .btn-copy-path::after,
-.btn-copy-export-path::after {
+.btn-copy-script::after {
     content: attr(data-shortcut);
     position: absolute;
     bottom: -32px;
@@ -675,46 +561,14 @@
 }
 
 .btn-copy-path:hover::after,
-.btn-copy-export-path:hover::after {
+.btn-copy-script:hover::after {
     opacity: 1;
     transform: translateX(-50%) scale(1);
     bottom: -36px;
 }
 
-/* Tooltip del TEXTO DE LA RUTA: Muestra la ruta completa */
-.path-text {
+.modal-footer .btn-copy-script {
     position: relative;
-    cursor: help;
-}
-
-.path-text::after {
-    content: attr(data-full-path);
-    position: absolute;
-    bottom: -42px;
-    left: 0;
-    transform: translateY(0) scale(0.9);
-    background: #1a1a1a;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    max-width: 500px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.2s ease;
-    z-index: 999;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.3px;
-}
-
-.path-text:hover::after {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    bottom: -46px;
 }
 
         .scripts-container {
@@ -723,23 +577,11 @@
             padding: 24px 32px;
         }
 
-.scripts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-}
-
-@media (max-width: 900px) {
-    .scripts-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 1200px) and (min-width: 901px) {
-    .scripts-grid {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    }
-}
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
 
         .script-card {
             background: white;
@@ -881,24 +723,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-@media (max-width: 900px) {
-    .modal-content {
-        width: 95%;
-        max-width: 95%;
-        max-height: 85vh;
-    }
-}
-
-@media (max-width: 768px) {
-    .modal-content {
-        width: 100%;
-        height: 100vh;
-        max-height: 100vh;
-        border-radius: 0;
-    }
 }
 .modal-header {
     padding: 24px 24px 16px;
@@ -1045,113 +869,6 @@
             opacity: 1;
             transform: translateX(-50%) scale(1);
             bottom: -36px;
-        }
-
-        /* Botón de Copiar Prompt Limpio (sin contenedor de ruta) */
-        .btn-copy-prompt-clean {
-            width: 100%;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border: 1.5px solid #f59e0b;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-        }
-
-        .btn-copy-prompt-clean:hover {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            border-color: #d97706;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-        }
-
-        .btn-copy-prompt-clean.copied {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            border-color: #16a34a;
-        }
-
-        .btn-copy-prompt-clean svg {
-            flex-shrink: 0;
-        }
-
-        
-/* Tooltip mejorado para botones de prompt - Formato limpio para textos largos */
-.btn-copy-prompt-clean {
-    position: relative;
-}
-
-.btn-copy-prompt-clean::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.9);
-    background: #1a1a1a;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 400;
-    white-space: pre-wrap;
-    max-width: 500px;
-    max-height: 200px;
-    overflow-y: auto;
-    opacity: 0;
-    pointer-events: none; /* Se mantiene none por defecto */
-    transition: all 0.3s ease;
-    z-index: 1000;
-    line-height: 1.6;
-    text-align: left;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    font-family: 'Courier New', monospace;
-    word-wrap: break-word;
-}
-
-.btn-copy-prompt-clean:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-    bottom: -65px;
-    pointer-events: auto; /* CORRECCIÓN: Habilitar interacción al hacer hover */
-}
-
-/* Mantener tooltip visible mientras se interactúa con él */
-.btn-copy-prompt-clean::after:hover {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Scrollbar personalizado para tooltips largos */
-.btn-copy-prompt-clean::after::-webkit-scrollbar {
-    width: 4px;
-}
-
-.btn-copy-prompt-clean::after::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-}
-
-.btn-copy-prompt-clean::after::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-}
-
-.btn-copy-prompt-clean::after::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
-        .btn-copy-prompt-clean:hover::after {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-            bottom: -55px;
         }
 
         .category-input-group {
@@ -1507,24 +1224,6 @@
             line-height: 1.6;
         }
 
-        /* Formularios responsivos */
-        @media (max-width: 768px) {
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                font-size: 16px; /* Previene zoom en iOS */
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .btn-cancel,
-            .btn-save {
-                width: 100%;
-            }
-        }
-
         .form-actions {
             display: flex;
             gap: 12px;
@@ -1562,24 +1261,6 @@
     margin: -24px -24px 24px -24px;
     padding: 0 24px;
     background: #fafafa;
-}
-
-@media (max-width: 768px) {
-    .modal-tabs {
-        padding: 0 16px;
-    }
-    
-    .tab-button,
-    .config-tab-button {
-        padding: 12px 16px;
-        font-size: 12px;
-    }
-    
-    .tab-button svg,
-    .config-tab-button svg {
-        width: 14px;
-        height: 14px;
-    }
 }
 
 .tab-button {
@@ -2055,1882 +1736,81 @@
     transform: translateY(-1px);
 }
 
-/* ============================================
-   ESTILOS PARA MODAL DE CONFIGURACIÓN REDISEÑADO
-   ============================================ */
-
-.config-tabs-container {
-    background: #fafafa;
-    border-bottom: 2px solid #e5e5e5;
-}
-
-.config-tabs {
-    display: flex;
-    padding: 0 32px;
-    gap: 4px;
-}
-
-.config-tab-button {
-    flex: 1;
-    max-width: 250px;
-    padding: 16px 24px;
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    color: #737373;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    position: relative;
-}
-
-.config-tab-button:hover {
-    color: #2563eb;
-    background: rgba(37, 99, 235, 0.05);
-}
-
-.config-tab-button.active {
-    color: #2563eb;
-    border-bottom-color: #2563eb;
-    background: white;
-}
-
-.config-tab-button svg {
-    transition: transform 0.3s ease;
-}
-
-.config-tab-button.active svg {
-    transform: scale(1.1);
-}
-
-.config-tab-content-wrapper {
-    overflow-y: auto;
-    max-height: calc(95vh - 240px);
-}
-
-.config-tab-content {
-    display: none;
-    animation: fadeInTab 0.4s ease-out;
-}
-
-.config-tab-content.active {
-    display: block;
-}
-
-.config-control-card {
-    background: white;
-    border: 2px solid #e5e5e5;
-    border-radius: 12px;
-    padding: 20px;
-    transition: all 0.3s ease;
-}
-
-.config-control-card:hover {
-    border-color: #2563eb;
-    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
-}
-
-.config-control-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-.config-control-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.config-control-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #737373;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
-}
-
-.config-control-value {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1a1a1a;
-    line-height: 1;
-}
-
-.config-control-body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.config-slider {
-    width: 100%;
-    height: 8px;
-    border-radius: 5px;
-    background: linear-gradient(90deg, #e5e5e5 0%, #2563eb 50%, #e5e5e5 100%);
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-.config-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: white;
-    border: 3px solid #2563eb;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
-    transition: all 0.2s;
-}
-
-.config-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 3px 12px rgba(37, 99, 235, 0.6);
-}
-
-.config-slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: white;
-    border: 3px solid #2563eb;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
-    transition: all 0.2s;
-}
-
-.config-slider::-moz-range-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 3px 12px rgba(37, 99, 235, 0.6);
-}
-
-.config-slider-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: #a3a3a3;
-    padding: 0 4px;
-}
-
-.config-help-text {
-    font-size: 12px;
-    color: #737373;
-    background: #f5f5f5;
-    padding: 8px 12px;
-    border-radius: 6px;
-    margin-top: 4px;
-}
-
-/* Estilos para tarjetas de prompts colapsables */
-.prompt-category-card {
-    background: white;
-    border: 2px solid #e5e5e5;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.prompt-category-card:hover {
-    border-color: #22c55e;
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
-}
-
-.prompt-category-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    cursor: pointer;
-    background: #fafafa;
-    transition: all 0.2s;
-}
-
-.prompt-category-header:hover {
-    background: #f0fdf4;
-}
-
-.prompt-category-header.active {
-    background: #f0fdf4;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.prompt-category-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-}
-
-.prompt-category-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(34, 197, 94, 0.2);
-}
-
-.prompt-category-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 2px;
-}
-
-.prompt-category-count {
-    font-size: 11px;
-    color: #737373;
-}
-
-.prompt-chevron {
-    transition: transform 0.3s ease;
-    color: #737373;
-}
-
-.prompt-chevron.active {
-    transform: rotate(180deg);
-}
-
-.prompt-category-body {
-    display: none;
-    padding: 20px;
-    animation: slideDown 0.3s ease-out;
-}
-
-.prompt-category-body.active {
-    display: block;
-}
-
-.prompt-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 12px 16px;
-    border: 2px solid #e5e5e5;
-    border-radius: 10px;
-    font-size: 13px;
-    font-family: inherit;
-    background: #fafafa;
-    resize: vertical;
-    line-height: 1.6;
-    transition: all 0.2s;
-}
-
-.prompt-textarea:focus {
-    outline: none;
-    border-color: #22c55e;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
-}
-
-.prompt-hint {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    padding: 10px 14px;
-    background: #fef3c7;
-    border: 1px solid #fbbf24;
-    border-radius: 8px;
-    font-size: 12px;
-    color: #78350f;
-}
-
-.prompt-hint code {
-    background: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: #f59e0b;
-    font-weight: 600;
-    font-family: 'Courier New', monospace;
-}
-
-/* ============================================
-   REDISEÑO MODAL DE VISTA DE GUION
-   ============================================ */
-
-.modal-content-wide {
-    background: white;
-    border-radius: 20px;
-    width: 95%;
-    max-width: 1400px;
-    height: 90vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.view-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 28px;
-    border-bottom: 1px solid #e5e5e5;
-    background: white;
-    flex-shrink: 0;
-}
-
-.view-header-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex: 1;
-}
-
-.view-header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.nav-circle-btn,
-.icon-circle-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1.5px solid #e5e5e5;
-    background: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #525252;
-    transition: all 0.2s;
-}
-
-.nav-circle-btn:hover,
-.icon-circle-btn:hover {
-    background: #f5f5f5;
-    border-color: #2563eb;
-    color: #2563eb;
-    transform: scale(1.05);
-}
-
-.icon-circle-btn.delete-btn:hover {
-    background: #fef2f2;
-    border-color: #ef4444;
-    color: #ef4444;
-}
-
-.btn-close-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1.5px solid #e5e5e5;
-    background: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #737373;
-    font-size: 24px;
-    font-weight: 300;
-    transition: all 0.2s;
-}
-
-.btn-close-circle:hover {
-    background: #f5f5f5;
-    color: #1a1a1a;
-    transform: rotate(90deg);
-}
-
-.view-title-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-}
-
-.view-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0;
-}
-
-.view-category-pill {
-    padding: 6px 14px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #2563eb;
-}
-
-/* Layout de Dos Paneles */
-.view-two-panel-layout {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-}
-
-.view-main-panel {
-    flex: 1;
-    overflow-y: auto;
-    padding: 32px 40px;
-    background: #fafafa;
-}
-
-.view-script-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.view-date-stamp {
-    font-size: 12px;
-    color: #a3a3a3;
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.view-script-content {
-    background: white;
-    padding: 32px;
-    border-radius: 16px;
-    line-height: 1.9;
-    font-size: 15px;
-    color: #1a1a1a;
-    white-space: pre-wrap;
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-/* Panel Lateral */
-.view-sidebar-panel {
-    width: 380px;
-    background: white;
-    border-left: 1px solid #e5e5e5;
-    overflow-y: auto;
-    flex-shrink: 0;
-}
-
-.sidebar-panel-content {
-    padding: 24px;
-}
-
-.sidebar-section-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #737373;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 16px;
-}
-
-/* Métricas */
-.metrics-section {
-    margin-bottom: 32px;
-}
-
-.metrics-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-}
-
-.metric-card {
-    padding: 16px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    transition: all 0.2s;
-}
-
-.metric-card.metric-blue {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border: 1.5px solid #bfdbfe;
-}
-
-.metric-card.metric-green {
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    border: 1.5px solid #86efac;
-}
-
-.metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.metric-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.metric-blue .metric-icon {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
-}
-
-.metric-green .metric-icon {
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    color: white;
-}
-
-.metric-content {
-    flex: 1;
-}
-
-.metric-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #737373;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
-}
-
-.metric-value {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 4px;
-}
-
-.metric-blue .metric-value {
-    color: #1e40af;
-}
-
-.metric-green .metric-value {
-    color: #166534;
-}
-
-.metric-subtitle {
-    font-size: 11px;
-    color: #a3a3a3;
-}
-
-/* Acciones */
-.actions-section {
-    margin-bottom: 24px;
-}
-
-.sidebar-action-btn {
-    width: 100%;
-    padding: 14px 16px;
-    background: white;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.2s;
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-.sidebar-action-btn:hover {
-    background: #fafafa;
-    border-color: #d4d4d4;
-    transform: translateX(2px);
-}
-
-.sidebar-action-btn.prompt-btn {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border-color: #fbbf24;
-}
-
-.sidebar-action-btn.prompt-btn:hover {
-    background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
-    border-color: #f59e0b;
-}
-
-.sidebar-action-btn.path-btn:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
-}
-
-.sidebar-action-btn.export-btn {
-    border-color: #86efac;
-}
-
-.sidebar-action-btn.export-btn:hover {
-    background: #f0fdf4;
-    border-color: #22c55e;
-}
-
-.action-btn-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.prompt-btn .action-btn-icon {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    color: white;
-}
-
-.path-btn .action-btn-icon {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
-}
-
-.export-btn .action-btn-icon {
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    color: white;
-}
-
-.action-btn-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.action-btn-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin-bottom: 2px;
-}
-
-.action-btn-subtitle {
-    font-size: 11px;
-    color: #737373;
-}
-
-.action-btn-path {
-    font-size: 11px;
-    color: #737373;
-    font-family: 'Courier New', monospace;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.action-btn-shortcut {
-    font-size: 11px;
-    color: #a3a3a3;
-    font-weight: 600;
-    font-family: 'Courier New', monospace;
-}
-
-/* Estado */
-.status-section {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-.sidebar-status-btn {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1.5px solid #e5e5e5;
-    background: white;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    color: #525252;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.2s;
-}
-
-.sidebar-status-btn:hover {
-    background: #f5f5f5;
-}
-
-.sidebar-status-btn.marked {
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    border-color: #86efac;
-    color: #16a34a;
-}
-
-.status-btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sidebar-copy-btn {
-    width: 100%;
-    padding: 14px 16px;
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-}
-
-.sidebar-copy-btn:hover {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-    .view-sidebar-panel {
-        width: 320px;
-    }
-}
-
-/* Vista de dos paneles responsive mejorada */
-@media (max-width: 968px) {
-    .modal-content-wide {
-        width: 98%;
-        height: 95vh;
-    }
-    
-    .view-two-panel-layout {
-        flex-direction: column;
-    }
-    
-    .view-sidebar-panel {
-        width: 100%;
-        border-left: none;
-        border-top: 1px solid #e5e5e5;
-    }
-}
-
-/* Ajuste adicional para 824x768 y similares */
-@media (max-width: 900px) {
-    .view-two-panel-layout {
-        flex-direction: column;
-        overflow: hidden;
-    }
-    
-    .view-sidebar-panel {
-        width: 100%;
-        max-height: 50vh;
-        border-left: none;
-        border-top: 1px solid #e5e5e5;
-        overflow-y: auto;
-        flex-shrink: 0;
-    }
-    
-    .view-main-panel {
-        overflow-y: auto;
-        max-height: 50vh;
-        flex: 1;
-    }
-    
-    /* Ajustar padding en paneles para móviles */
-    .view-main-panel {
-        padding: 20px 24px;
-    }
-    
-    .sidebar-panel-content {
-        padding: 20px;
-    }
-    
-    /* Mejorar visualización de métricas en móvil */
-    .metric-card {
-        padding: 14px;
-    }
-    
-    .metric-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .metric-value {
-        font-size: 24px;
-    }
-    
-    /* Ajustar botones de acción */
-    .sidebar-action-btn {
-        padding: 12px 14px;
-    }
-    
-    .action-btn-icon {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .action-btn-title {
-        font-size: 12px;
-    }
-    
-    .action-btn-subtitle {
-        font-size: 10px;
-    }
-}
-
-/* Estilos para Sliders de Configuración */
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
-            transition: all 0.2s;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
-        }
-        
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
-            transition: all 0.2s;
-        }
-        
-        input[type="range"]::-moz-range-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
-        }
-
-/* ============================================
-   SISTEMA RESPONSIVO COMPLETO OPTIMIZADO
-   ============================================ */
-
-/* Tablets y resoluciones intermedias (1024px - 768px) */
-@media (max-width: 1024px) {
-    .sidebar {
-        width: 220px;
-        padding: 16px 12px;
-    }
-    
-    .sidebar-header h1 {
-        font-size: 18px;
-    }
-    
-    .stat-item {
-        padding: 8px 10px;
-        font-size: 13px;
-    }
-    
-    .main-header {
-        padding: 20px 24px;
-    }
-    
-    .scripts-grid {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 12px;
-    }
-}
-
-/* Resoluciones pequeñas tipo 824x768 y tablets verticales */
-@media (max-width: 900px) {
-    /* Mostrar botón hamburguesa */
-    .hamburger-btn {
-        display: flex;
-    }
-    
-    /* Sidebar como menú lateral deslizable */
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 280px;
-        z-index: 1000;
-        transform: translateX(-100%);
-        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .sidebar.active {
-        transform: translateX(0);
-    }
-    
-    /* Mostrar botón cerrar en sidebar */
-    .sidebar-close-btn {
-        display: flex;
-    }
-    
-    /* Contenido principal ocupa todo el ancho */
-    body {
-        flex-direction: column;
-    }
-    
-    .main-content {
-        width: 100%;
-        margin-left: 0;
-    }
-    
-    .main-header {
-        padding: 72px 20px 16px; /* Espacio para hamburguesa */
-    }
-    
-    .header-top {
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-    
-    .header-top h2 {
-        font-size: 20px;
-    }
-    
-    .btn-new-script {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    /* Filtros en columna */
-    .filters-toggle {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .toggle-filters-btn {
-        width: 100%;
-    }
-    
-    .quick-action-buttons {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-    
-    .filters-panel {
-        flex-direction: column;
-    }
-    
-    .filter-group {
-        width: 100%;
-        min-width: auto;
-    }
-    
-    /* Scripts en una columna */
-    .scripts-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .scripts-container {
-        padding: 16px 20px;
-    }
-    
-    /* Modales ocupan más espacio */
-    .modal-content,
-    .modal-content-wide {
-        width: 95%;
-        max-width: 95%;
-        height: 90vh;
-        max-height: 90vh;
-    }
-    
-    .view-two-panel-layout {
-        flex-direction: column;
-    }
-    
-    .view-sidebar-panel {
-        width: 100%;
-        max-height: 45vh;
-        border-left: none;
-        border-top: 1px solid #e5e5e5;
-    }
-    
-    .view-main-panel {
-        padding: 20px 24px;
-        max-height: 45vh;
-    }
-    
-    /* Barra de selección */
-    .selection-mode-bar {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-    }
-    
-    .selection-actions {
-        width: 100%;
-        margin-top: 8px;
-    }
-}
-
-/* Móviles (768px hacia abajo) */
-@media (max-width: 768px) {
-    .hamburger-btn {
-        width: 44px;
-        height: 44px;
-        top: 12px;
-        left: 12px;
-    }
-    
-    .sidebar {
-        width: 85%;
-        max-width: 320px;
-    }
-    
-    .main-header {
-        padding: 64px 16px 12px;
-    }
-    
-    .header-top h2 {
-        font-size: 18px;
-    }
-    
-    .search-input {
-        font-size: 16px; /* Previene zoom en iOS */
-        padding: 10px 12px 10px 38px;
-    }
-    
-    .quick-action-buttons {
-        grid-template-columns: 1fr;
-    }
-    
-    .btn-quick-action {
-        font-size: 13px;
-        padding: 10px 14px;
-    }
-    
-    .scripts-container {
-        padding: 12px 16px;
-    }
-    
-    .script-card {
-        padding: 16px;
-    }
-    
-    .script-title {
-        font-size: 15px;
-    }
-    
-    /* Modales pantalla completa en móviles */
-    .modal-content,
-    .modal-content-wide {
-        width: 100%;
-        height: 100vh;
-        max-height: 100vh;
-        border-radius: 0;
-    }
-    
-    .modal-header {
-        padding: 16px;
-    }
-    
-    .modal-body {
-        padding: 16px;
-    }
-    
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-        font-size: 16px; /* Previene zoom en iOS */
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .btn-cancel,
-    .btn-save {
-        width: 100%;
-    }
-    
-    /* Vista de script */
-    .view-modal-header {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-    }
-    
-    .view-header-left {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-    
-    .view-title {
-        font-size: 16px;
-    }
-    
-    .view-script-content {
-        padding: 20px;
-        font-size: 14px;
-    }
-    
-    .sidebar-panel-content {
-        padding: 16px;
-    }
-    
-    .metric-card {
-        padding: 12px;
-    }
-    
-    .metric-value {
-        font-size: 24px;
-    }
-    
-    /* Generador de prompts */
-    .prompts-generator-content {
-        width: 100%;
-        height: 100vh;
-        border-radius: 0;
-    }
-    
-    .prompts-generator-body {
-        flex-direction: column;
-    }
-    
-    .prompts-input-panel {
-        width: 100%;
-        max-height: 35vh;
-        border-right: none;
-        border-bottom: 1px solid #e5e5e5;
-    }
-    
-    .prompts-display-footer {
-        padding: 12px 16px;
-    }
-    
-    .prompts-actions-row {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .prompts-btn-prev,
-    .prompts-btn-copy-current,
-    .prompts-btn-next {
-        width: 100%;
-    }
-    
-    /* Barra de selección */
-    .selection-mode-bar {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-    }
-    
-    .selection-actions {
-        width: 100%;
-        margin-top: 8px;
-    }
-    
-    .btn-selection-action {
-        flex: 1;
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-    
-    /* Configuración */
-    .config-tabs {
-        padding: 0 16px;
-    }
-    
-    .config-tab-button {
-        font-size: 12px;
-        padding: 12px 16px;
-    }
-    
-    .config-control-card {
-        padding: 16px;
-    }
-    
-    .config-control-value {
-        font-size: 24px;
-    }
-    
-    /* Tabs */
-    .modal-tabs {
-        padding: 0 16px;
-    }
-    
-    .tab-button {
-        padding: 12px 16px;
-        font-size: 12px;
-    }
-}
-
-/* Móviles pequeños (480px hacia abajo) */
-@media (max-width: 480px) {
-    .hamburger-btn {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .sidebar {
-        width: 90%;
-    }
-    
-    .main-header {
-        padding: 60px 12px 12px;
-    }
-    
-    .header-top h2 {
-        font-size: 16px;
-    }
-    
-    .stat-item {
-        font-size: 12px;
-        padding: 6px 8px;
-    }
-    
-    .stat-number {
-        font-size: 14px;
-    }
-    
-    .category-item {
-        font-size: 12px;
-        padding: 8px 10px;
-    }
-    
-    .script-card {
-        padding: 12px;
-    }
-    
-    .script-title {
-        font-size: 14px;
-    }
-    
-    .script-content {
-        font-size: 12px;
-        max-height: 60px;
-    }
-    
-    .nav-circle-btn,
-    .icon-circle-btn,
-    .btn-close-circle {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .view-title {
-        font-size: 14px;
-    }
-    
-    .view-category-pill {
-        font-size: 11px;
-        padding: 4px 10px;
-    }
-    
-    .metric-value {
-        font-size: 20px;
-    }
-    
-    .config-control-value {
-        font-size: 20px;
-    }
-    
-    .btn-selection-action {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-}
-
-/* Landscape en móviles */
-@media (max-width: 900px) and (orientation: landscape) {
-    .sidebar {
-        max-height: 100vh;
-    }
-    
-    .modal-content,
-    .modal-content-wide {
-        height: 95vh;
-    }
-    
-    .view-two-panel-layout {
-        flex-direction: row;
-    }
-    
-    .view-sidebar-panel {
-        width: 40%;
-        max-height: 100%;
-        border-left: 1px solid #e5e5e5;
-        border-top: none;
-    }
-    
-    .view-main-panel {
-        width: 60%;
-        max-height: 100%;
-    }
-}
-
-        /* ============================================
-           MÓDULO DE GENERACIÓN DE IMÁGENES/VIDEO
-           ============================================ */
-
-        .prompts-generator-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .prompts-generator-modal.active {
-            display: flex;
-        }
-
-        .prompts-generator-content {
-            background: white;
-            border-radius: 20px;
-            width: 95%;
-            max-width: 1200px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Header del Generador */
-        .prompts-generator-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 28px;
-            border-bottom: 1px solid #e5e5e5;
-            background: white;
-            flex-shrink: 0;
-        }
-
-        .prompts-header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex: 1;
-        }
-
-        .prompts-header-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
-
-        .prompts-header-title-group h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin: 0 0 4px 0;
-        }
-
-        .prompts-header-subtitle {
-            font-size: 13px;
-            color: #737373;
-        }
-
-        .prompts-progress-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: #fef3c7;
-            border: 1.5px solid #fbbf24;
-            border-radius: 20px;
-        }
-
-        .prompts-progress-text {
-            font-size: 13px;
-            font-weight: 600;
-            color: #92400e;
-        }
-
-        /* Cuerpo del Generador - Layout de Dos Paneles */
-        .prompts-generator-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        /* Panel Izquierdo - Input */
-        .prompts-input-panel {
-            width: 380px;
-            background: #fafafa;
-            border-right: 1px solid #e5e5e5;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
-
-        .prompts-input-content {
-            padding: 24px;
-        }
-
-        .prompts-input-section-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #737373;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 16px;
-        }
-
-        .prompts-paste-area {
-            width: 100%;
-            min-height: 300px;
-            padding: 16px;
-            border: 2px dashed #d1d5db;
-            border-radius: 12px;
-            font-size: 13px;
-            font-family: inherit;
-            background: white;
-            resize: vertical;
-            line-height: 1.6;
-            transition: all 0.2s;
-        }
-
-        .prompts-paste-area:focus {
-            outline: none;
-            border-color: #fbbf24;
-            border-style: solid;
-            background: #fffbeb;
-            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
-        }
-
-        .prompts-paste-area::placeholder {
-            color: #a3a3a3;
-        }
-
-        .prompts-input-hint {
-            display: flex;
-            align-items: start;
-            gap: 10px;
-            margin-top: 16px;
-            padding: 12px 14px;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #1e40af;
-            line-height: 1.6;
-        }
-
-        .prompts-btn-process {
-            width: 100%;
-            padding: 14px 16px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-            margin-top: 16px;
-        }
-
-        .prompts-btn-process:hover {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        .prompts-btn-process:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Panel Derecho - Visualización de Prompts */
-        .prompts-display-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: white;
-        }
-
-        /* Estado: Esperando Input */
-        .prompts-waiting-state,
-        .prompts-completed-state {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            padding: 48px;
-            text-align: center;
-        }
-
-        .prompts-waiting-state.active,
-        .prompts-completed-state.active {
-            display: flex;
-        }
-
-        .prompts-waiting-icon,
-        .prompts-completed-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
-        }
-
-        .prompts-completed-icon {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-        }
-
-        .prompts-waiting-title,
-        .prompts-completed-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .prompts-waiting-text,
-        .prompts-completed-text {
-            font-size: 14px;
-            color: #737373;
-            max-width: 400px;
-        }
-
-        /* Estado: Mostrando Prompt */
-        .prompts-active-state {
-            display: none;
-            flex-direction: column;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .prompts-active-state.active {
-            display: flex;
-        }
-
-        .prompts-display-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 32px 40px;
-        }
-
-        .prompts-current-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .prompts-current-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: #fef3c7;
-            border: 1.5px solid #fbbf24;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #92400e;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 24px;
-        }
-
-        .prompts-current-content {
-            background: white;
-            padding: 32px;
-            border-radius: 16px;
-            border: 2px solid #e5e5e5;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            font-size: 15px;
-            line-height: 1.9;
-            color: #1a1a1a;
-            white-space: pre-wrap;
-        }
-
-        /* Footer con Acciones */
-        .prompts-display-footer {
-            padding: 20px 40px;
-            border-top: 1px solid #e5e5e5;
-            background: white;
-            flex-shrink: 0;
-        }
-
-        .prompts-actions-row {
-            display: flex;
-            gap: 12px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .prompts-btn-copy-current {
-            flex: 1;
-            padding: 14px 20px;
-            background: white;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: #525252;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-        }
-
-        .prompts-btn-copy-current:hover {
-            background: #f5f5f5;
-            border-color: #2563eb;
-        }
-
-        .prompts-btn-copy-current.copied {
-            background: #f0fdf4;
-            border-color: #22c55e;
-            color: #16a34a;
-        }
-
-        .prompts-btn-next {
-            flex: 2;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
-
-        .prompts-btn-next:hover {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        .prompts-btn-next.finish {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-        }
-
-        .prompts-btn-next.finish:hover {
-            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-        }
-
-        /* Estilos para botón de retroceso */
-        .prompts-btn-prev:hover:not(:disabled) {
-            background: #f5f5f5;
-            border-color: #2563eb;
-        }
-
-        .prompts-btn-prev:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .prompts-btn-reset {
-            width: 100%;
-            padding: 14px 20px;
-            background: white;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: #525252;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .prompts-btn-reset:hover {
-            background: #f5f5f5;
-            border-color: #fbbf24;
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .prompts-generator-body {
-                flex-direction: column;
-            }
-            
-            .prompts-input-panel {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #e5e5e5;
-                max-height: 40vh;
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-<!-- Botón Hamburguesa (solo visible en móviles) -->
-<button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-</button>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Scripts Manager</h1>
+            <p class="sidebar-subtitle">Organiza tus guiones</p>
+        </div>
 
-<!-- Overlay para cerrar sidebar en móviles -->
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="stats-section">
+            <div class="stat-item">
+                <span>Total de guiones</span>
+                <span class="stat-number" id="totalScripts">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Disponibles</span>
+                <span class="stat-number" id="availableScripts">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Utilizados</span>
+                <span class="stat-number" id="usedScripts">0</span>
+            </div>
+        </div>
 
-<div class="sidebar" id="mainSidebar">
-    <!-- Botón cerrar sidebar (solo móviles) -->
-    <button class="sidebar-close-btn" onclick="toggleSidebar()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+<div class="categories-section">
+    <h3>
+        CATEGORÍAS
+        <button class="add-category-btn" onclick="toggleCategoryInput()">+</button>
+    </h3>
+    
+    <!-- NUEVO: Buscador de categorías -->
+    <div class="category-search-container">
+        <svg class="category-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
         </svg>
-    </button>
-
-    <div class="sidebar-header">
-        <h1>Scripts Manager</h1>
-        <p class="sidebar-subtitle">Organiza tus guiones</p>
-    </div>
-
-    <div class="stats-section">
-        <div class="stat-item">
-            <span>Total de guiones</span>
-            <span class="stat-number" id="totalScripts">0</span>
-        </div>
-        <div class="stat-item">
-            <span>Disponibles</span>
-            <span class="stat-number" id="availableScripts">0</span>
-        </div>
-        <div class="stat-item">
-            <span>Utilizados</span>
-            <span class="stat-number" id="usedScripts">0</span>
-        </div>
-    </div>
-
-    <!-- Botón de Configuración -->
-    <button onclick="openConfigModal()" style="
-        width: 100%;
-        padding: 12px 16px;
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 24px;
-        transition: all 0.2s;
-        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
-    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(37, 99, 235, 0.3)';" 
-       onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 8px rgba(37, 99, 235, 0.2)';">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1v6m0 6v6m-9-9h6m6 0h6"></path>
-            <path d="m19.07 4.93-4.24 4.24m0 6.66 4.24 4.24M4.93 19.07l4.24-4.24m0-6.66L4.93 4.93"></path>
-        </svg>
-        <span>Configuración</span>
-    </button>
-
-    <div class="categories-section">
-        <h3>
-            CATEGORÍAS
-            <button class="add-category-btn" onclick="toggleCategoryInput()">+</button>
-        </h3>
-        
-        <!-- Buscador de categorías -->
-        <div class="category-search-container">
-            <svg class="category-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
+        <input 
+            type="text" 
+            class="category-search-input" 
+            id="categorySearchInput" 
+            placeholder="Buscar categoría..."
+            oninput="handleCategorySearch()"
+        >
+        <button class="category-search-clear" id="categorySearchClear" onclick="clearCategorySearch()" style="display: none;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
-            <input 
-                type="text" 
-                class="category-search-input" 
-                id="categorySearchInput" 
-                placeholder="Buscar categoría..."
-                oninput="handleCategorySearch()"
-            >
-            <button class="category-search-clear" id="categorySearchClear" onclick="clearCategorySearch()" style="display: none;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </div>
-        <div class="category-input" id="categoryInput">
-            <div class="category-input-group">
-                <input type="text" id="newCategoryInput" placeholder="Nombre de la categoría" style="width: 100%;">
-                <div class="category-input-row">
-                    <input type="text" id="newCategoryPath" placeholder="Ruta de los clips (opcional)" class="path-input" style="flex: 1;">
-                </div>
-                <div class="category-input-row">
-                    <input type="text" id="newCategoryExportPath" placeholder="Ruta de exportación del video (requerido)" class="path-input" style="flex: 1;">
-                    <button onclick="addCategory()">OK</button>
-                </div>
+        </button>
+    </div>
+    <div class="category-input" id="categoryInput">
+        <div class="category-input-group">
+            <input type="text" id="newCategoryInput" placeholder="Nombre de la categoría" style="width: 100%;">
+            <div class="category-input-row">
+                <input type="text" id="newCategoryPath" placeholder="Ruta de los clips (opcional)" class="path-input" style="flex: 1;">
             </div>
-        </div>
-
-        <div class="category-list" id="categoryList">
-            <div class="category-item active" onclick="filterCategory('all')">
-                <span><span class="category-icon">📂</span>Todos los guiones</span>
-                <span class="category-badge" id="count-all">0</span>
+            <div class="category-input-row">
+                <input type="text" id="newCategoryExportPath" placeholder="Ruta de exportación del video (requerido)" class="path-input" style="flex: 1;">
+                <button onclick="addCategory()">OK</button>
             </div>
         </div>
     </div>
-</div>
+            <div class="category-list" id="categoryList">
+                <div class="category-item active" onclick="filterCategory('all')">
+                    <span><span class="category-icon">📁</span>Todos los guiones</span>
+                    <span class="category-badge" id="count-all">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="main-content">
         <div class="main-header">
@@ -4045,196 +1925,105 @@
         </div>
     </div>
 
-<!-- Modal Ver Rediseñado - Diseño de Dos Paneles -->
-<div class="modal" id="viewModal">
-    <div class="modal-content-wide">
-        <!-- Header Minimalista -->
-        <div class="view-modal-header">
-            <div class="view-header-left">
-                <button class="nav-circle-btn" onclick="prevScript()" title="Anterior (←)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <!-- Modal Ver -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 class="modal-title" id="viewTitle"></h2>
+                    <div class="modal-category">
+                        <span class="category-dot"></span>
+                        <span id="viewCategory"></span>
+                    </div>
+                </div>
+<div class="modal-actions-top">
+    <button class="icon-btn" onclick="openEditScriptModal()" title="Editar guión">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+    </button>
+    <button class="icon-btn delete" onclick="deleteCurrentScript()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+    </button>
+    <button class="btn-close" onclick="closeModal('viewModal')">×</button>
+</div>
+            </div>
+            <div class="modal-body">
+                <p class="script-date" id="viewDate"></p>
+                
+                <!-- Ruta de los Clips -->
+                <div class="category-path-container" id="categoryPathContainer" style="display: none;">
+                    <svg class="path-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <polyline points="13 2 13 9 20 9"></polyline>
+                    </svg>
+                    <div class="path-content">
+                        <div class="path-label">Ruta de Clips</div>
+                        <div class="path-text" id="categoryPath"></div>
+                    </div>
+                    <button class="btn-copy-path" onclick="copyCategoryPath()" data-shortcut="Ctrl + Shift + X">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span id="copyPathText">Copiar</span>
+                    </button>
+                </div>
+                
+                <!-- NUEVO: Ruta de Exportación del Video -->
+                <div class="category-path-container" id="categoryExportPathContainer" style="display: none; margin-top: 12px; background: #f0fdf4; border-color: #86efac;">
+                    <svg class="path-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #16a34a;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <div class="path-content">
+                        <div class="path-label" style="color: #16a34a;">Ruta de Exportación del Video</div>
+                        <div class="path-text" id="categoryExportPath"></div>
+                    </div>
+                    <button class="btn-copy-export-path" onclick="copyCategoryExportPath()" data-shortcut="Ctrl + Shift + E">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span id="copyExportPathText">Copiar</span>
+                    </button>
+                </div>
+                
+                <div class="script-full-content" id="viewContent"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="nav-btn" onclick="prevScript()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </button>
-                <button class="nav-circle-btn" onclick="nextScript()" title="Siguiente (→)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="nav-btn" onclick="nextScript()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                 </button>
-                <div class="view-title-group">
-                    <h2 class="view-title" id="viewTitle"></h2>
-                    <span class="view-category-pill" id="viewCategory"></span>
-                </div>
-            </div>
-            <div class="view-header-right">
-                <button class="icon-circle-btn" onclick="openEditScriptModal()" title="Editar">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                <button class="btn-mark-used" id="btnMarkUsed" onclick="toggleUsedStatus()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
                     </svg>
+                    <span id="markUsedText">Marcar como utilizado</span>
                 </button>
-                <button class="icon-circle-btn delete-btn" onclick="deleteCurrentScript()" title="Eliminar">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <button class="btn-copy-script" onclick="copyCurrentScript()" data-shortcut="Ctrl + Shift + S">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
+                    Copiar guión
                 </button>
-                <button class="btn-close-circle" onclick="closeModal('viewModal')" title="Cerrar (Esc)">×</button>
-            </div>
-        </div>
-
-        <!-- Layout de Dos Paneles -->
-        <div class="view-two-panel-layout">
-            <!-- Panel Principal: Contenido del Guion -->
-            <div class="view-main-panel">
-                <div class="view-script-wrapper">
-                    <div class="view-date-stamp" id="viewDate"></div>
-                    <div class="view-script-content" id="viewContent"></div>
-                </div>
-            </div>
-
-            <!-- Panel Lateral: Centro de Control -->
-            <div class="view-sidebar-panel">
-                <div class="sidebar-panel-content">
-                    <!-- Métricas Clave -->
-                    <div class="metrics-section">
-                        <h3 class="sidebar-section-title">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                            Métricas Calculadas
-                        </h3>
-                        <div class="metrics-grid">
-                            <div class="metric-card metric-blue">
-                                <div class="metric-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                                        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                                    </svg>
-                                </div>
-                                <div class="metric-content">
-                                    <div class="metric-label">Escenas</div>
-                                    <div class="metric-value" id="viewScenes">0</div>
-                                    <div class="metric-subtitle"><span id="viewCharCount">0</span> caracteres</div>
-                                </div>
-                            </div>
-                            <div class="metric-card metric-green">
-                                <div class="metric-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="metric-content">
-                                    <div class="metric-label">Duración</div>
-                                    <div class="metric-value" id="viewDuration">0s</div>
-                                    <div class="metric-subtitle"><span id="viewSecondsTotal">0</span> segundos</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección de Acciones Rápidas -->
-                    <div class="actions-section">
-                        <h3 class="sidebar-section-title">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 11 12 14 22 4"></polyline>
-                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                            </svg>
-                            Acciones Rápidas
-                        </h3>
-
-                        <!-- NUEVO: Botón de Copiar Título -->
-                        <button class="sidebar-action-btn" onclick="copyScriptTitle()" title="Ctrl + Shift + F" style="border-color: #8b5cf6; background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);">
-                            <div class="action-btn-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 7h16M4 12h16M4 17h10"></path>
-                                </svg>
-                            </div>
-                            <div class="action-btn-content">
-                                <div class="action-btn-title" id="copyTitleText">Copiar Título</div>
-                                <div class="action-btn-subtitle">Copiar nombre del guion</div>
-                            </div>
-                            <div class="action-btn-shortcut">⌘F</div>
-                        </button>
-
-                        <!-- Botón de Prompt de Generación -->
-                        <div id="promptContainer" style="display: none;">
-                            <button class="sidebar-action-btn prompt-btn" onclick="copyPrompt()" title="Ctrl + Shift + G">
-                                <div class="action-btn-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                                    </svg>
-                                </div>
-                                <div class="action-btn-content">
-                                    <div class="action-btn-title" id="copyPromptText">Copiar Prompt de IA</div>
-                                    <div class="action-btn-subtitle">Genera imágenes con IA</div>
-                                </div>
-                                <div class="action-btn-shortcut">⌘G</div>
-                            </button>
-                            <div id="promptText" style="display: none;"></div>
-                        </div>
-
-                        <!-- Ruta de Clips -->
-                        <div id="categoryPathContainer" style="display: none;">
-                            <button class="sidebar-action-btn path-btn" onclick="copyCategoryPath()" title="Ctrl + Shift + X">
-                                <div class="action-btn-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                                        <polyline points="13 2 13 9 20 9"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="action-btn-content">
-                                    <div class="action-btn-title">Ruta de Clips</div>
-                                    <div class="action-btn-path" id="categoryPath"></div>
-                                </div>
-                                <div class="action-btn-shortcut">⌘X</div>
-                            </button>
-                        </div>
-
-                        <!-- Ruta de Exportación -->
-                        <div id="categoryExportPathContainer" style="display: none;">
-                            <button class="sidebar-action-btn export-btn" onclick="copyCategoryExportPath()" title="Ctrl + Shift + E">
-                                <div class="action-btn-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="7 10 12 15 17 10"></polyline>
-                                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                                    </svg>
-                                </div>
-                                <div class="action-btn-content">
-                                    <div class="action-btn-title">Ruta de Exportación</div>
-                                    <div class="action-btn-path" id="categoryExportPath"></div>
-                                </div>
-                                <div class="action-btn-shortcut">⌘E</div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Sección de Estado -->
-                    <div class="status-section">
-                        <button class="sidebar-status-btn" id="btnMarkUsed" onclick="toggleUsedStatus()">
-                            <div class="status-btn-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                </svg>
-                            </div>
-                            <span id="markUsedText">Marcar como utilizado</span>
-                        </button>
-                        <button class="sidebar-copy-btn" onclick="copyCurrentScript()" title="Ctrl + Shift + S">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                            <span>Copiar Todo</span>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Modal Agregar con PestaÃ±as -->
 <div class="modal" id="addModal">
@@ -4395,13 +2184,6 @@
                     <label>Ruta de Exportación del Video <span style="color: #ef4444;">*</span></label>
                     <input type="text" id="editCategoryExportPath" placeholder="Ej: C:\Videos\Exportados" class="path-input" required>
                 </div>
-                <div class="form-group">
-                    <label>Prompt de Generación de Imágenes/Video</label>
-                    <textarea id="editCategoryPrompt" placeholder="Usa (X) para el número de escenas. Ej: Genera (X) prompts..." class="path-input" style="min-height: 80px; resize: vertical;"></textarea>
-                    <small style="font-size: 11px; color: #737373; margin-top: 4px; display: block;">
-                        💡 Usa <strong>(X)</strong> donde quieras que aparezca el número de escenas calculado
-                    </small>
-                </div>
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" onclick="closeModal('editCategoryModal')">Cancelar</button>
                     <button type="submit" class="btn-save">Guardar cambios</button>
@@ -4493,455 +2275,42 @@
             </div>
         </div>
     </div>
-
-<!-- Modal de Configuración Rediseñado -->
-<div class="modal" id="configModal">
-    <div class="modal-content" style="max-width: 900px; max-height: 95vh;">
-        <div class="modal-header">
-            <div class="modal-title-section">
-                <h2 class="modal-title">⚙️ Configuración del Sistema</h2>
-                <p style="font-size: 13px; color: #737373; margin-top: 4px;">
-                    Gestiona los parámetros de cálculo y generadores de contenido
-                </p>
-            </div>
-            <button class="btn-close" onclick="closeModal('configModal')">×</button>
-        </div>
-        
-        <div class="modal-body" style="padding: 0;">
-            <!-- Sistema de Pestañas para Configuración -->
-            <div class="config-tabs-container">
-                <div class="config-tabs">
-                    <button class="config-tab-button active" onclick="switchConfigTab('formulas')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                            <path d="M3 9h18"></path>
-                            <path d="M9 21V9"></path>
-                        </svg>
-                        <span>Fórmulas Base</span>
-                    </button>
-                    <button class="config-tab-button" onclick="switchConfigTab('prompts')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                        </svg>
-                        <span>Prompts para IA</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Contenido de las Pestañas -->
-            <div class="config-tab-content-wrapper">
-                <!-- PESTAÑA 1: Fórmulas Base -->
-                <div class="config-tab-content active" id="configTabFormulas">
-                    <div style="padding: 32px;">
-                        <!-- Header Explicativo -->
-                        <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #2563eb; border-radius: 12px; padding: 20px; margin-bottom: 32px;">
-                            <div style="display: flex; align-items: start; gap: 16px;">
-                                <div style="background: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                    </svg>
-                                </div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
-                                        🧮 Fórmula de Cálculo Automático
-                                    </h3>
-                                    <p style="font-size: 13px; color: #1e40af; line-height: 1.6; margin: 0;">
-                                        Estos parámetros determinan cómo se calculan automáticamente las <strong>escenas requeridas</strong> y la <strong>duración estimada</strong> de cada guion.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Grid de Controles -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
-                            <!-- Control 1: Caracteres por Escena -->
-                            <div class="config-control-card">
-                                <div class="config-control-header">
-                                    <div class="config-control-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                            <polyline points="14 2 14 8 20 8"></polyline>
-                                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="config-control-label">Base de Caracteres</div>
-                                        <div class="config-control-value" id="configCharactersDisplay">83</div>
-                                    </div>
-                                </div>
-                                <div class="config-control-body">
-                                    <input type="range" id="configCharactersPerScene" min="50" max="150" value="83" 
-                                           class="config-slider" oninput="updateConfigDisplay()">
-                                    <div class="config-slider-labels">
-                                        <span>50</span>
-                                        <span style="color: #2563eb; font-weight: 600;">Caracteres por escena</span>
-                                        <span>150</span>
-                                    </div>
-                                    <div class="config-help-text">
-                                        💡 Valores menores = Más escenas generadas
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Control 2: Segundos por Escena -->
-                            <div class="config-control-card">
-                                <div class="config-control-header">
-                                    <div class="config-control-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="config-control-label">Duración por Escena</div>
-                                        <div class="config-control-value" id="configSecondsDisplay">5<span style="font-size: 14px; font-weight: 400; color: #737373;">s</span></div>
-                                    </div>
-                                </div>
-                                <div class="config-control-body">
-                                    <input type="range" id="configSecondsPerScene" min="3" max="10" value="5" 
-                                           class="config-slider" oninput="updateConfigDisplay()">
-                                    <div class="config-slider-labels">
-                                        <span>3s</span>
-                                        <span style="color: #10b981; font-weight: 600;">Segundos por escena</span>
-                                        <span>10s</span>
-                                    </div>
-                                    <div class="config-help-text">
-                                        ⏱️ Define el ritmo del video
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Vista Previa de la Fórmula -->
-                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; border-radius: 12px; padding: 24px;">
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                                <div style="background: white; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2);">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
-                                        <path d="M9 11l3 3L22 4"></path>
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                    </svg>
-                                </div>
-                                <h4 style="font-size: 14px; font-weight: 700; color: #92400e; margin: 0;">
-                                    Vista Previa del Cálculo
-                                </h4>
-                            </div>
-                            <div style="background: white; border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; color: #78350f; line-height: 1.8;">
-                                <div style="margin-bottom: 8px;">
-                                    <strong>Escenas =</strong> Total de caracteres ÷ <strong style="color: #2563eb;" id="previewChars">83</strong>
-                                </div>
-                                <div>
-                                    <strong>Duración =</strong> Escenas × <strong style="color: #10b981;" id="previewSeconds">5</strong> segundos
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PESTAÑA 2: Generadores de IA -->
-                <div class="config-tab-content" id="configTabPrompts">
-                    <div style="padding: 32px;">
-                        <!-- Header Explicativo -->
-                        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #22c55e; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start; gap: 16px;">
-                                <div style="background: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
-                                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                                    </svg>
-                                </div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 16px; font-weight: 700; color: #166534; margin-bottom: 8px;">
-                                        ✨ Generadores de Contenido por IA
-                                    </h3>
-                                    <p style="font-size: 13px; color: #166534; line-height: 1.6; margin: 0;">
-                                        Configura plantillas de prompts personalizadas para cada categoría. Usa <code style="background: white; padding: 2px 6px; border-radius: 4px; color: #22c55e; font-weight: 600;">(X)</code> donde quieras que aparezca el número de escenas calculado.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Lista de Prompts por Categoría -->
-                        <div id="configPromptsContainer"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-footer" style="background: #fafafa; border-top: 2px solid #e5e5e5;">
-            <button type="button" class="btn-cancel" onclick="closeModal('configModal')" style="flex: 0 0 auto; min-width: 120px;">
-                Cancelar
-            </button>
-            <button type="button" class="btn-save" onclick="saveConfiguration()" style="flex: 0 0 auto; min-width: 180px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                Guardar Configuración
-            </button>
-        </div>
-</div>
-</div>
-
-<!-- Modal de Generación de Imágenes/Video -->
-<div class="prompts-generator-modal" id="promptsGeneratorModal">
-    <div class="prompts-generator-content">
-        <!-- Header -->
-        <div class="prompts-generator-header">
-            <div class="prompts-header-left">
-                <div class="prompts-header-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                    </svg>
-                </div>
-                <div class="prompts-header-title-group">
-                    <h2>Generador de Prompts</h2>
-                    <p class="prompts-header-subtitle">Visualiza y copia prompts uno por uno</p>
-                </div>
-            </div>
-
-            <!-- NUEVO: Botón de Volver -->
-            <button onclick="closePromptsGenerator()" style="
-                padding: 8px 16px;
-                background: white;
-                border: 1.5px solid #e5e5e5;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 13px;
-                font-weight: 600;
-                color: #525252;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                transition: all 0.2s;
-                margin-right: 12px;
-            " onmouseover="this.style.background='#f5f5f5'; this.style.borderColor='#2563eb';" 
-            onmouseout="this.style.background='white'; this.style.borderColor='#e5e5e5';">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                <span>Volver al Guion</span>
-            </button>
-
-            <div class="prompts-progress-indicator" id="promptsProgressIndicator" style="display: none;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span class="prompts-progress-text" id="promptsProgressText">0 de 0</span>
-            </div>
-            <button class="btn-close-circle" onclick="closePromptsGenerator()" title="Cerrar (Esc)">×</button>
-        </div>
-
-        <!-- Cuerpo - Dos Paneles -->
-        <div class="prompts-generator-body">
-<!-- Panel Izquierdo: Input -->
-<div class="prompts-input-panel">
-    <div class="prompts-input-content">
-        <h3 class="prompts-input-section-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-            </svg>
-            Cargar Prompts
-        </h3>
-        
-        <!-- Área de visualización simplificada -->
-        <div style="
-            background: white;
-            border: 2px dashed #d1d5db;
-            border-radius: 12px;
-            padding: 48px 24px;
-            text-align: center;
-            margin-bottom: 16px;
-        ">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="1.5" style="margin: 0 auto 16px; opacity: 0.5;">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-                <line x1="9" y1="12" x2="15" y2="12"></line>
-                <line x1="9" y1="16" x2="15" y2="16"></line>
-            </svg>
-            <p style="font-size: 14px; color: #737373; margin: 0;">
-                <strong>Listos para pegar desde el portapapeles</strong>
-            </p>
-            <p style="font-size: 12px; color: #a3a3a3; margin-top: 8px;">
-                Copia tus prompts generados y presiona el botón
-            </p>
-        </div>
-        
-        <div class="prompts-input-hint">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span><strong>Formato esperado:</strong> Lista numerada (1., 2., 3., etc.) donde cada línea es un prompt individual.</span>
-        </div>
-
-        <button class="prompts-btn-process" id="promptsProcessBtn" onclick="processPromptsFromClipboard()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-            </svg>
-            <span>Pegar y Procesar desde Portapapeles</span>
-        </button>
-    </div>
-</div>
-
-            <!-- Panel Derecho: Visualización -->
-            <div class="prompts-display-panel">
-                <!-- Estado 1: Esperando Input -->
-                <div class="prompts-waiting-state active" id="promptsWaitingState">
-                    <div class="prompts-waiting-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
-                            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                            <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-                            <line x1="9" y1="12" x2="15" y2="12"></line>
-                            <line x1="9" y1="16" x2="15" y2="16"></line>
-                        </svg>
-                    </div>
-                    <h3 class="prompts-waiting-title">Esperando prompts...</h3>
-                    <p class="prompts-waiting-text">Pega la lista de prompts generados en el panel izquierdo y presiona "Procesar Prompts" para comenzar.</p>
-                </div>
-
-                <!-- Estado 2: Mostrando Prompt Actual -->
-                <div class="prompts-active-state" id="promptsActiveState">
-                    <div class="prompts-display-content">
-                        <div class="prompts-current-wrapper">
-                            <div class="prompts-current-badge">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                                </svg>
-                                <span id="promptsCurrentBadge">Prompt 1</span>
-                            </div>
-                            <div class="prompts-current-content" id="promptsCurrentContent">
-                                <!-- El prompt actual se mostrará aquí -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                <div class="prompts-display-footer">
-                    <div class="prompts-actions-row">
-                        <!-- NUEVO: Botón de Retroceso -->
-                        <button class="prompts-btn-prev" id="promptsPrevBtn" onclick="prevPrompt()" style="
-                            flex: 1;
-                            padding: 14px 20px;
-                            background: white;
-                            border: 1.5px solid #e5e5e5;
-                            border-radius: 12px;
-                            cursor: pointer;
-                            font-weight: 600;
-                            font-size: 14px;
-                            color: #525252;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 10px;
-                            transition: all 0.2s;
-                        ">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"></polyline>
-                            </svg>
-                            <span>Anterior</span>
-                        </button>
-                        
-                        <button class="prompts-btn-copy-current" id="promptsCopyBtn" onclick="copyCurrentPrompt()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                            <span id="promptsCopyBtnText">Copiar Prompt</span>
-                        </button>
-                        
-                        <button class="prompts-btn-next" id="promptsNextBtn" onclick="nextPrompt()">
-                            <span id="promptsNextBtnText">Siguiente Prompt</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Estado 3: Completado -->
-                <div class="prompts-completed-state" id="promptsCompletedState">
-                    <div class="prompts-completed-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    </div>
-                    <h3 class="prompts-completed-title">¡Proceso Completado!</h3>
-                    <p class="prompts-completed-text">Has revisado todos los prompts de la lista. Puedes cerrar esta ventana o procesar nuevos prompts.</p>
-                    <button class="prompts-btn-reset" onclick="resetPromptsGenerator()" style="margin-top: 24px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="1 4 1 10 7 10"></polyline>
-                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                        </svg>
-                        <span>Procesar Nuevos Prompts</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
     <script>
 let scripts = [];
-let categories = [];
-let currentFilter = 'all';
-let currentViewIndex = -1;
-let filteredScripts = [];
-let searchQuery = '';
+        let categories = [];
+        let currentFilter = 'all';
+        let currentViewIndex = -1;
+        let filteredScripts = [];
+        let searchQuery = '';
+        
+        // Nuevos filtros avanzados
+        let statusFilter = 'available';
+        let sortFilter = 'recent';
+        let filtersActive = false;
+        // Variables para selección múltiple
+        let selectionMode = false;
+        let selectedScripts = new Set();
+        let confirmCallback = null;
 
-// Nuevos filtros avanzados
-let statusFilter = 'available';
-let sortFilter = 'recent';
-let filtersActive = false;
-
-// Variables para selección múltiple
-let selectionMode = false;
-let selectedScripts = new Set();
-let confirmCallback = null;
-
-// NUEVO: Variables de configuración para cálculo de escenas
-let config = {
-    charactersPerScene: 83,
-    secondsPerScene: 5
-};
-
-function initializeData() {
-    scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
-    const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
-    
-    // Migrar categorías antiguas (strings) a nuevo formato (objetos)
-    categories = storedCategories.map(cat => {
-        if (typeof cat === 'string') {
-            return { 
-                name: cat, 
-                path: '', 
-                exportPath: '',
-                promptTemplate: 'Genera (X) prompts de imágenes para el siguiente guion' 
-            };
+        function initializeData() {
+            scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
+            const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+            
+            // Migrar categorías antiguas (strings) a nuevo formato (objetos)
+            categories = storedCategories.map(cat => {
+                if (typeof cat === 'string') {
+                    return { name: cat, path: '', exportPath: '' };
+                }
+                // Migrar categorías sin exportPath
+                if (!cat.exportPath) {
+                    return { ...cat, exportPath: '' };
+                }
+                return cat;
+            });
+            
+            saveData();
+            updateUI();
         }
-        // Migrar categorías sin exportPath
-        if (!cat.exportPath) {
-            cat.exportPath = '';
-        }
-        // Migrar categorías sin promptTemplate
-        if (!cat.promptTemplate) {
-            cat.promptTemplate = 'Genera (X) prompts de imágenes para el siguiente guion';
-        }
-        return cat;
-    });
-    
-    // Cargar configuración guardada
-    const storedConfig = JSON.parse(localStorage.getItem('config') || 'null');
-    if (storedConfig) {
-        config = storedConfig;
-    }
-    
-    saveData();
-    updateUI();
-}
 
         // NUEVAS FUNCIONES: Búsqueda de categorías
 function handleCategorySearch() {
@@ -5027,42 +2396,10 @@ function filterCategoriesDisplay(searchTerm) {
     }
 }
 
-function saveData() {
-    localStorage.setItem('scripts', JSON.stringify(scripts));
-    localStorage.setItem('categories', JSON.stringify(categories));
-    localStorage.setItem('config', JSON.stringify(config));
-}
-
-// ============================================
-// FUNCIONES DE CÁLCULO DE ESCENAS
-// ============================================
-
-function calculateScenes(content) {
-    const totalCharacters = content.length;
-    const scenes = Math.round(totalCharacters / config.charactersPerScene);
-    return scenes > 0 ? scenes : 1;
-}
-
-function calculateDuration(scenes) {
-    return scenes * config.secondsPerScene;
-}
-
-function formatDuration(seconds) {
-    if (seconds < 60) {
-        return `${seconds}s`;
-    }
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return remainingSeconds > 0 ? `${minutes}m ${remainingSeconds}s` : `${minutes}m`;
-}
-
-function resolvePromptTemplate(template, scenes) {
-    return template.replace(/\(X\)/g, scenes);
-}
-
-// ============================================
-// FIN DE FUNCIONES DE CÁLCULO
-// ============================================
+        function saveData() {
+            localStorage.setItem('scripts', JSON.stringify(scripts));
+            localStorage.setItem('categories', JSON.stringify(categories));
+        }
 
         function toggleCategoryInput() {
             const input = document.getElementById('categoryInput');
@@ -5079,12 +2416,9 @@ function resolvePromptTemplate(template, scenes) {
             const nameInput = document.getElementById('newCategoryInput');
             const pathInput = document.getElementById('newCategoryPath');
             const exportPathInput = document.getElementById('newCategoryExportPath');
-            const promptInput = document.getElementById('newCategoryPrompt');
-            
             const categoryName = nameInput.value.trim();
             const categoryPath = pathInput.value.trim();
             const categoryExportPath = exportPathInput.value.trim();
-            const categoryPrompt = promptInput.value.trim() || 'Genera (X) prompts de imágenes para el siguiente guion';
             
             if (!categoryName) {
                 alert('Por favor, ingresa un nombre para la categoría');
@@ -5105,16 +2439,13 @@ function resolvePromptTemplate(template, scenes) {
             categories.push({
                 name: categoryName,
                 path: categoryPath || '',
-                exportPath: categoryExportPath,
-                promptTemplate: categoryPrompt
+                exportPath: categoryExportPath
             });
-            
             saveData();
             updateUI();
             nameInput.value = '';
             pathInput.value = '';
             exportPathInput.value = '';
-            promptInput.value = '';
             toggleCategoryInput();
         }
 
@@ -5128,7 +2459,6 @@ function resolvePromptTemplate(template, scenes) {
             document.getElementById('editCategoryName').value = category.name;
             document.getElementById('editCategoryPath').value = category.path || '';
             document.getElementById('editCategoryExportPath').value = category.exportPath || '';
-            document.getElementById('editCategoryPrompt').value = category.promptTemplate || 'Genera (X) prompts de imágenes para el siguiente guion';
 
             // Contar scripts afectados
             const affectedCount = scripts.filter(s => s.category === categoryName).length;
@@ -5153,7 +2483,6 @@ function resolvePromptTemplate(template, scenes) {
             const newName = document.getElementById('editCategoryName').value.trim();
             const newPath = document.getElementById('editCategoryPath').value.trim();
             const newExportPath = document.getElementById('editCategoryExportPath').value.trim();
-            const newPrompt = document.getElementById('editCategoryPrompt').value.trim() || 'Genera (X) prompts de imágenes para el siguiente guion';
 
             if (!newName) {
                 alert('Por favor, ingresa un nombre para la categoría');
@@ -5178,8 +2507,7 @@ function resolvePromptTemplate(template, scenes) {
                 categories[categoryIndex] = {
                     name: newName,
                     path: newPath,
-                    exportPath: newExportPath,
-                    promptTemplate: newPrompt
+                    exportPath: newExportPath
                 };
 
                 // Actualizar todos los scripts que usan esta categoría
@@ -5523,274 +2851,125 @@ function saveScript(event) {
                 filteredScripts = getFilteredScripts();
                 currentViewIndex = filteredScripts.findIndex(s => s.id === id);
                 
-                // Información básica
                 document.getElementById('viewTitle').textContent = script.title;
                 document.getElementById('viewCategory').textContent = script.category;
                 document.getElementById('viewContent').textContent = script.content;
                 document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
                 
-                // NUEVO: Calcular escenas y duración
-                const scenes = calculateScenes(script.content);
-                const duration = calculateDuration(scenes);
-                const totalSeconds = duration;
-                
-                document.getElementById('viewScenes').textContent = scenes;
-                document.getElementById('viewCharCount').textContent = script.content.length;
-                document.getElementById('viewDuration').textContent = formatDuration(duration);
-                document.getElementById('viewSecondsTotal').textContent = totalSeconds;
-                
-// Mostrar ruta de la categoría (Clips)
-const category = categories.find(cat => cat.name === script.category);
-const pathContainer = document.getElementById('categoryPathContainer');
-const pathText = document.getElementById('categoryPath');
-const btnCopyPath = pathContainer.querySelector('.btn-copy-path');
+            // Mostrar ruta de la categoría (Clips)
+            const category = categories.find(cat => cat.name === script.category);
+            const pathContainer = document.getElementById('categoryPathContainer');
+            const pathText = document.getElementById('categoryPath');
 
-if (category && category.path) {
-    pathText.textContent = category.path;
-    // CORRECCIÓN: Guardar la ruta completa en el atributo del texto
-    pathText.setAttribute('data-full-path', category.path);
-    // El botón ya tiene data-shortcut en el HTML, no necesita modificación aquí
-    pathContainer.style.display = 'flex';
-} else {
-    pathContainer.style.display = 'none';
-}
+            if (category && category.path) {
+                pathText.textContent = category.path;
+                pathContainer.style.display = 'flex';
+            } else {
+                pathContainer.style.display = 'none';
+            }
 
             // Mostrar ruta de exportación del video
             const exportPathContainer = document.getElementById('categoryExportPathContainer');
             const exportPathText = document.getElementById('categoryExportPath');
-            const btnCopyExportPath = exportPathContainer.querySelector('.btn-copy-export-path');
 
-if (category && category.exportPath) {
-    exportPathText.textContent = category.exportPath;
-    exportPathText.setAttribute('data-full-path', category.exportPath);
-    exportPathContainer.style.display = 'flex';
-} else {
-    exportPathContainer.style.display = 'none';
-}
-                
-// NUEVO: Mostrar prompt resuelto (solo botón con tooltip)
-const promptContainer = document.getElementById('promptContainer');
-const promptText = document.getElementById('promptText');
-const promptButton = promptContainer.querySelector('.btn-copy-prompt-clean');
+            console.log('=== DEBUG: viewScript - Ruta de Exportación ===');
+            console.log('Categoría:', category);
+            console.log('exportPath:', category ? category.exportPath : 'sin categoría');
+            console.log('Contenedor encontrado:', !!exportPathContainer);
+            console.log('Elemento texto encontrado:', !!exportPathText);
 
-if (category && category.promptTemplate) {
-    const resolvedPrompt = resolvePromptTemplate(category.promptTemplate, scenes);
-    promptText.textContent = resolvedPrompt;
-    
-    // Establecer el tooltip con el prompt resuelto
-    if (promptButton) {
-        promptButton.setAttribute('data-tooltip', resolvedPrompt);
-    }
-    
-    promptContainer.style.display = 'block';
-} else {
-    promptContainer.style.display = 'none';
-}
-
-                updateMarkUsedButton(script.used);
-                document.getElementById('viewModal').classList.add('active');
+            if (category && category.exportPath) {
+                exportPathText.textContent = category.exportPath;
+                exportPathContainer.style.display = 'flex';
+                console.log('✓ Ruta de exportación mostrada:', category.exportPath);
+            } else {
+                exportPathContainer.style.display = 'none';
+                console.log('⚠ No hay ruta de exportación para mostrar');
             }
+            console.log('===============================================');
+
+            updateMarkUsedButton(script.used);
+            document.getElementById('viewModal').classList.add('active');            }
         }
 
-// ============================================
-// FUNCIONES DE COPIA CORREGIDAS
-// ============================================
-
-function copyScriptTitle() {
-    const titleElement = document.getElementById('viewTitle');
-    
-    if (!titleElement) {
-        console.error('❌ No se encontró el elemento viewTitle');
-        alert('No se encontró el título del guion');
-        return;
-    }
-    
-    const titleText = titleElement.textContent.trim();
-    
-    if (!titleText || titleText.length === 0) {
-        alert('El título está vacío');
-        return;
-    }
-    
-    console.log('📋 Copiando título:', titleText);
-    
-    // Intentar copiar al portapapeles
-    navigator.clipboard.writeText(titleText).then(() => {
-        console.log('✅ Título copiado exitosamente');
-        
-        // Buscar el botón para feedback visual (puede no existir si viene de atajo)
-        const btn = document.querySelector('.sidebar-action-btn[onclick*="copyScriptTitle"]');
-        
-        if (btn) {
-            const btnTitle = btn.querySelector('.action-btn-title');
-            if (btnTitle) {
-                const originalText = btnTitle.textContent;
-                btnTitle.textContent = '✓ ¡Copiado!';
-                btn.style.background = 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)';
-                btn.style.borderColor = '#8b5cf6';
-                btn.style.color = 'white';
+        function copyCategoryPath() {
+            const pathText = document.getElementById('categoryPath').textContent;
+            const btn = event.target.closest('.btn-copy-path');
+            const btnText = document.getElementById('copyPathText');
+            
+            navigator.clipboard.writeText(pathText).then(() => {
+                btn.classList.add('copied');
+                btnText.textContent = '¡Copiado!';
                 
                 setTimeout(() => {
-                    btnTitle.textContent = originalText;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
+                    btn.classList.remove('copied');
+                    btnText.textContent = 'Copiar';
                 }, 2000);
-            }
-        } else {
-            // Feedback visual alternativo para atajos de teclado
-            showToast('✓ Título copiado al portapapeles');
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+            });
         }
-    }).catch(err => {
-        console.error('❌ Error al copiar:', err);
-        alert('No se pudo copiar el título');
-    });
-}
 
-function copyPrompt() {
-    const promptText = document.getElementById('promptText').textContent;
-    
-    if (!promptText || promptText.trim().length === 0) {
-        console.error('❌ No hay texto de prompt disponible');
-        alert('No hay prompt disponible para copiar');
-        return;
-    }
-    
-    // REGLA GLOBAL: Obtener el guion actual
-    const guionContent = document.getElementById('viewContent').textContent;
-    
-    // Construir el texto con el sufijo
-    const finalText = `${promptText} — Basar todas las generaciones y resultados en el siguiente guion: '${guionContent}'`;
-    
-    console.log('📋 Copiando prompt con regla global');
-    
-    navigator.clipboard.writeText(finalText).then(() => {
-        console.log('✅ Prompt copiado exitosamente');
-        
-        // Buscar el botón para feedback visual
-        const btn = document.querySelector('.sidebar-action-btn.prompt-btn[onclick*="copyPrompt"]');
-        
-        if (btn) {
-            const btnTitle = btn.querySelector('.action-btn-title');
-            if (btnTitle) {
-                const originalText = btnTitle.textContent;
-                btnTitle.textContent = '✓ ¡Copiado!';
-                btn.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
-                btn.style.borderColor = '#16a34a';
-                
-                setTimeout(() => {
-                    btnTitle.textContent = originalText;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    
-                    // NUEVO: Abrir automáticamente el generador de prompts
-                    openPromptsGenerator();
-                }, 500);
+        function copyCategoryExportPath() {
+            const exportPathElement = document.getElementById('categoryExportPath');
+            
+            // Debug: Verificar si el elemento existe
+            if (!exportPathElement) {
+                console.error('ERROR: No se encontró el elemento categoryExportPath');
+                alert('Error del sistema: Elemento no encontrado. Por favor, recarga la página.');
+                return;
             }
-        } else {
-            // Feedback alternativo y abrir generador
-            showToast('✓ Prompt copiado al portapapeles');
-            setTimeout(() => {
-                openPromptsGenerator();
-            }, 500);
-        }
-    }).catch(err => {
-        console.error('❌ Error al copiar:', err);
-        alert('No se pudo copiar el prompt');
-    });
-}
-
-function copyCategoryPath() {
-    const pathElement = document.getElementById('categoryPath');
-    
-    if (!pathElement) {
-        console.error('❌ No se encontró el elemento categoryPath');
-        alert('No se encontró la ruta de clips');
-        return;
-    }
-    
-    const pathText = pathElement.textContent.trim();
-    
-    if (!pathText || pathText.length === 0) {
-        alert('No hay ruta de clips disponible para copiar');
-        return;
-    }
-    
-    console.log('📋 Copiando ruta de clips:', pathText);
-    
-    navigator.clipboard.writeText(pathText).then(() => {
-        console.log('✅ Ruta copiada exitosamente');
-        
-        // Buscar el botón para feedback visual
-        const btn = document.querySelector('.sidebar-action-btn.path-btn[onclick*="copyCategoryPath"]');
-        
-        if (btn) {
-            const btnTitle = btn.querySelector('.action-btn-title');
-            if (btnTitle) {
-                const originalText = btnTitle.textContent;
-                btnTitle.textContent = '✓ ¡Copiado!';
-                btn.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
-                btn.style.borderColor = '#2563eb';
-                btn.style.color = 'white';
-                
-                setTimeout(() => {
-                    btnTitle.textContent = originalText;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
-                }, 2000);
+            
+            // Obtener el texto y limpiarlo
+            const exportPathText = exportPathElement.textContent.trim();
+            
+            // Debug: Mostrar información en consola
+            console.log('=== DEBUG: copyCategoryExportPath ===');
+            console.log('Elemento encontrado:', exportPathElement);
+            console.log('Contenido del elemento:', exportPathElement.textContent);
+            console.log('Texto limpio:', exportPathText);
+            console.log('Longitud del texto:', exportPathText.length);
+            console.log('=====================================');
+            
+            // Validar que hay contenido
+            if (!exportPathText || exportPathText.length === 0) {
+                console.error('ERROR: El texto está vacío');
+                alert('No hay ruta de exportación disponible para copiar.\n\nPor favor, verifica que la categoría tenga configurada una ruta de exportación.');
+                return;
             }
-        } else {
-            // Feedback alternativo para atajos de teclado
-            showToast('✓ Ruta de clips copiada al portapapeles');
+            
+            // Obtener referencias a los elementos del botón
+            const btn = event.target.closest('.btn-copy-export-path');
+            const btnText = document.getElementById('copyExportPathText');
+            
+            // Intentar copiar usando el API moderno
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(exportPathText)
+                    .then(() => {
+                        console.log('✓ Copiado exitosamente:', exportPathText);
+                        
+                        if (btn && btnText) {
+                            btn.classList.add('copied');
+                            btnText.textContent = '¡Copiado!';
+                            
+                            setTimeout(() => {
+                                btn.classList.remove('copied');
+                                btnText.textContent = 'Copiar';
+                            }, 2000);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error en clipboard.writeText:', err);
+                        // Intentar método alternativo
+                        fallbackCopyToClipboard(exportPathText, btn, btnText);
+                    });
+            } else {
+                // Si no hay API de clipboard, usar método alternativo
+                console.warn('API de Clipboard no disponible, usando método alternativo');
+                fallbackCopyToClipboard(exportPathText, btn, btnText);
+            }
         }
-    }).catch(err => {
-        console.error('❌ Error al copiar:', err);
-        alert('No se pudo copiar la ruta');
-    });
-}
 
-// NUEVA FUNCIÓN: Toast para feedback visual en atajos de teclado
-function showToast(message) {
-    // Crear el elemento toast si no existe
-    let toast = document.getElementById('keyboardToast');
-    
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'keyboardToast';
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #1a1a1a;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10000;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        `;
-        document.body.appendChild(toast);
-    }
-    
-    toast.textContent = message;
-    
-    // Mostrar
-    setTimeout(() => {
-        toast.style.opacity = '1';
-        toast.style.transform = 'translateY(0)';
-    }, 10);
-    
-    // Ocultar después de 2 segundos
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-20px)';
-    }, 2000);
-}
         // Función auxiliar para copiar con método alternativo
         function fallbackCopyToClipboard(text, btn, btnText) {
             try {
@@ -5885,60 +3064,28 @@ function showToast(message) {
             document.getElementById('viewContent').textContent = script.content;
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
             
-            // Actualizar cálculos
-            const scenes = calculateScenes(script.content);
-            const duration = calculateDuration(scenes);
-            
-            document.getElementById('viewScenes').textContent = scenes;
-            document.getElementById('viewCharCount').textContent = script.content.length;
-            document.getElementById('viewDuration').textContent = formatDuration(duration);
-            document.getElementById('viewSecondsTotal').textContent = duration;
-            
             // Actualizar ruta de clips
             const category = categories.find(cat => cat.name === script.category);
             const pathContainer = document.getElementById('categoryPathContainer');
             const pathText = document.getElementById('categoryPath');
-            const btnCopyPath = pathContainer.querySelector('.btn-copy-path');
 
-if (category && category.path) {
-    pathText.textContent = category.path;
-    pathText.setAttribute('data-full-path', category.path);
-    pathContainer.style.display = 'flex';
-} else {
-    pathContainer.style.display = 'none';
-}
+            if (category && category.path) {
+                pathText.textContent = category.path;
+                pathContainer.style.display = 'flex';
+            } else {
+                pathContainer.style.display = 'none';
+            }
 
             // Actualizar ruta de exportación
             const exportPathContainer = document.getElementById('categoryExportPathContainer');
             const exportPathText = document.getElementById('categoryExportPath');
-            const btnCopyExportPath = exportPathContainer.querySelector('.btn-copy-export-path');
 
-if (category && category.exportPath) {
-    exportPathText.textContent = category.exportPath;
-    exportPathText.setAttribute('data-full-path', category.exportPath);
-    exportPathContainer.style.display = 'flex';
-} else {
-    exportPathContainer.style.display = 'none';
-}
-            
-// Actualizar prompt (solo botón con tooltip)
-const promptContainer = document.getElementById('promptContainer');
-const promptText = document.getElementById('promptText');
-const promptButton = promptContainer.querySelector('.btn-copy-prompt-clean');
-
-if (category && category.promptTemplate) {
-    const resolvedPrompt = resolvePromptTemplate(category.promptTemplate, scenes);
-    promptText.textContent = resolvedPrompt;
-    
-    // Establecer el tooltip con el prompt resuelto
-    if (promptButton) {
-        promptButton.setAttribute('data-tooltip', resolvedPrompt);
-    }
-    
-    promptContainer.style.display = 'block';
-} else {
-    promptContainer.style.display = 'none';
-}
+            if (category && category.exportPath) {
+                exportPathText.textContent = category.exportPath;
+                exportPathContainer.style.display = 'flex';
+            } else {
+                exportPathContainer.style.display = 'none';
+            }
 
             // Actualizar botón de marcar como utilizado
             updateMarkUsedButton(script.used);
@@ -5947,7 +3094,7 @@ if (category && category.promptTemplate) {
             filteredScripts = getFilteredScripts();
             currentViewIndex = filteredScripts.findIndex(s => s.id === script.id);
         }
-        
+
         function updateMarkUsedButton(isUsed) {
             const btn = document.getElementById('btnMarkUsed');
             const text = document.getElementById('markUsedText');
@@ -5988,26 +3135,13 @@ if (category && category.promptTemplate) {
             document.getElementById('viewContent').textContent = script.content;
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
             
-            // Actualizar cálculos
-            const scenes = calculateScenes(script.content);
-            const duration = calculateDuration(scenes);
-            
-            document.getElementById('viewScenes').textContent = scenes;
-            document.getElementById('viewCharCount').textContent = script.content.length;
-            document.getElementById('viewDuration').textContent = formatDuration(duration);
-            document.getElementById('viewSecondsTotal').textContent = duration;
-            
             // Actualizar ruta de clips
             const category = categories.find(cat => cat.name === script.category);
             const pathContainer = document.getElementById('categoryPathContainer');
             const pathText = document.getElementById('categoryPath');
-            const btnCopyPath = pathContainer.querySelector('.btn-copy-path');
 
             if (category && category.path) {
                 pathText.textContent = category.path;
-                if (btnCopyPath) {
-                    btnCopyPath.setAttribute('data-tooltip', category.path);
-                }
                 pathContainer.style.display = 'flex';
             } else {
                 pathContainer.style.display = 'none';
@@ -6016,34 +3150,13 @@ if (category && category.promptTemplate) {
             // Actualizar ruta de exportación
             const exportPathContainer = document.getElementById('categoryExportPathContainer');
             const exportPathText = document.getElementById('categoryExportPath');
-            const btnCopyExportPath = exportPathContainer.querySelector('.btn-copy-export-path');
 
-if (category && category.exportPath) {
-    exportPathText.textContent = category.exportPath;
-    exportPathText.setAttribute('data-full-path', category.exportPath);
-    exportPathContainer.style.display = 'flex';
-} else {
-    exportPathContainer.style.display = 'none';
-}
-            
-// Actualizar prompt (solo botón con tooltip)
-const promptContainer = document.getElementById('promptContainer');
-const promptText = document.getElementById('promptText');
-const promptButton = promptContainer.querySelector('.btn-copy-prompt-clean');
-
-if (category && category.promptTemplate) {
-    const resolvedPrompt = resolvePromptTemplate(category.promptTemplate, scenes);
-    promptText.textContent = resolvedPrompt;
-    
-    // Establecer el tooltip con el prompt resuelto
-    if (promptButton) {
-        promptButton.setAttribute('data-tooltip', resolvedPrompt);
-    }
-    
-    promptContainer.style.display = 'block';
-} else {
-    promptContainer.style.display = 'none';
-}
+            if (category && category.exportPath) {
+                exportPathText.textContent = category.exportPath;
+                exportPathContainer.style.display = 'flex';
+            } else {
+                exportPathContainer.style.display = 'none';
+            }
 
             updateMarkUsedButton(script.used);
         }
@@ -6058,62 +3171,28 @@ if (category && category.promptTemplate) {
             document.getElementById('viewContent').textContent = script.content;
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
             
-            // Actualizar cálculos
-            const scenes = calculateScenes(script.content);
-            const duration = calculateDuration(scenes);
-            
-            document.getElementById('viewScenes').textContent = scenes;
-            document.getElementById('viewCharCount').textContent = script.content.length;
-            document.getElementById('viewDuration').textContent = formatDuration(duration);
-            document.getElementById('viewSecondsTotal').textContent = duration;
-            
             // Actualizar ruta de clips
             const category = categories.find(cat => cat.name === script.category);
             const pathContainer = document.getElementById('categoryPathContainer');
             const pathText = document.getElementById('categoryPath');
-            const btnCopyPath = pathContainer.querySelector('.btn-copy-path');
-
+            
             if (category && category.path) {
                 pathText.textContent = category.path;
-                if (btnCopyPath) {
-                    btnCopyPath.setAttribute('data-tooltip', category.path);
-                }
                 pathContainer.style.display = 'flex';
             } else {
                 pathContainer.style.display = 'none';
             }
-
+            
             // Actualizar ruta de exportación
             const exportPathContainer = document.getElementById('categoryExportPathContainer');
             const exportPathText = document.getElementById('categoryExportPath');
-            const btnCopyExportPath = exportPathContainer.querySelector('.btn-copy-export-path');
-
-if (category && category.exportPath) {
-    exportPathText.textContent = category.exportPath;
-    exportPathText.setAttribute('data-full-path', category.exportPath);
-    exportPathContainer.style.display = 'flex';
-} else {
-    exportPathContainer.style.display = 'none';
-}
             
-// Actualizar prompt (solo botón con tooltip)
-const promptContainer = document.getElementById('promptContainer');
-const promptText = document.getElementById('promptText');
-const promptButton = promptContainer.querySelector('.btn-copy-prompt-clean');
-
-if (category && category.promptTemplate) {
-    const resolvedPrompt = resolvePromptTemplate(category.promptTemplate, scenes);
-    promptText.textContent = resolvedPrompt;
-    
-    // Establecer el tooltip con el prompt resuelto
-    if (promptButton) {
-        promptButton.setAttribute('data-tooltip', resolvedPrompt);
-    }
-    
-    promptContainer.style.display = 'block';
-} else {
-    promptContainer.style.display = 'none';
-}
+            if (category && category.exportPath) {
+                exportPathText.textContent = category.exportPath;
+                exportPathContainer.style.display = 'flex';
+            } else {
+                exportPathContainer.style.display = 'none';
+            }
             
             updateMarkUsedButton(script.used);
         }
@@ -6468,250 +3547,61 @@ document.getElementById('newCategoryPath').addEventListener('keypress', (e) => {
     }
 });
 
-// ============================================
-// SISTEMA CONSOLIDADO DE ATAJOS DE TECLADO - CORREGIDO
-// ============================================
+// Sistema de Atajos de Teclado
 document.addEventListener('keydown', (e) => {
-    // ============================================
-    // PRIORIDAD 1: ESC - CIERRE DE MODALES (SIEMPRE FUNCIONA)
-    // ============================================
-    if (e.key === 'Escape') {
+    // Ctrl + Shift + C: Copiar guión
+    if (e.ctrlKey && e.shiftKey && e.key === 'S') {
         e.preventDefault();
         
-        // Prioridad 1: Modal de confirmación
-        const confirmDialog = document.getElementById('confirmDialog');
-        if (confirmDialog && confirmDialog.classList.contains('active')) {
-            closeConfirmDialog();
-            return;
-        }
-        
-        // Prioridad 2: Modal de prompts
-        const promptsModal = document.getElementById('promptsGeneratorModal');
-        if (promptsModal && promptsModal.classList.contains('active')) {
-            closePromptsGenerator();
-            return;
-        }
-        
-        // Prioridad 3: Sidebar móvil
-        const sidebar = document.getElementById('mainSidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        if (sidebar && sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-            return;
-        }
-        
-        return;
-    }
-    
-    // ============================================
-    // PRIORIDAD 2: COMANDOS CTRL+SHIFT (FUNCIONAN SIEMPRE)
-    // ============================================
-    
-    // Detectar si es un comando Ctrl+Shift
-    const isCtrlShift = e.ctrlKey && e.shiftKey;
-    
-    // Si NO es Ctrl+Shift, verificar si hay campo de entrada activo
-    if (!isCtrlShift) {
-        const isActiveInputField = (e.target.tagName === 'INPUT' || 
-                                     e.target.tagName === 'TEXTAREA') && 
-                                     document.activeElement === e.target;
-        
-        // Si hay campo activo y NO es Ctrl+Shift, bloquear atajos normales
-        if (isActiveInputField) {
-            return;
-        }
-    }
-    
-// ============================================
-    // CTRL+SHIFT+F: Copiar título del guion
-    // ============================================
-    if (e.ctrlKey && e.shiftKey && (e.key === 'F' || e.key === 'f')) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log('🔵 Atajo Ctrl+Shift+F detectado');
-        
+        // Si el modal está abierto, copiar el guión actual
         const viewModal = document.getElementById('viewModal');
-        
-        if (viewModal && viewModal.classList.contains('active')) {
-            console.log('✅ Modal activo, ejecutando copyScriptTitle()');
-            copyScriptTitle();
+        if (viewModal.classList.contains('active')) {
+            copyCurrentScript();
         } else {
-            console.log('❌ Modal NO está activo');
-            console.log('Estado del modal:', viewModal ? 'existe pero no activo' : 'no existe');
-            alert('⚠️ Necesitas abrir un guion primero para copiar su título\n\nPresiona cualquier tarjeta de guion para abrirlo.');
-        }
-        return;
-    }
-    
-    // ============================================
-    // CTRL+SHIFT+G: Copiar prompt de IA
-    // ============================================
-    if (e.ctrlKey && e.shiftKey && (e.key === 'G' || e.key === 'g')) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log('🔵 Atajo Ctrl+Shift+G detectado');
-        
-        const viewModal = document.getElementById('viewModal');
-        const promptContainer = document.getElementById('promptContainer');
-        
-        console.log('Verificando modal:', viewModal ? 'existe' : 'NO existe');
-        console.log('Modal activo:', viewModal?.classList.contains('active'));
-        console.log('Prompt container:', promptContainer ? 'existe' : 'NO existe');
-        console.log('Prompt visible:', promptContainer?.style.display !== 'none');
-        
-        if (viewModal && viewModal.classList.contains('active')) {
-            if (promptContainer && promptContainer.style.display !== 'none') {
-                console.log('✅ Todo OK, ejecutando copyPrompt()');
-                copyPrompt();
-            } else {
-                console.log('❌ Prompt no disponible');
-                alert('⚠️ Este guion no tiene prompt de IA configurado\n\nVe a Configuración → Prompts para IA y configura un prompt para esta categoría.');
+            // Si no, usar el botón de acción rápida
+            const btn = document.getElementById('btnQuickCopyScript');
+            if (!btn.disabled) {
+                quickCopyScript();
             }
-        } else {
-            console.log('❌ Modal NO está activo');
-            alert('⚠️ Necesitas abrir un guion primero\n\nPresiona cualquier tarjeta de guion para abrirlo.');
         }
-        return;
     }
     
-    // ============================================
-    // CTRL+SHIFT+X: Copiar ruta de clips
-    // ============================================
-    if (e.ctrlKey && e.shiftKey && (e.key === 'X' || e.key === 'x')) {
+    // Ctrl + Shift + X: Copiar ruta
+    if (e.ctrlKey && e.shiftKey && e.key === 'X') {
         e.preventDefault();
-        e.stopPropagation();
         
-        console.log('🔵 Atajo Ctrl+Shift+X detectado');
-        
+        // Si el modal está abierto y hay ruta, copiarla
         const viewModal = document.getElementById('viewModal');
         const pathContainer = document.getElementById('categoryPathContainer');
         
-        console.log('Verificando modal:', viewModal ? 'existe' : 'NO existe');
-        console.log('Modal activo:', viewModal?.classList.contains('active'));
-        console.log('Path container:', pathContainer ? 'existe' : 'NO existe');
-        console.log('Path visible:', pathContainer?.style.display !== 'none');
-        
-        if (viewModal && viewModal.classList.contains('active')) {
-            if (pathContainer && pathContainer.style.display !== 'none') {
-                console.log('✅ Todo OK, ejecutando copyCategoryPath()');
-                copyCategoryPath();
-            } else {
-                console.log('❌ Ruta de clips no disponible');
-                alert('⚠️ Esta categoría no tiene ruta de clips configurada\n\nPara configurarla:\n1. Haz clic en el ícono de editar junto al nombre de la categoría\n2. Ingresa la ruta en "Ruta de los Clips"');
-            }
+        if (viewModal.classList.contains('active') && pathContainer.style.display !== 'none') {
+            copyCategoryPath();
         } else {
-            console.log('❌ Modal NO está activo');
-            
-            // Intentar usar botón de acción rápida
+            // Si no, usar el botón de acción rápida
             const btn = document.getElementById('btnQuickCopyPath');
-            if (btn && !btn.disabled) {
-                console.log('✅ Usando botón de acción rápida');
+            if (!btn.disabled) {
                 quickCopyPath();
-            } else {
-                console.log('❌ Botón de acción rápida no disponible');
-                alert('⚠️ Selecciona una categoría con ruta de clips configurada\n\no abre un guion para usar este atajo.');
             }
         }
-        return;
     }
-    
-    // ============================================
-    // CTRL+SHIFT+E: Copiar ruta de exportación
-    // ============================================
-    if (e.ctrlKey && e.shiftKey && (e.key === 'E' || e.key === 'e')) {
+
+    // Ctrl + Shift + E: Copiar ruta de exportación
+    if (e.ctrlKey && e.shiftKey && e.key === 'E') {
         e.preventDefault();
-        e.stopPropagation();
         
-        console.log('🔵 Atajo Ctrl+Shift+E detectado');
-        
+        // Si el modal está abierto y hay ruta de exportación, copiarla
         const viewModal = document.getElementById('viewModal');
         const exportPathContainer = document.getElementById('categoryExportPathContainer');
         
-        if (viewModal && viewModal.classList.contains('active') && 
-            exportPathContainer && exportPathContainer.style.display !== 'none') {
-            console.log('✅ Modal activo y ruta de exportación disponible, ejecutando copyCategoryExportPath()');
+        if (viewModal.classList.contains('active') && exportPathContainer.style.display !== 'none') {
             copyCategoryExportPath();
-        } else {
-            console.log('❌ Modal no está activo o no hay ruta de exportación');
-            alert('⚠️ Esta categoría no tiene ruta de exportación configurada');
-        }
-        return;
-    }
-    
-    // ============================================
-    // CTRL+SHIFT+S: Copiar guion completo
-    // ============================================
-    if (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log('🔵 Atajo Ctrl+Shift+S detectado');
-        
-        const viewModal = document.getElementById('viewModal');
-        if (viewModal && viewModal.classList.contains('active')) {
-            console.log('✅ Modal activo, ejecutando copyCurrentScript()');
-            copyCurrentScript();
-        } else {
-            const btn = document.getElementById('btnQuickCopyScript');
-            if (btn && !btn.disabled) {
-                console.log('✅ Usando botón de acción rápida');
-                quickCopyScript();
-            } else {
-                console.log('❌ No hay guiones disponibles');
-                alert('⚠️ No hay guiones disponibles para copiar');
-            }
-        }
-        return;
-    }
-        
-    // ============================================
-    // NAVEGACIÓN EN MODAL DE PROMPTS
-    // ============================================
-    const promptsModal = document.getElementById('promptsGeneratorModal');
-    if (promptsModal && promptsModal.classList.contains('active')) {
-        const activeState = document.getElementById('promptsActiveState');
-        
-        // Enter: Siguiente prompt
-        if (e.key === 'Enter' && activeState && activeState.classList.contains('active')) {
-            e.preventDefault();
-            nextPrompt();
-            return;
-        }
-        
-        // Ctrl+C: Copiar prompt actual (solo si NO hay selección)
-        if (e.ctrlKey && (e.key === 'c' || e.key === 'C') && 
-            activeState && activeState.classList.contains('active')) {
-            const selection = window.getSelection().toString();
-            if (!selection) {
-                e.preventDefault();
-                copyCurrentPrompt();
-                return;
-            }
-        }
-    }
-    
-    // ============================================
-    // NAVEGACIÓN CON FLECHAS (solo si modal está abierto)
-    // ============================================
-    const viewModal = document.getElementById('viewModal');
-    if (viewModal && viewModal.classList.contains('active')) {
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            prevScript();
-            return;
-        }
-        
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            nextScript();
-            return;
         }
     }
 });
+
+// ============================================
+// FUNCIONES PARA CARGA MASIVA DE GUIONES
+// ============================================
 
 function handleBulkFileSelect(event) {
     const file = event.target.files[0];
@@ -6876,184 +3766,6 @@ function resetBulkButton() {
 // ============================================
 
 // ============================================
-// FUNCIONES DE CONFIGURACIÓN
-// ============================================
-
-function openConfigModal() {
-    // Cargar valores actuales en los controles
-    document.getElementById('configCharactersPerScene').value = config.charactersPerScene;
-    document.getElementById('configSecondsPerScene').value = config.secondsPerScene;
-    
-    // Actualizar displays
-    updateConfigDisplay();
-    
-    // Renderizar prompts de categorías
-    renderConfigPrompts();
-    
-    document.getElementById('configModal').classList.add('active');
-}
-
-function updateConfigDisplay() {
-    const chars = document.getElementById('configCharactersPerScene').value;
-    const seconds = document.getElementById('configSecondsPerScene').value;
-    
-    document.getElementById('configCharactersDisplay').textContent = chars;
-    document.getElementById('configSecondsDisplay').textContent = seconds;
-    document.getElementById('previewChars').textContent = chars;
-    document.getElementById('previewSeconds').textContent = seconds;
-}
-
-function renderConfigPrompts() {
-    const container = document.getElementById('configPromptsContainer');
-    
-    if (categories.length === 0) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 48px 20px; color: #a3a3a3;">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 16px; opacity: 0.5;">
-                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                </svg>
-                <p style="font-size: 14px; margin: 0;">No hay categorías creadas todavía</p>
-                <p style="font-size: 12px; margin-top: 4px; color: #d4d4d4;">Crea una categoría para configurar sus prompts de IA</p>
-            </div>
-        `;
-        return;
-    }
-    
-    container.innerHTML = categories.map((cat, index) => {
-        const scriptCount = scripts.filter(s => s.category === cat.name).length;
-        return `
-            <div class="prompt-category-card">
-                <div class="prompt-category-header" onclick="togglePromptCard(${index})">
-                    <div class="prompt-category-info">
-                        <div class="prompt-category-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="prompt-category-title">${cat.name}</div>
-                            <div class="prompt-category-count">${scriptCount} guion${scriptCount !== 1 ? 'es' : ''}</div>
-                        </div>
-                    </div>
-                    <svg class="prompt-chevron" id="chevron_${index}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </div>
-                <div class="prompt-category-body" id="promptBody_${index}">
-                    <textarea 
-                        id="configPrompt_${index}" 
-                        class="prompt-textarea"
-                        placeholder="Escribe el prompt de generación aquí..."
-                    >${cat.promptTemplate || 'Genera (X) prompts de imágenes para el siguiente guion'}</textarea>
-                    <div class="prompt-hint">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        <span>Usa <code>(X)</code> donde quieras que aparezca el número de escenas</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-// Función para expandir/colapsar tarjetas de prompts
-function togglePromptCard(index) {
-    const body = document.getElementById(`promptBody_${index}`);
-    const chevron = document.getElementById(`chevron_${index}`);
-    const header = body.previousElementSibling;
-    
-    body.classList.toggle('active');
-    chevron.classList.toggle('active');
-    header.classList.toggle('active');
-}
-
-function saveConfiguration() {
-    // Guardar valores de fórmula
-    config.charactersPerScene = parseInt(document.getElementById('configCharactersPerScene').value);
-    config.secondsPerScene = parseInt(document.getElementById('configSecondsPerScene').value);
-    
-    // Guardar prompts de categorías
-    categories.forEach((cat, index) => {
-        const promptTextarea = document.getElementById(`configPrompt_${index}`);
-        if (promptTextarea) {
-            cat.promptTemplate = promptTextarea.value.trim() || 'Genera (X) prompts de imágenes para el siguiente guion';
-        }
-    });
-    
-    // Guardar en localStorage
-    saveData();
-    
-    // Cerrar modal
-    closeModal('configModal');
-    
-    // Mostrar confirmación
-    const btn = event.target;
-    const originalHTML = btn.innerHTML;
-    btn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
-            <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        ¡Guardado!
-    `;
-    btn.style.background = '#22c55e';
-    
-    setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.style.background = '';
-    }, 2000);
-    
-    // Si hay un guion abierto, actualizar sus cálculos
-    const viewModal = document.getElementById('viewModal');
-    if (viewModal.classList.contains('active') && currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
-        const script = filteredScripts[currentViewIndex];
-        
-        // Recalcular
-        const scenes = calculateScenes(script.content);
-        const duration = calculateDuration(scenes);
-        
-        document.getElementById('viewScenes').textContent = scenes;
-        document.getElementById('viewDuration').textContent = formatDuration(duration);
-        document.getElementById('viewSecondsTotal').textContent = duration;
-        
-        // Actualizar prompt si existe
-        const category = categories.find(cat => cat.name === script.category);
-        const promptText = document.getElementById('promptText');
-        const promptContainer = document.getElementById('promptContainer');
-        
-        if (category && category.promptTemplate && promptContainer.style.display !== 'none') {
-            const resolvedPrompt = resolvePromptTemplate(category.promptTemplate, scenes);
-            promptText.textContent = resolvedPrompt;
-        }
-    }
-}
-
-// ============================================
-// FIN DE FUNCIONES DE CONFIGURACIÓN
-// ============================================
-
-// Función para cambiar entre pestañas de configuración
-function switchConfigTab(tabName) {
-    // Actualizar botones de pestañas
-    const tabs = document.querySelectorAll('.config-tab-button');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    // Actualizar contenido de pestañas
-    const contents = document.querySelectorAll('.config-tab-content');
-    contents.forEach(content => content.classList.remove('active'));
-    
-    if (tabName === 'formulas') {
-        tabs[0].classList.add('active');
-        document.getElementById('configTabFormulas').classList.add('active');
-    } else if (tabName === 'prompts') {
-        tabs[1].classList.add('active');
-        document.getElementById('configTabPrompts').classList.add('active');
-    }
-}
-
-// ============================================
 // SISTEMA DE CONFIRMACIÃN IN-APP
 // ============================================
 
@@ -7075,6 +3787,16 @@ function confirmDelete() {
         closeConfirmDialog();
     }
 }
+
+// Cerrar con ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const confirmDialog = document.getElementById('confirmDialog');
+        if (confirmDialog.classList.contains('active')) {
+            closeConfirmDialog();
+        }
+    }
+});
 
 // ============================================
 // SISTEMA DE SELECCIÃN MÃLTIPLE
@@ -7155,310 +3877,8 @@ function deleteSelectedScripts() {
     );
 }
 
-// ============================================
-// FUNCIÓN PARA SIDEBAR RESPONSIVA
-// ============================================
-
-function toggleSidebar() {
-    const sidebar = document.getElementById('mainSidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const body = document.body;
-    
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-    
-    // Prevenir scroll del body cuando sidebar está abierto
-    if (sidebar.classList.contains('active')) {
-        body.style.overflow = 'hidden';
-    } else {
-        body.style.overflow = '';
-    }
-}
-
-// Cerrar sidebar al hacer clic en una categoría (solo en móviles)
-const originalFilterCategory = window.filterCategory;
-window.filterCategory = function(category) {
-    originalFilterCategory(category);
-    
-    // Cerrar sidebar solo si está visible (móviles)
-    if (window.innerWidth <= 900) {
-        const sidebar = document.getElementById('mainSidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        
-        if (sidebar && sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    }
-};
-
-// ============================================
-// FIN DE FUNCIÓN SIDEBAR RESPONSIVA
-// ============================================
-
 // Initialize
 initializeData();
-
-// ============================================
-// MÓDULO DE GENERACIÓN DE IMÁGENES/VIDEO
-// ============================================
-
-let promptsList = [];
-let currentPromptIndex = 0;
-let promptsGeneratorState = {
-    isActive: false,
-    prompts: [],
-    currentIndex: 0,
-    wasProcessed: false
-};
-
-function openPromptsGenerator() {
-    // Si ya hay prompts procesados, restaurar el estado
-    if (promptsGeneratorState.wasProcessed && promptsGeneratorState.prompts.length > 0) {
-        promptsList = [...promptsGeneratorState.prompts];
-        currentPromptIndex = promptsGeneratorState.currentIndex;
-        
-        // Mostrar el prompt actual
-        showCurrentPrompt();
-        
-        // Cambiar estados
-        document.getElementById('promptsWaitingState').classList.remove('active');
-        document.getElementById('promptsActiveState').classList.add('active');
-        document.getElementById('promptsProgressIndicator').style.display = 'flex';
-    } else {
-        resetPromptsGenerator();
-    }
-    
-    promptsGeneratorState.isActive = true;
-    document.getElementById('promptsGeneratorModal').classList.add('active');
-}
-
-function closePromptsGenerator() {
-    // Guardar el estado actual antes de cerrar
-    if (promptsList.length > 0) {
-        promptsGeneratorState.prompts = [...promptsList];
-        promptsGeneratorState.currentIndex = currentPromptIndex;
-        promptsGeneratorState.wasProcessed = true;
-    }
-    
-    promptsGeneratorState.isActive = false;
-    document.getElementById('promptsGeneratorModal').classList.remove('active');
-    
-    // NO resetear - mantener el estado para cuando regrese
-}
-
-function resetPromptsGenerator() {
-    // Limpiar datos
-    promptsList = [];
-    currentPromptIndex = 0;
-
-    // Resetear estados visuales
-    document.getElementById('promptsWaitingState').classList.add('active');
-    document.getElementById('promptsActiveState').classList.remove('active');
-    document.getElementById('promptsCompletedState').classList.remove('active');
-    document.getElementById('promptsProgressIndicator').style.display = 'none';
-    
-    // Resetear botón de copiar
-    const copyBtn = document.getElementById('promptsCopyBtn');
-    const copyBtnText = document.getElementById('promptsCopyBtnText');
-    copyBtn.classList.remove('copied');
-    copyBtnText.textContent = 'Copiar Prompt';
-}
-
-async function processPromptsFromClipboard() {
-    const btn = document.getElementById('promptsProcessBtn');
-    const originalHTML = btn.innerHTML;
-    
-    try {
-        // Deshabilitar botón
-        btn.disabled = true;
-        btn.innerHTML = '<span>Leyendo portapapeles...</span>';
-        
-        // Leer del portapapeles
-        const content = await navigator.clipboard.readText();
-        
-        if (!content || content.trim().length === 0) {
-            alert('El portapapeles está vacío.\n\nPor favor, copia primero la lista de prompts generados.');
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-            return;
-        }
-        
-        // LIMPIEZA: Eliminar asteriscos (*)
-        const cleanedContent = content.replace(/\*/g, '');
-        
-        // Procesar el contenido - Buscar líneas que empiecen con número seguido de punto
-        const lines = cleanedContent.split('\n');
-        promptsList = [];
-        
-        lines.forEach(line => {
-            const trimmedLine = line.trim();
-            // Detectar formato: "1.", "2.", "3.", etc.
-            const match = trimmedLine.match(/^\d+\.\s*(.+)$/);
-            if (match) {
-                // Guardar COMPLETO (con número)
-                promptsList.push(trimmedLine);
-            }
-        });
-        
-        // Validar que se encontraron prompts
-        if (promptsList.length === 0) {
-            alert('No se detectaron prompts en el formato correcto.\n\nAsegúrate de que cada prompt comience con un número seguido de punto (1., 2., 3., etc.)');
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-            return;
-        }
-        
-        // Iniciar visualización
-        currentPromptIndex = 0;
-        
-        // COPIAR AUTOMÁTICAMENTE EL PRIMER PROMPT
-        await copyPromptToClipboard(promptsList[0]);
-        
-        // Mostrar el primer prompt
-        showCurrentPrompt();
-        
-        // Cambiar estados
-        document.getElementById('promptsWaitingState').classList.remove('active');
-        document.getElementById('promptsActiveState').classList.add('active');
-        document.getElementById('promptsProgressIndicator').style.display = 'flex';
-        
-        // Restaurar botón
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
-        
-    } catch (err) {
-        console.error('Error al leer el portapapeles:', err);
-        alert('No se pudo acceder al portapapeles.\n\nAsegúrate de haber dado permisos al navegador o copia el texto manualmente.');
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
-    }
-}
-
-// Función auxiliar para copiar al portapapeles
-async function copyPromptToClipboard(promptText) {
-    try {
-        await navigator.clipboard.writeText(promptText);
-        console.log('✓ Prompt copiado automáticamente:', promptText);
-    } catch (err) {
-        console.error('Error al copiar automáticamente:', err);
-    }
-}
-
-function showCurrentPrompt() {
-    if (currentPromptIndex >= promptsList.length) {
-        // Ya terminamos todos los prompts
-        showCompletedState();
-        return;
-    }
-    
-    const currentPrompt = promptsList[currentPromptIndex];
-    
-    // Extraer solo el texto sin el número para visualización
-    const match = currentPrompt.match(/^\d+\.\s*(.+)$/);
-    const displayText = match ? match[1] : currentPrompt;
-    
-    // Actualizar contenido (mostrar sin número)
-    document.getElementById('promptsCurrentContent').textContent = displayText;    document.getElementById('promptsCurrentBadge').textContent = `Prompt ${currentPromptIndex + 1} de ${promptsList.length}`;
-    document.getElementById('promptsProgressText').textContent = `${currentPromptIndex + 1} de ${promptsList.length}`;
-    
-    // Actualizar botón "Siguiente"
-    const nextBtn = document.getElementById('promptsNextBtn');
-    const nextBtnText = document.getElementById('promptsNextBtnText');
-    
-    if (currentPromptIndex === promptsList.length - 1) {
-        // Es el último prompt
-        nextBtnText.textContent = 'Finalizar';
-        nextBtn.classList.add('finish');
-    } else {
-        nextBtnText.textContent = 'Siguiente Prompt';
-        nextBtn.classList.remove('finish');
-    }
-
-    // NUEVO: Gestionar el botón de Retroceso
-    const prevBtn = document.getElementById('promptsPrevBtn');
-    
-    if (currentPromptIndex === 0) {
-        // Es el primer prompt - deshabilitar retroceso
-        prevBtn.disabled = true;
-        prevBtn.style.opacity = '0.5';
-        prevBtn.style.cursor = 'not-allowed';
-    } else {
-        prevBtn.disabled = false;
-        prevBtn.style.opacity = '1';
-        prevBtn.style.cursor = 'pointer';
-    }
-    
-    // Resetear estado del botón de copiar
-    const copyBtn = document.getElementById('promptsCopyBtn');
-    const copyBtnText = document.getElementById('promptsCopyBtnText');
-    copyBtn.classList.remove('copied');
-    copyBtnText.textContent = 'Copiar Prompt';
-}
-
-async function copyCurrentPrompt() {
-    const currentPrompt = promptsList[currentPromptIndex];
-    const copyBtn = document.getElementById('promptsCopyBtn');
-    const copyBtnText = document.getElementById('promptsCopyBtnText');
-    
-    // Copiar con el formato completo (incluye número)
-    await copyPromptToClipboard(currentPrompt);
-    
-    // Feedback visual
-    copyBtn.classList.add('copied');
-    copyBtnText.textContent = '¡Copiado!';
-    
-    setTimeout(() => {
-    
-    copyBtn.classList.remove('copied');
-        copyBtnText.textContent = 'Copiar Prompt';
-    }, 2000);
-}
-
-async function nextPrompt() {
-    currentPromptIndex++;
-    
-    if (currentPromptIndex >= promptsList.length) {
-        showCompletedState();
-    } else {
-        // COPIAR AUTOMÁTICAMENTE EL SIGUIENTE PROMPT
-        await copyPromptToClipboard(promptsList[currentPromptIndex]);
-        showCurrentPrompt();
-    }
-}
-
-// NUEVA FUNCIÓN: Retroceder al prompt anterior
-async function prevPrompt() {
-    if (currentPromptIndex > 0) {
-        currentPromptIndex--;
-        
-        // COPIAR AUTOMÁTICAMENTE EL PROMPT ANTERIOR
-        await copyPromptToClipboard(promptsList[currentPromptIndex]);
-        showCurrentPrompt();
-    }
-}
-
-function showCompletedState() {
-    document.getElementById('promptsActiveState').classList.remove('active');
-    document.getElementById('promptsCompletedState').classList.add('active');
-    document.getElementById('promptsProgressIndicator').style.display = 'none';
-    
-    // NUEVO: Cierre automático después de 3 segundos
-    setTimeout(() => {
-        closePromptsGenerator();
-        
-        // Limpiar el estado para permitir nuevo proceso
-        promptsGeneratorState = {
-            isActive: false,
-            prompts: [],
-            currentIndex: 0,
-            wasProcessed: false
-        };
-        promptsList = [];
-        currentPromptIndex = 0;
-    }, 3000);
-}
     </script>
 </body>
 </html>
