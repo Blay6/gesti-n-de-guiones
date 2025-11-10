@@ -3918,7 +3918,13 @@
                 </div>
                 <div class="category-input-row">
                     <input type="text" id="newCategoryExportPath" placeholder="Ruta de exportación del video (requerido)" class="path-input" style="flex: 1;">
-                    <button onclick="addCategory()">OK</button>
+                </div>
+                <!-- ✅ NUEVO CAMPO AGREGADO -->
+                <div class="category-input-row">
+                    <textarea id="newCategoryPrompt" placeholder="Prompt de generación (opcional - usa (X) para número de escenas)" class="path-input" style="flex: 1; min-height: 60px; resize: vertical; font-family: inherit; font-size: 12px;"></textarea>
+                </div>
+                <div class="category-input-row">
+                    <button onclick="addCategory()" style="width: 100%;">OK</button>
                 </div>
             </div>
         </div>
@@ -4908,6 +4914,44 @@ let config = {
     secondsPerScene: 5
 };
 
+// NUEVO: Prompt maestro por defecto para generación cinematográfica
+const DEFAULT_PROMPT_TEMPLATE = `Sistema de Generación de Prompts Cinematográficos para IA
+
+[REGLA CRÍTICA] **NO GENERAR IMÁGENES**. Solo se debe producir el texto del prompt de imagen según el formato y las especificaciones.
+
+[REGLA ESTRICTA] Responde siempre breve, directo, sin explicaciones ni comentarios adicionales. No improvises ni te salgas de las instrucciones. No utilices emojis en ningún caso.
+
+[INSTRUCCIÓN MAESTRA UNIVERSAL] Eres un ingeniero de prompts de la más alta calidad. **Genera (X) prompts** de imágenes al estilo cinematográfico de alta calidad para que coincidan con el guion proporcionado. Cada prompt debe contener la mayor cantidad de detalles posibles para una precisión máxima.
+
+[FORMATO DE RESPUESTA REQUERIDO]
+La respuesta debe ser siempre una lista numerada (1., 2., 3., etc.) de prompts de imágenes individuales. Cada elemento de la lista debe introducir la referencia del guion y el estilo, utilizando esta estructura:
+[Referencia del Guion]: [Estilo]: Prompt de imagen: [PROMPT DE ALTO DETALLE]
+
+🖼️ Principios de Diseño Visual (Cinematográfico Universal)
+
+1. Fidelidad Narrativa: Cada imagen debe seguir y potenciar la historia del guion, buscando generar una fuerte conexión emocional e interés en cada cambio de escena.
+
+2. Coherencia y Arco del Personaje (CRÍTICO):
+   * Primeras Escenas: El prompt debe especificar una versión del personaje lo más **realista, estable y auténtica posible** para fomentar la identificación y la conexión inicial con la audiencia.
+   * Progresión: Mantener la coherencia del personaje (rasgos, vestimenta, ambiente) a lo largo de todas las escenas.
+
+3. Integración de Interacción (Si Aplica): Si el guion menciona una interacción (ej. "Comenta", "Dale Like"), el prompt debe solicitar que se incorpore discretamente en la composición (ej. un recurso, ítem, diseño, o texto flotante) relacionado con esa acción, incluyendo el título de la interacción (ej. "Add Interaction Title").
+
+🎨 Estilo y Atmósfera (Adaptable)
+
+* Estilo Visual: Realismo Cinematográfico de Alto Contraste (Ajusta el contraste según el nicho: oscuro-noir para terror/drama; brillante-vibrante para comedia/alegría).
+* Composición: Uso exhaustivo de la iluminación direccional (ej. *key lighting*, *fill lighting* y *rim lighting*) para destacar al personaje y crear atmósfera.
+* Detalle: Texturas ricas y composición profunda.
+* Tonos: Paleta de colores consistente que refleje el estado de ánimo exacto del momento.
+* Intensidad Emocional: Expresiones faciales de los personajes que capturen con precisión la emoción requerida (miedo palpable, alegría desbordante, profunda melancolía).
+
+⚙️ Especificaciones Técnicas
+
+* Técnica: Fotografía Cinematográfica (lentes *anamórficos*), Pintura Digital, o Estilo 3D Fotorrealista (especificar).
+* Resolución: 8K (ultra detallado).
+* Detalle: Extremadamente detallado, hiperrealista, con enfoque en la textura de la piel, ropa y entorno.
+* Ánimo: Estado de ánimo cinematográfico y atmósfera visualmente consistente en todos los fotogramas, manteniendo la cohesión.`;
+
 function initializeData() {
     scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
     const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
@@ -4919,7 +4963,7 @@ function initializeData() {
                 name: cat, 
                 path: '', 
                 exportPath: '',
-                promptTemplate: 'Genera (X) prompts de imágenes para el siguiente guion' 
+                promptTemplate: DEFAULT_PROMPT_TEMPLATE
             };
         }
         // Migrar categorías sin exportPath
@@ -4928,7 +4972,7 @@ function initializeData() {
         }
         // Migrar categorías sin promptTemplate
         if (!cat.promptTemplate) {
-            cat.promptTemplate = 'Genera (X) prompts de imágenes para el siguiente guion';
+            cat.promptTemplate = DEFAULT_PROMPT_TEMPLATE;
         }
         return cat;
     });
@@ -5072,6 +5116,10 @@ function resolvePromptTemplate(template, scenes) {
             } else {
                 document.getElementById('newCategoryInput').value = '';
                 document.getElementById('newCategoryPath').value = '';
+                document.getElementById('newCategoryExportPath').value = '';
+                // ✅ NUEVO: Limpiar también el campo de prompt
+                const promptInput = document.getElementById('newCategoryPrompt');
+                if (promptInput) promptInput.value = '';
             }
         }
 
@@ -5084,8 +5132,11 @@ function resolvePromptTemplate(template, scenes) {
             const categoryName = nameInput.value.trim();
             const categoryPath = pathInput.value.trim();
             const categoryExportPath = exportPathInput.value.trim();
-            const categoryPrompt = promptInput.value.trim() || 'Genera (X) prompts de imágenes para el siguiente guion';
             
+            // ✅ CORRECCIÓN: Manejo seguro del prompt con valor por defecto
+            const categoryPrompt = (promptInput && promptInput.value.trim()) 
+                ? promptInput.value.trim() 
+                : DEFAULT_PROMPT_TEMPLATE;            
             if (!categoryName) {
                 alert('Por favor, ingresa un nombre para la categoría');
                 return;
@@ -6944,7 +6995,7 @@ function renderConfigPrompts() {
                         id="configPrompt_${index}" 
                         class="prompt-textarea"
                         placeholder="Escribe el prompt de generación aquí..."
-                    >${cat.promptTemplate || 'Genera (X) prompts de imágenes para el siguiente guion'}</textarea>
+                    >${cat.promptTemplate || DEFAULT_PROMPT_TEMPLATE}</textarea>
                     <div class="prompt-hint">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"></circle>
@@ -6979,7 +7030,7 @@ function saveConfiguration() {
     categories.forEach((cat, index) => {
         const promptTextarea = document.getElementById(`configPrompt_${index}`);
         if (promptTextarea) {
-            cat.promptTemplate = promptTextarea.value.trim() || 'Genera (X) prompts de imágenes para el siguiente guion';
+            cat.promptTemplate = promptTextarea.value.trim() || DEFAULT_PROMPT_TEMPLATE;
         }
     });
     
@@ -7288,17 +7339,21 @@ async function processPromptsFromClipboard() {
         // LIMPIEZA: Eliminar asteriscos (*)
         const cleanedContent = content.replace(/\*/g, '');
         
-        // Procesar el contenido - Buscar líneas que empiecen con número seguido de punto
-        const lines = cleanedContent.split('\n');
+        // CORREGIDO: Procesar el contenido capturando descripciones completas con saltos de línea
         promptsList = [];
         
-        lines.forEach(line => {
-            const trimmedLine = line.trim();
-            // Detectar formato: "1.", "2.", "3.", etc.
-            const match = trimmedLine.match(/^\d+\.\s*(.+)$/);
-            if (match) {
-                // Guardar COMPLETO (con número)
-                promptsList.push(trimmedLine);
+        // Dividir por enumeraciones: buscar patrones como "1.", "2.", "3." al inicio de línea
+        // Usamos lookahead para no consumir el separador
+        const promptBlocks = cleanedContent.split(/(?=^\d+\.\s)/m);
+        
+        promptBlocks.forEach(block => {
+            const trimmedBlock = block.trim();
+            if (!trimmedBlock) return; // Saltar bloques vacíos
+            
+            // Verificar que empiece con número seguido de punto
+            if (/^\d+\.\s/.test(trimmedBlock)) {
+                // Guardar el bloque completo (incluye todo el texto hasta el siguiente número)
+                promptsList.push(trimmedBlock);
             }
         });
         
@@ -7444,20 +7499,21 @@ function showCompletedState() {
     document.getElementById('promptsCompletedState').classList.add('active');
     document.getElementById('promptsProgressIndicator').style.display = 'none';
     
-    // NUEVO: Cierre automático después de 3 segundos
+    // CORREGIDO: Cierre inmediato sin retraso
+    // Limpiar el estado para permitir nuevo proceso
+    promptsGeneratorState = {
+        isActive: false,
+        prompts: [],
+        currentIndex: 0,
+        wasProcessed: false
+    };
+    promptsList = [];
+    currentPromptIndex = 0;
+    
+    // Cerrar inmediatamente con transición CSS suave
     setTimeout(() => {
         closePromptsGenerator();
-        
-        // Limpiar el estado para permitir nuevo proceso
-        promptsGeneratorState = {
-            isActive: false,
-            prompts: [],
-            currentIndex: 0,
-            wasProcessed: false
-        };
-        promptsList = [];
-        currentPromptIndex = 0;
-    }, 3000);
+    }, 300); // Solo 300ms para transición visual suave
 }
     </script>
 </body>
