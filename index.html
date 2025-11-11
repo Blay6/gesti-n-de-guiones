@@ -11,13 +11,16 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    background: #f5f5f5;
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
 
 /* ============================================
    SISTEMA DE SIDEBAR RESPONSIVA CON HAMBURGUESA
@@ -77,7 +80,7 @@
     border-right: 1px solid #e5e5e5;
     display: flex;
     flex-direction: column;
-    padding: 24px 16px;
+    padding: 20px 14px;
     overflow-y: auto;
     transition: transform 0.3s ease;
     position: relative;
@@ -338,18 +341,24 @@
 }
 
         /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .main-header {
-            background: white;
-            padding: 24px 32px;
-            border-bottom: 1px solid #e5e5e5;
-        }
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.main-header {
+    background: white;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e5e5e5;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
 
         .header-top {
             display: flex;
@@ -717,16 +726,22 @@
     bottom: -46px;
 }
 
-        .scripts-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px 32px;
-        }
+.scripts-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
 
 .scripts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 @media (max-width: 900px) {
@@ -741,14 +756,17 @@
     }
 }
 
-        .script-card {
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.2s;
-            position: relative;
-        }
+.script-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 16px;
+    transition: all 0.2s;
+    position: relative;
+    margin: 0;
+    height: fit-content;
+    box-sizing: border-box;
+}
 
         .script-card:hover {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -2507,9 +2525,9 @@
 
 .view-script-content {
     background: white;
-    padding: 32px;
-    border-radius: 16px;
-    line-height: 1.9;
+    padding: 24px;
+    border-radius: 12px;
+    line-height: 1.8;
     font-size: 15px;
     color: #1a1a1a;
     white-space: pre-wrap;
@@ -2932,6 +2950,329 @@
         }
 
 /* ============================================
+   MÓDULO DE REFERENCIAS VISUALES
+   ============================================ */
+
+.visual-references-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid #e5e5e5;
+}
+
+.visual-references-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.visual-references-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+}
+
+.visual-references-title-group h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+}
+
+.visual-references-subtitle {
+    font-size: 12px;
+    color: #737373;
+}
+
+.visual-references-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .visual-references-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.visual-reference-card {
+    background: #fafafa;
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.visual-reference-card:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+}
+
+.visual-reference-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #737373;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.visual-reference-label svg {
+    color: #8b5cf6;
+}
+
+.visual-reference-preview {
+    position: relative;
+    width: 100%;
+    height: 140px;
+    background: white;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.visual-reference-preview.has-image {
+    border-style: solid;
+    border-color: #8b5cf6;
+}
+
+.visual-reference-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.visual-reference-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #a3a3a3;
+}
+
+.visual-reference-placeholder svg {
+    opacity: 0.5;
+}
+
+.visual-reference-placeholder-text {
+    font-size: 11px;
+    text-align: center;
+}
+
+.visual-reference-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.visual-reference-input {
+    display: none;
+}
+
+.btn-upload-reference,
+.btn-remove-reference {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-upload-reference {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-color: #8b5cf6;
+    color: white;
+}
+
+.btn-upload-reference:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-remove-reference {
+    background: white;
+    color: #ef4444;
+}
+
+.btn-remove-reference:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+.btn-remove-reference:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #fafafa;
+}
+
+.btn-remove-reference:disabled:hover {
+    transform: none;
+    background: #fafafa;
+    border-color: #e5e5e5;
+}
+
+/* Visualización en el Módulo de Prompts */
+.prompts-references-panel {
+    padding: 10px 16px;
+    background: #fafafa;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.prompts-references-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.prompts-references-header-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.prompts-references-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.prompts-references-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.prompts-references-header-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompts-references-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* ✨ DISEÑO VERTICAL OPTIMIZADO - Todas las resoluciones */
+.prompts-references-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.prompts-reference-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: white;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.prompts-reference-item:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.1);
+}
+
+.prompts-reference-image-container {
+    width: 100%;
+    height: 100px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.prompts-reference-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ✨ NUEVO: Botón de descarga minimalista con estilo profesional */
+.btn-download-reference-minimal {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-download-reference-minimal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.05);
+}
+
+.btn-download-reference-minimal:active {
+    transform: translateY(0);
+}
+
+.btn-download-reference-minimal svg:first-child {
+    flex-shrink: 0;
+}
+
+.btn-download-reference-minimal span {
+    flex: 1;
+    text-align: left;
+}
+
+.prompts-references-empty {
+    text-align: center;
+    padding: 24px;
+    color: #a3a3a3;
+    font-size: 12px;
+}
+
+/* ============================================
    SISTEMA RESPONSIVO COMPLETO OPTIMIZADO
    ============================================ */
 
@@ -3072,10 +3413,12 @@
         border-top: 1px solid #e5e5e5;
     }
     
-    .view-main-panel {
-        padding: 20px 24px;
-        max-height: 45vh;
-    }
+.view-main-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px;
+    background: #fafafa;
+}
     
     /* Barra de selección */
     .selection-mode-bar {
@@ -3384,434 +3727,206 @@
     }
 }
 
-        /* ============================================
-           MÓDULO DE GENERACIÓN DE IMÁGENES/VIDEO
-           ============================================ */
+/* ============================================
+   MÓDULO DE GENERACIÓN DE IMÁGENES/VIDEO
+   ============================================ */
 
-        .prompts-generator-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-        }
+.prompts-generator-modal {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6); z-index: 3000; align-items: center; justify-content: center;
+}
+.prompts-generator-modal.active { display: flex; }
 
-        .prompts-generator-modal.active {
-            display: flex;
-        }
+.prompts-generator-content {
+    background: white; border-radius: 16px; width: 98%; max-width: 1400px; height: 95vh;
+    display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
 
-        .prompts-generator-content {
-            background: white;
-            border-radius: 20px;
-            width: 95%;
-            max-width: 1200px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
+.prompts-generator-header {
+    display: flex; align-items: center; justify-content: space-between; padding: 16px 24px;
+    border-bottom: 1px solid #e5e5e5; background: white; flex-shrink: 0;
+}
+.prompts-header-left { display: flex; align-items: center; gap: 16px; flex: 1; }
+.prompts-header-icon {
+    width: 48px; height: 48px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+.prompts-header-title-group h2 { font-size: 20px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0; }
+.prompts-header-subtitle { font-size: 13px; color: #737373; }
 
-        /* Header del Generador */
-        .prompts-generator-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 28px;
-            border-bottom: 1px solid #e5e5e5;
-            background: white;
-            flex-shrink: 0;
-        }
+.prompts-generator-body { display: flex; flex: 1; overflow: hidden; }
 
-        .prompts-header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex: 1;
-        }
+/* Panel Izquierdo - Input y Referencias */
+.prompts-input-panel {
+    width: 380px; background: #fafafa; border-right: 1px solid #e5e5e5;
+    display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0;
+}
+.prompts-input-content { padding: 24px; }
+.prompts-input-section-title {
+    display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: #737373;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;
+}
+.prompts-paste-area {
+    width: 100%; min-height: 200px; max-height: 40vh; padding: 16px; border: 2px dashed #d1d5db;
+    border-radius: 12px; font-size: 13px; font-family: inherit; background: white; resize: vertical;
+    line-height: 1.6; transition: all 0.2s;
+}
+.prompts-paste-area:focus {
+    outline: none; border-color: #fbbf24; border-style: solid; background: #fffbeb;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+}
+.prompts-paste-area::placeholder { color: #a3a3a3; }
+.prompts-input-hint {
+    display: flex; align-items: start; gap: 10px; margin-top: 12px; padding: 12px 14px; background: #eff6ff;
+    border: 1.5px solid #bfdbfe; border-radius: 8px; font-size: 12px; color: #1e40af; line-height: 1.6;
+}
+.prompts-btn-process {
+    width: 100%; padding: 14px 16px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); margin-top: 16px;
+}
+.prompts-btn-process:hover {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+.prompts-btn-process:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        .prompts-header-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
+/* Panel Derecho - Visualización de Prompts */
+.prompts-display-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #f5f5f5; }
+.prompts-waiting-state, .prompts-completed-state {
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    flex: 1; padding: 48px; text-align: center; color: #737373;
+}
+.prompts-waiting-state.active, .prompts-completed-state.active { display: flex; }
+.prompts-waiting-icon, .prompts-completed-icon {
+    width: 64px; height: 64px; background: #e5e5e5; border-radius: 16px; display: flex;
+    align-items: center; justify-content: center; margin-bottom: 24px; color: #a3a3a3;
+}
+.prompts-completed-icon { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #16a34a; }
+.prompts-waiting-title, .prompts-completed-title { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+.prompts-waiting-text, .prompts-completed-text { font-size: 14px; max-width: 400px; line-height: 1.6; }
 
-        .prompts-header-title-group h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin: 0 0 4px 0;
-        }
+.prompts-active-state { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+.prompts-active-state.active { display: flex; }
 
-        .prompts-header-subtitle {
-            font-size: 13px;
-            color: #737373;
-        }
+.prompts-display-content { flex: 1; overflow-y: auto; padding: 24px; }
+.prompts-current-wrapper { max-width: 800px; margin: 0 auto; width: 100%; }
+.prompts-current-badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: white;
+    border: 1.5px solid #e5e5e5; border-radius: 20px; font-size: 12px; font-weight: 700; color: #525252;
+    margin-bottom: 16px;
+}
+.prompts-current-content {
+    background: white; padding: 24px; border-radius: 12px; border: 1px solid #e5e5e5;
+    font-size: 15px; line-height: 1.8; color: #1a1a1a; white-space: pre-wrap; word-wrap: break-word;
+    position: relative; overflow: hidden; transition: max-height 0.3s ease;
+    max-height: calc(100vh - 400px);
+}
+.prompts-current-content.expanded { max-height: 80vh; overflow-y: auto; }
+.prompts-current-content::-webkit-scrollbar { width: 6px; }
+.prompts-current-content::-webkit-scrollbar-track { background: #f5f5f5; }
+.prompts-current-content::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
 
-        .prompts-progress-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: #fef3c7;
-            border: 1.5px solid #fbbf24;
-            border-radius: 20px;
-        }
+.prompts-current-content:not(.expanded)::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(transparent, white); pointer-events: none;
+}
+.prompts-read-more-btn {
+    display: none; width: 100%; margin-top: 16px; padding: 10px 20px; background: #fafafa;
+    border: 1.5px solid #e5e5e5; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: #525252; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.prompts-read-more-btn.visible { display: flex; }
+.prompts-read-more-btn:hover { background: white; border-color: #2563eb; color: #2563eb; }
+.prompts-read-more-btn svg { transition: transform 0.3s ease; }
+.prompts-read-more-btn.expanded svg { transform: rotate(180deg); }
 
-        .prompts-progress-text {
-            font-size: 13px;
-            font-weight: 600;
-            color: #92400e;
-        }
+.prompts-display-footer { padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fafafa; flex-shrink: 0; }
+.prompts-actions-row { display: flex; gap: 12px; max-width: 800px; margin: 0 auto; }
+.prompts-btn-prev, .prompts-btn-copy-current, .prompts-btn-next {
+    padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s;
+}
+.prompts-btn-prev { flex: 1; background: white; border: 1.5px solid #e5e5e5; color: #525252; }
+.prompts-btn-prev:hover:not(:disabled) { background: #f5f5f5; border-color: #2563eb; }
+.prompts-btn-prev:disabled { opacity: 0.5; cursor: not-allowed; }
+.prompts-btn-copy-current { flex: 2; background: white; border: 1.5px solid #e5e5e5; color: #525252; }
+.prompts-btn-copy-current:hover { background: #f5f5f5; border-color: #2563eb; }
+.prompts-btn-copy-current.copied { background: #f0fdf4; border-color: #22c55e; color: #16a34a; }
+.prompts-btn-next {
+    flex: 2; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; border: none;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+.prompts-btn-next:hover { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transform: translateY(-2px); }
+.prompts-btn-next.finish { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
+.prompts-btn-reset { margin-top: 24px; background: white; border: 1.5px solid #e5e5e5; color: #525252; }
+.prompts-btn-reset:hover { background: #f5f5f5; border-color: #fbbf24; }
 
-        /* Cuerpo del Generador - Layout de Dos Paneles */
-        .prompts-generator-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+/* Responsive para el generador */
+@media (max-width: 968px) {
+    .prompts-generator-body { flex-direction: column; }
+    .prompts-input-panel {
+        width: 100%; border-right: none; border-bottom: 1px solid #e5e5e5;
+        max-height: 45vh; /* Más espacio para el input en móvil */
+    }
+    .prompts-paste-area { min-height: 120px; }
+    .prompts-display-content { padding: 16px; }
+    .prompts-current-content { padding: 16px; font-size: 14px; max-height: calc(100vh - 450px); }
+    .prompts-actions-row { flex-direction: column; }
+}
 
-        /* Panel Izquierdo - Input */
-        .prompts-input-panel {
-            width: 380px;
-            background: #fafafa;
-            border-right: 1px solid #e5e5e5;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
+@media (max-width: 480px) {
+    .prompts-header-title-group h2 { font-size: 18px; }
+    .prompts-btn-prev, .prompts-btn-copy-current, .prompts-btn-next { padding: 12px 16px; font-size: 13px; }
+    .prompts-current-content { font-size: 13px; }
+}
 
-        .prompts-input-content {
-            padding: 24px;
-        }
+/* Optimización máxima para escritorio grande */
+@media (min-width: 1400px) {
+    .scripts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+        padding: 8px 4px;
+    }
+    
+    .main-header {
+        padding: 14px 28px;
+    }
+    
+    .scripts-container {
+        padding: 8px 20px;
+    }
+}
 
-        .prompts-input-section-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #737373;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 16px;
-        }
+/* Mejora en tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .scripts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 10px;
+    }
+    
+    .script-card {
+        padding: 14px;
+    }
+}
 
-        .prompts-paste-area {
-            width: 100%;
-            min-height: 300px;
-            padding: 16px;
-            border: 2px dashed #d1d5db;
-            border-radius: 12px;
-            font-size: 13px;
-            font-family: inherit;
-            background: white;
-            resize: vertical;
-            line-height: 1.6;
-            transition: all 0.2s;
-        }
-
-        .prompts-paste-area:focus {
-            outline: none;
-            border-color: #fbbf24;
-            border-style: solid;
-            background: #fffbeb;
-            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
-        }
-
-        .prompts-paste-area::placeholder {
-            color: #a3a3a3;
-        }
-
-        .prompts-input-hint {
-            display: flex;
-            align-items: start;
-            gap: 10px;
-            margin-top: 16px;
-            padding: 12px 14px;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #1e40af;
-            line-height: 1.6;
-        }
-
-        .prompts-btn-process {
-            width: 100%;
-            padding: 14px 16px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-            margin-top: 16px;
-        }
-
-        .prompts-btn-process:hover {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        .prompts-btn-process:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Panel Derecho - Visualización de Prompts */
-        .prompts-display-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: white;
-        }
-
-        /* Estado: Esperando Input */
-        .prompts-waiting-state,
-        .prompts-completed-state {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            padding: 48px;
-            text-align: center;
-        }
-
-        .prompts-waiting-state.active,
-        .prompts-completed-state.active {
-            display: flex;
-        }
-
-        .prompts-waiting-icon,
-        .prompts-completed-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
-        }
-
-        .prompts-completed-icon {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-        }
-
-        .prompts-waiting-title,
-        .prompts-completed-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .prompts-waiting-text,
-        .prompts-completed-text {
-            font-size: 14px;
-            color: #737373;
-            max-width: 400px;
-        }
-
-        /* Estado: Mostrando Prompt */
-        .prompts-active-state {
-            display: none;
-            flex-direction: column;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .prompts-active-state.active {
-            display: flex;
-        }
-
-        .prompts-display-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 32px 40px;
-        }
-
-        .prompts-current-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .prompts-current-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: #fef3c7;
-            border: 1.5px solid #fbbf24;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #92400e;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 24px;
-        }
-
-        .prompts-current-content {
-            background: white;
-            padding: 32px;
-            border-radius: 16px;
-            border: 2px solid #e5e5e5;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            font-size: 15px;
-            line-height: 1.9;
-            color: #1a1a1a;
-            white-space: pre-wrap;
-        }
-
-        /* Footer con Acciones */
-        .prompts-display-footer {
-            padding: 20px 40px;
-            border-top: 1px solid #e5e5e5;
-            background: white;
-            flex-shrink: 0;
-        }
-
-        .prompts-actions-row {
-            display: flex;
-            gap: 12px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .prompts-btn-copy-current {
-            flex: 1;
-            padding: 14px 20px;
-            background: white;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: #525252;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-        }
-
-        .prompts-btn-copy-current:hover {
-            background: #f5f5f5;
-            border-color: #2563eb;
-        }
-
-        .prompts-btn-copy-current.copied {
-            background: #f0fdf4;
-            border-color: #22c55e;
-            color: #16a34a;
-        }
-
-        .prompts-btn-next {
-            flex: 2;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-        }
-
-        .prompts-btn-next:hover {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        .prompts-btn-next.finish {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-        }
-
-        .prompts-btn-next.finish:hover {
-            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-        }
-
-        /* Estilos para botón de retroceso */
-        .prompts-btn-prev:hover:not(:disabled) {
-            background: #f5f5f5;
-            border-color: #2563eb;
-        }
-
-        .prompts-btn-prev:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .prompts-btn-reset {
-            width: 100%;
-            padding: 14px 20px;
-            background: white;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: #525252;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .prompts-btn-reset:hover {
-            background: #f5f5f5;
-            border-color: #fbbf24;
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .prompts-generator-body {
-                flex-direction: column;
-            }
-            
-            .prompts-input-panel {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #e5e5e5;
-                max-height: 40vh;
-            }
-        }
+/* Ajuste fino para móviles */
+@media (max-width: 768px) {
+    .scripts-container {
+        padding: 8px 12px;
+    }
+    
+    .scripts-grid {
+        gap: 8px;
+    }
+    
+    .script-card {
+        padding: 12px;
+        margin: 0 2px;
+    }
+}
     </style>
 </head>
 <body>
@@ -3919,10 +4034,78 @@
                 <div class="category-input-row">
                     <input type="text" id="newCategoryExportPath" placeholder="Ruta de exportación del video (requerido)" class="path-input" style="flex: 1;">
                 </div>
-                <!-- ✅ NUEVO CAMPO AGREGADO -->
                 <div class="category-input-row">
                     <textarea id="newCategoryPrompt" placeholder="Prompt de generación (opcional - usa (X) para número de escenas)" class="path-input" style="flex: 1; min-height: 60px; resize: vertical; font-family: inherit; font-size: 12px;"></textarea>
                 </div>
+                
+                <!-- ✨ NUEVA SECCIÓN: Referencias Visuales Compactas -->
+                <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e5e5;">
+                    <div style="font-size: 10px; font-weight: 700; color: #737373; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        Referencias Visuales (Opcional)
+                    </div>
+                    
+                    <!-- Mini Referencias -->
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <!-- Asunto -->
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <input type="file" id="newInputAsunto" accept="image/*" style="display: none;" onchange="handleNewReferenceUpload('asunto', event)">
+                            <label for="newInputAsunto" style="flex: 1; padding: 6px 10px; background: white; border: 1.5px dashed #d1d5db; border-radius: 6px; cursor: pointer; font-size: 11px; color: #737373; display: flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='#8b5cf6'; this.style.background='#f5f3ff';" onmouseout="this.style.borderColor='#d1d5db'; this.style.background='white';">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <span id="newLabelAsunto">Asunto</span>
+                            </label>
+                            <button type="button" id="newBtnRemoveAsunto" onclick="removeNewReference('asunto')" disabled style="padding: 6px; background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 6px; cursor: pointer; opacity: 0.5;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Escena -->
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <input type="file" id="newInputEscena" accept="image/*" style="display: none;" onchange="handleNewReferenceUpload('escena', event)">
+                            <label for="newInputEscena" style="flex: 1; padding: 6px 10px; background: white; border: 1.5px dashed #d1d5db; border-radius: 6px; cursor: pointer; font-size: 11px; color: #737373; display: flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='#8b5cf6'; this.style.background='#f5f3ff';" onmouseout="this.style.borderColor='#d1d5db'; this.style.background='white';">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                <span id="newLabelEscena">Escena</span>
+                            </label>
+                            <button type="button" id="newBtnRemoveEscena" onclick="removeNewReference('escena')" disabled style="padding: 6px; background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 6px; cursor: pointer; opacity: 0.5;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Estilo -->
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <input type="file" id="newInputEstilo" accept="image/*" style="display: none;" onchange="handleNewReferenceUpload('estilo', event)">
+                            <label for="newInputEstilo" style="flex: 1; padding: 6px 10px; background: white; border: 1.5px dashed #d1d5db; border-radius: 6px; cursor: pointer; font-size: 11px; color: #737373; display: flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.borderColor='#8b5cf6'; this.style.background='#f5f3ff';" onmouseout="this.style.borderColor='#d1d5db'; this.style.background='white';">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                </svg>
+                                <span id="newLabelEstilo">Estilo</span>
+                            </label>
+                            <button type="button" id="newBtnRemoveEstilo" onclick="removeNewReference('estilo')" disabled style="padding: 6px; background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 6px; cursor: pointer; opacity: 0.5;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="category-input-row">
                     <button onclick="addCategory()" style="width: 100%;">OK</button>
                 </div>
@@ -4408,6 +4591,137 @@
                         💡 Usa <strong>(X)</strong> donde quieras que aparezca el número de escenas calculado
                     </small>
                 </div>
+                <!-- NUEVA SECCIÓN: Referencias Visuales -->
+                <div class="visual-references-section">
+                    <div class="visual-references-header">
+                        <div class="visual-references-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                        <div class="visual-references-title-group">
+                            <h3>🖼️ Referencias Visuales</h3>
+                            <p class="visual-references-subtitle">Sube imágenes de referencia para la generación con IA</p>
+                        </div>
+                    </div>
+                    
+                    <div class="visual-references-grid">
+                        <!-- Referencia: Asunto -->
+                        <div class="visual-reference-card">
+                            <div class="visual-reference-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                Asunto
+                            </div>
+                            <div class="visual-reference-preview" id="previewAsunto">
+                                <div class="visual-reference-placeholder">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                    <span class="visual-reference-placeholder-text">Referencia del<br>tema principal</span>
+                                </div>
+                            </div>
+                            <div class="visual-reference-actions">
+                                <input type="file" id="inputAsunto" class="visual-reference-input" accept="image/*" onchange="handleReferenceUpload('asunto', event)">
+                                <label for="inputAsunto" class="btn-upload-reference">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    Subir
+                                </label>
+                                <button type="button" class="btn-remove-reference" id="btnRemoveAsunto" onclick="removeReference('asunto')" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Referencia: Escena -->
+                        <div class="visual-reference-card">
+                            <div class="visual-reference-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                Escena
+                            </div>
+                            <div class="visual-reference-preview" id="previewEscena">
+                                <div class="visual-reference-placeholder">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                    <span class="visual-reference-placeholder-text">Referencia de<br>composición/ambiente</span>
+                                </div>
+                            </div>
+                            <div class="visual-reference-actions">
+                                <input type="file" id="inputEscena" class="visual-reference-input" accept="image/*" onchange="handleReferenceUpload('escena', event)">
+                                <label for="inputEscena" class="btn-upload-reference">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    Subir
+                                </label>
+                                <button type="button" class="btn-remove-reference" id="btnRemoveEscena" onclick="removeReference('escena')" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Referencia: Estilo -->
+                        <div class="visual-reference-card">
+                            <div class="visual-reference-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                </svg>
+                                Estilo
+                            </div>
+                            <div class="visual-reference-preview" id="previewEstilo">
+                                <div class="visual-reference-placeholder">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                    <span class="visual-reference-placeholder-text">Referencia de<br>estética visual</span>
+                                </div>
+                            </div>
+                            <div class="visual-reference-actions">
+                                <input type="file" id="inputEstilo" class="visual-reference-input" accept="image/*" onchange="handleReferenceUpload('estilo', event)">
+                                <label for="inputEstilo" class="btn-upload-reference">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    Subir
+                                </label>
+                                <button type="button" class="btn-remove-reference" id="btnRemoveEstilo" onclick="removeReference('estilo')" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" onclick="closeModal('editCategoryModal')">Cancelar</button>
                     <button type="submit" class="btn-save">Guardar cambios</button>
@@ -4705,109 +5019,68 @@
                     <p class="prompts-header-subtitle">Visualiza y copia prompts uno por uno</p>
                 </div>
             </div>
-
-            <!-- NUEVO: Botón de Volver -->
-            <button onclick="closePromptsGenerator()" style="
-                padding: 8px 16px;
-                background: white;
-                border: 1.5px solid #e5e5e5;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 13px;
-                font-weight: 600;
-                color: #525252;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                transition: all 0.2s;
-                margin-right: 12px;
-            " onmouseover="this.style.background='#f5f5f5'; this.style.borderColor='#2563eb';" 
-            onmouseout="this.style.background='white'; this.style.borderColor='#e5e5e5';">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                <span>Volver al Guion</span>
-            </button>
-
-            <div class="prompts-progress-indicator" id="promptsProgressIndicator" style="display: none;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span class="prompts-progress-text" id="promptsProgressText">0 de 0</span>
-            </div>
             <button class="btn-close-circle" onclick="closePromptsGenerator()" title="Cerrar (Esc)">×</button>
         </div>
 
         <!-- Cuerpo - Dos Paneles -->
         <div class="prompts-generator-body">
-<!-- Panel Izquierdo: Input -->
-<div class="prompts-input-panel">
-    <div class="prompts-input-content">
-        <h3 class="prompts-input-section-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-            </svg>
-            Cargar Prompts
-        </h3>
-        
-        <!-- Área de visualización simplificada -->
-        <div style="
-            background: white;
-            border: 2px dashed #d1d5db;
-            border-radius: 12px;
-            padding: 48px 24px;
-            text-align: center;
-            margin-bottom: 16px;
-        ">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="1.5" style="margin: 0 auto 16px; opacity: 0.5;">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-                <line x1="9" y1="12" x2="15" y2="12"></line>
-                <line x1="9" y1="16" x2="15" y2="16"></line>
-            </svg>
-            <p style="font-size: 14px; color: #737373; margin: 0;">
-                <strong>Listos para pegar desde el portapapeles</strong>
-            </p>
-            <p style="font-size: 12px; color: #a3a3a3; margin-top: 8px;">
-                Copia tus prompts generados y presiona el botón
-            </p>
-        </div>
-        
-        <div class="prompts-input-hint">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span><strong>Formato esperado:</strong> Lista numerada (1., 2., 3., etc.) donde cada línea es un prompt individual.</span>
-        </div>
+            <!-- Panel Izquierdo: Input y Referencias -->
+            <div class="prompts-input-panel">
+                <div class="prompts-input-content">
+                    <!-- Paso 1: Referencias Visuales -->
+                    <div class="prompts-references-panel" id="promptsReferencesPanel" style="display: none; padding: 0; border: none;">
+                        <div class="prompts-references-header">
+                            <div class="prompts-references-header-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </div>
+                            <h4 class="prompts-references-title">Referencias Visuales</h4>
+                        </div>
+                        <div class="prompts-references-grid" id="promptsReferencesGrid">
+                            <!-- Las referencias se cargarán dinámicamente aquí -->
+                        </div>
+                    </div>
 
-        <button class="prompts-btn-process" id="promptsProcessBtn" onclick="processPromptsFromClipboard()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-            </svg>
-            <span>Pegar y Procesar desde Portapapeles</span>
-        </button>
-    </div>
-</div>
+                    <!-- Paso 2: Cargar Prompts -->
+                    <div id="promptsLoaderSection" style="margin-top: 24px;">
+                         <h3 class="prompts-input-section-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
+                                <rect x="9" y="3" width="6" height="4" rx="2"></rect>
+                            </svg>
+                            Cargar Prompts
+                        </h3>
+                        <textarea class="prompts-paste-area" id="promptsPasteArea" placeholder="Pega aquí la lista de prompts generada por la IA..."></textarea>
+                        <div class="prompts-input-hint">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;">
+                                <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <span>El sistema espera una lista numerada (1., 2., 3., etc.). El botón procesará todo el texto que pegues.</span>
+                        </div>
+                        <button class="prompts-btn-process" id="promptsProcessBtn" onclick="processPromptsFromTextArea()">
+                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h.01"></path><path d="M12 4v12"></path><path d="m15 15-3 3-3-3"></path>
+                             </svg>
+                            Procesar Prompts
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Panel Derecho: Visualización -->
+            <!-- Panel Derecho: Visualización de Prompts -->
             <div class="prompts-display-panel">
                 <!-- Estado 1: Esperando Input -->
                 <div class="prompts-waiting-state active" id="promptsWaitingState">
                     <div class="prompts-waiting-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
-                            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                            <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-                            <line x1="9" y1="12" x2="15" y2="12"></line>
-                            <line x1="9" y1="16" x2="15" y2="16"></line>
+                            <path d="m15 15-3 3-3-3"></path><path d="M12 18V3"></path><path d="M21 12H3"></path>
                         </svg>
                     </div>
-                    <h3 class="prompts-waiting-title">Esperando prompts...</h3>
-                    <p class="prompts-waiting-text">Pega la lista de prompts generados en el panel izquierdo y presiona "Procesar Prompts" para comenzar.</p>
+                    <h3 class="prompts-waiting-title">Listo para Visualizar</h3>
+                    <p class="prompts-waiting-text">Pega el contenido en el panel izquierdo y presiona "Procesar Prompts" para comenzar.</p>
                 </div>
 
                 <!-- Estado 2: Mostrando Prompt Actual -->
@@ -4823,65 +5096,42 @@
                             <div class="prompts-current-content" id="promptsCurrentContent">
                                 <!-- El prompt actual se mostrará aquí -->
                             </div>
+                            <button class="prompts-read-more-btn" id="promptsReadMoreBtn" onclick="togglePromptExpansion()">
+                                <span id="readMoreBtnText">Leer Más</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     
-                <div class="prompts-display-footer">
-                    <div class="prompts-actions-row">
-                        <!-- NUEVO: Botón de Retroceso -->
-                        <button class="prompts-btn-prev" id="promptsPrevBtn" onclick="prevPrompt()" style="
-                            flex: 1;
-                            padding: 14px 20px;
-                            background: white;
-                            border: 1.5px solid #e5e5e5;
-                            border-radius: 12px;
-                            cursor: pointer;
-                            font-weight: 600;
-                            font-size: 14px;
-                            color: #525252;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 10px;
-                            transition: all 0.2s;
-                        ">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"></polyline>
-                            </svg>
-                            <span>Anterior</span>
-                        </button>
-                        
-                        <button class="prompts-btn-copy-current" id="promptsCopyBtn" onclick="copyCurrentPrompt()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                            <span id="promptsCopyBtnText">Copiar Prompt</span>
-                        </button>
-                        
-                        <button class="prompts-btn-next" id="promptsNextBtn" onclick="nextPrompt()">
-                            <span id="promptsNextBtnText">Siguiente Prompt</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </button>
+                    <div class="prompts-display-footer">
+                        <div class="prompts-actions-row">
+                             <button class="prompts-btn-prev" id="promptsPrevBtn" onclick="prevPrompt()" style="flex: 1;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                <span>Anterior</span>
+                             </button>
+                            <button class="prompts-btn-copy-current" id="promptsCopyBtn" onclick="copyCurrentPrompt()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <span id="promptsCopyBtnText">Copiar Prompt</span>
+                            </button>
+                            <button class="prompts-btn-next" id="promptsNextBtn" onclick="nextPrompt()">
+                                <span id="promptsNextBtnText">Siguiente Prompt</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Estado 3: Completado -->
                 <div class="prompts-completed-state" id="promptsCompletedState">
                     <div class="prompts-completed-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <h3 class="prompts-completed-title">¡Proceso Completado!</h3>
-                    <p class="prompts-completed-text">Has revisado todos los prompts de la lista. Puedes cerrar esta ventana o procesar nuevos prompts.</p>
+                    <p class="prompts-completed-text">Has revisado todos los prompts. Puedes cerrar esta ventana o procesar un nuevo lote.</p>
                     <button class="prompts-btn-reset" onclick="resetPromptsGenerator()" style="margin-top: 24px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="1 4 1 10 7 10"></polyline>
-                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                        </svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
                         <span>Procesar Nuevos Prompts</span>
                     </button>
                 </div>
@@ -4890,6 +5140,27 @@
     </div>
 </div>
 
+<!-- Modal de Confirmación para Reinicio de Prompts -->
+<div class="confirm-dialog" id="confirmRestartPromptsDialog">
+    <div class="confirm-content">
+        <div class="confirm-icon" style="background: #fef3c7;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+        </div>
+        <h3 class="confirm-title">¿Reiniciar y cargar nuevos prompts?</h3>
+        <p class="confirm-message">Se perderá el progreso actual de la visualización de prompts.</p>
+        <div class="confirm-actions">
+            <button class="btn-confirm btn-confirm-cancel" onclick="closeRestartPromptsDialog()">
+                Cancelar
+            </button>
+            <button class="btn-confirm" style="background: #f59e0b; color: white;" onclick="confirmRestartPrompts()">
+                Sí, Reiniciar
+            </button>
+        </div>
+    </div>
+</div>
     <script>
 let scripts = [];
 let categories = [];
@@ -4963,12 +5234,25 @@ function initializeData() {
                 name: cat, 
                 path: '', 
                 exportPath: '',
-                promptTemplate: DEFAULT_PROMPT_TEMPLATE
+                promptTemplate: DEFAULT_PROMPT_TEMPLATE,
+                visualReferences: {
+                    asunto: null,
+                    escena: null,
+                    estilo: null
+                }
             };
         }
         // Migrar categorías sin exportPath
         if (!cat.exportPath) {
             cat.exportPath = '';
+        }
+        // Migrar categorías sin visualReferences
+        if (!cat.visualReferences) {
+            cat.visualReferences = {
+                asunto: null,
+                escena: null,
+                estilo: null
+            };
         }
         // Migrar categorías sin promptTemplate
         if (!cat.promptTemplate) {
@@ -5123,52 +5407,155 @@ function resolvePromptTemplate(template, scenes) {
             }
         }
 
-        function addCategory() {
-            const nameInput = document.getElementById('newCategoryInput');
-            const pathInput = document.getElementById('newCategoryPath');
-            const exportPathInput = document.getElementById('newCategoryExportPath');
-            const promptInput = document.getElementById('newCategoryPrompt');
-            
-            const categoryName = nameInput.value.trim();
-            const categoryPath = pathInput.value.trim();
-            const categoryExportPath = exportPathInput.value.trim();
-            
-            // ✅ CORRECCIÓN: Manejo seguro del prompt con valor por defecto
-            const categoryPrompt = (promptInput && promptInput.value.trim()) 
-                ? promptInput.value.trim() 
-                : DEFAULT_PROMPT_TEMPLATE;            
-            if (!categoryName) {
-                alert('Por favor, ingresa un nombre para la categoría');
-                return;
-            }
-            
-            if (!categoryExportPath) {
-                alert('Por favor, ingresa la ruta de exportación del video (campo obligatorio)');
-                exportPathInput.focus();
-                return;
-            }
-            
-            if (categories.some(cat => cat.name === categoryName)) {
-                alert('Ya existe una categoría con ese nombre');
-                return;
-            }
-            
-            categories.push({
-                name: categoryName,
-                path: categoryPath || '',
-                exportPath: categoryExportPath,
-                promptTemplate: categoryPrompt
-            });
-            
-            saveData();
-            updateUI();
-            nameInput.value = '';
-            pathInput.value = '';
-            exportPathInput.value = '';
-            promptInput.value = '';
-            toggleCategoryInput();
-        }
+// ✨ Variable global para referencias temporales de nueva categoría
+let tempNewCategoryReferences = {
+    asunto: null,
+    escena: null,
+    estilo: null
+};
 
+function addCategory() {
+    const nameInput = document.getElementById('newCategoryInput');
+    const pathInput = document.getElementById('newCategoryPath');
+    const exportPathInput = document.getElementById('newCategoryExportPath');
+    const promptInput = document.getElementById('newCategoryPrompt');
+    
+    const categoryName = nameInput.value.trim();
+    const categoryPath = pathInput.value.trim();
+    const categoryExportPath = exportPathInput.value.trim();
+    
+    const categoryPrompt = (promptInput && promptInput.value.trim()) 
+        ? promptInput.value.trim() 
+        : DEFAULT_PROMPT_TEMPLATE;
+        
+    if (!categoryName) {
+        alert('Por favor, ingresa un nombre para la categoría');
+        return;
+    }
+    
+    if (!categoryExportPath) {
+        alert('Por favor, ingresa la ruta de exportación del video (campo obligatorio)');
+        exportPathInput.focus();
+        return;
+    }
+    
+    if (categories.some(cat => cat.name === categoryName)) {
+        alert('Ya existe una categoría con ese nombre');
+        return;
+    }
+    
+    // ✨ Incluir referencias visuales
+    categories.push({
+        name: categoryName,
+        path: categoryPath || '',
+        exportPath: categoryExportPath,
+        promptTemplate: categoryPrompt,
+        visualReferences: {
+            asunto: tempNewCategoryReferences.asunto,
+            escena: tempNewCategoryReferences.escena,
+            estilo: tempNewCategoryReferences.estilo
+        }
+    });
+    
+    // Limpiar referencias temporales
+    tempNewCategoryReferences = {
+        asunto: null,
+        escena: null,
+        estilo: null
+    };
+    
+    // Resetear inputs de archivo
+    ['asunto', 'escena', 'estilo'].forEach(type => {
+        const input = document.getElementById(`newInput${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const label = document.getElementById(`newLabel${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const btn = document.getElementById(`newBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        
+        if (input) input.value = '';
+        if (label) label.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+        if (btn) {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+        }
+    });
+    
+    saveData();
+    updateUI();
+    nameInput.value = '';
+    pathInput.value = '';
+    exportPathInput.value = '';
+    promptInput.value = '';
+    toggleCategoryInput();
+}
+
+// ✨ Función para manejar subida de referencias en nueva categoría
+function handleNewReferenceUpload(type, event) {
+    const file = event.target.files[0];
+    
+    if (!file) return;
+    
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecciona un archivo de imagen válido');
+        event.target.value = '';
+        return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+        alert('La imagen es demasiado grande. El tamaño máximo es 5MB');
+        event.target.value = '';
+        return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const base64String = e.target.result;
+        tempNewCategoryReferences[type] = base64String;
+        
+        // Actualizar UI
+        const label = document.getElementById(`newLabel${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const btn = document.getElementById(`newBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        
+        if (label) {
+            label.textContent = `✓ ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            label.parentElement.style.borderColor = '#8b5cf6';
+            label.parentElement.style.borderStyle = 'solid';
+            label.parentElement.style.background = '#f5f3ff';
+        }
+        
+        if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+    };
+    
+    reader.onerror = function() {
+        alert('Error al leer el archivo. Por favor, intenta de nuevo.');
+        event.target.value = '';
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+// ✨ Función para eliminar referencias en nueva categoría
+function removeNewReference(type) {
+    tempNewCategoryReferences[type] = null;
+    
+    const input = document.getElementById(`newInput${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    const label = document.getElementById(`newLabel${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    const btn = document.getElementById(`newBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    
+    if (input) input.value = '';
+    if (label) {
+        label.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+        label.parentElement.style.borderColor = '#d1d5db';
+        label.parentElement.style.borderStyle = 'dashed';
+        label.parentElement.style.background = 'white';
+    }
+    if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+    }
+}
         function openEditCategoryModal(categoryName) {
             const category = categories.find(cat => cat.name === categoryName);
             if (!category) return;
@@ -5193,6 +5580,8 @@ function resolvePromptTemplate(template, scenes) {
                 warningBox.style.display = 'none';
             }
 
+            // Cargar referencias visuales existentes
+            loadVisualReferences(category.visualReferences || { asunto: null, escena: null, estilo: null });
             document.getElementById('editCategoryModal').classList.add('active');
             document.getElementById('editCategoryName').focus();
         }
@@ -5230,7 +5619,8 @@ function resolvePromptTemplate(template, scenes) {
                     name: newName,
                     path: newPath,
                     exportPath: newExportPath,
-                    promptTemplate: newPrompt
+                    promptTemplate: newPrompt,
+                    visualReferences: tempVisualReferences
                 };
 
                 // Actualizar todos los scripts que usan esta categoría
@@ -7248,6 +7638,284 @@ window.filterCategory = function(category) {
 // FIN DE FUNCIÓN SIDEBAR RESPONSIVA
 // ============================================
 
+
+// ============================================
+// MÓDULO DE REFERENCIAS VISUALES
+// ============================================
+
+let currentEditingCategory = null;
+let tempVisualReferences = {
+    asunto: null,
+    escena: null,
+    estilo: null
+};
+
+function loadVisualReferences(references) {
+    tempVisualReferences = {
+        asunto: references.asunto || null,
+        escena: references.escena || null,
+        estilo: references.estilo || null
+    };
+    
+    // Cargar vista previa de cada referencia
+    ['asunto', 'escena', 'estilo'].forEach(type => {
+        const preview = document.getElementById(`preview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const btnRemove = document.getElementById(`btnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        
+        if (tempVisualReferences[type]) {
+            // Mostrar imagen
+            preview.innerHTML = `<img src="${tempVisualReferences[type]}" alt="Referencia ${type}">`;
+            preview.classList.add('has-image');
+            btnRemove.disabled = false;
+        } else {
+            // Mostrar placeholder
+            resetReferencePreview(type);
+        }
+    });
+}
+
+function handleReferenceUpload(type, event) {
+    const file = event.target.files[0];
+    
+    if (!file) return;
+    
+    // Validar que sea una imagen
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecciona un archivo de imagen válido');
+        event.target.value = '';
+        return;
+    }
+    
+    // Validar tamaño (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        alert('La imagen es demasiado grande. El tamaño máximo es 5MB');
+        event.target.value = '';
+        return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const base64String = e.target.result;
+        
+        // Guardar en objeto temporal
+        tempVisualReferences[type] = base64String;
+        
+        // Actualizar vista previa
+        const preview = document.getElementById(`preview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const btnRemove = document.getElementById(`btnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        
+        preview.innerHTML = `<img src="${base64String}" alt="Referencia ${type}">`;
+        preview.classList.add('has-image');
+        btnRemove.disabled = false;
+    };
+    
+    reader.onerror = function() {
+        alert('Error al leer el archivo. Por favor, intenta de nuevo.');
+        event.target.value = '';
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+function removeReference(type) {
+    // Confirmar eliminación
+    const confirmed = confirm(`¿Eliminar la referencia de ${type}?`);
+    
+    if (!confirmed) return;
+    
+    // Limpiar del objeto temporal
+    tempVisualReferences[type] = null;
+    
+    // Resetear vista previa
+    resetReferencePreview(type);
+    
+    // Limpiar input file
+    const input = document.getElementById(`input${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    input.value = '';
+}
+
+function resetReferencePreview(type) {
+    const preview = document.getElementById(`preview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    const btnRemove = document.getElementById(`btnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    
+    const placeholders = {
+        asunto: 'Referencia del<br>tema principal',
+        escena: 'Referencia de<br>composición/ambiente',
+        estilo: 'Referencia de<br>estética visual'
+    };
+    
+    preview.innerHTML = `
+        <div class="visual-reference-placeholder">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span class="visual-reference-placeholder-text">${placeholders[type]}</span>
+        </div>
+    `;
+    preview.classList.remove('has-image');
+    btnRemove.disabled = true;
+}
+
+function downloadReference(type, base64Data, categoryName) {
+    // Convertir base64 a blob
+    const byteString = atob(base64Data.split(',')[1]);
+    const mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
+    
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([ab], { type: mimeString });
+    
+    // Crear enlace de descarga
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${categoryName}_${type}_referencia.${mimeString.split('/')[1]}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function loadReferencesInPromptsModule() {
+    // Obtener el guion actual
+    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) {
+        return;
+    }
+    
+    const script = filteredScripts[currentViewIndex];
+    const category = categories.find(cat => cat.name === script.category);
+    
+    if (!category || !category.visualReferences) {
+        // No hay referencias, ocultar panel
+        document.getElementById('promptsReferencesPanel').style.display = 'none';
+        return;
+    }
+    
+    const refs = category.visualReferences;
+    const hasAnyReference = refs.asunto || refs.escena || refs.estilo;
+    
+    if (!hasAnyReference) {
+        // No hay referencias, ocultar panel
+        document.getElementById('promptsReferencesPanel').style.display = 'none';
+        return;
+    }
+    
+    // Hay referencias, mostrar panel
+    document.getElementById('promptsReferencesPanel').style.display = 'block';
+    
+    // Construir HTML de referencias
+    const referencesHTML = ['asunto', 'escena', 'estilo']
+        .filter(type => refs[type])
+        .map(type => {
+            const labels = {
+                asunto: 'Asunto',
+                escena: 'Escena',
+                estilo: 'Estilo'
+            };
+            
+            const icons = {
+                asunto: '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle>',
+                escena: '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>',
+                estilo: '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>'
+            };
+            
+            // ✨ NUEVO: Colores distintivos por tipo
+            const accentColors = {
+                asunto: '#8b5cf6',  // Púrpura
+                escena: '#3b82f6',  // Azul
+                estilo: '#10b981'   // Verde
+            };
+            
+            return `
+                <div class="prompts-reference-item" style="border-left: 3px solid ${accentColors[type]};">
+                    <div class="prompts-reference-image-container">
+                        <img src="${refs[type]}" alt="Referencia ${type}">
+                    </div>
+                    <button class="btn-download-reference-minimal" 
+                            onclick="downloadReference('${type}', \`${refs[type]}\`, '${category.name}')"
+                            style="background: ${accentColors[type]}15; color: ${accentColors[type]}; border-color: ${accentColors[type]}40;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            ${icons[type]}
+                        </svg>
+                        <span style="font-weight: 600;">${labels[type]}</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: auto;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                </div>
+            `;        })
+        .join('');
+    
+    if (referencesHTML) {
+        document.getElementById('promptsReferencesGrid').innerHTML = referencesHTML;
+    } else {
+        document.getElementById('promptsReferencesGrid').innerHTML = '<div class="prompts-references-empty">No hay referencias visuales configuradas</div>';
+    }
+}
+
+// ============================================
+// FIN DEL MÓDULO DE REFERENCIAS VISUALES
+// ============================================
+
+// ============================================
+// GESTIÓN DE EXPANSIÓN DE PROMPTS LARGOS
+// ============================================
+
+function togglePromptExpansion() {
+    const contentEl = document.getElementById('promptsCurrentContent');
+    const btn = document.getElementById('promptsReadMoreBtn');
+    const btnText = document.getElementById('readMoreBtnText');
+    
+    contentEl.classList.toggle('expanded');
+    btn.classList.toggle('expanded');
+    
+    if (contentEl.classList.contains('expanded')) {
+        btnText.textContent = 'Mostrar Menos';
+    } else {
+        btnText.textContent = 'Leer Más';
+        // Scroll suave al inicio del prompt
+        contentEl.scrollTop = 0;
+    }
+}
+
+function checkPromptHeight() {
+    const contentEl = document.getElementById('promptsCurrentContent');
+    const btn = document.getElementById('promptsReadMoreBtn');
+    
+    if (!contentEl || !btn) return;
+    
+    // Resetear estado antes de medir
+    contentEl.classList.remove('expanded');
+    btn.classList.remove('expanded', 'visible');
+    document.getElementById('readMoreBtnText').textContent = 'Leer Más';
+    
+    // Forzar reflow para obtener medidas correctas
+    contentEl.offsetHeight;
+    
+    // Verificar si el contenido excede la altura máxima
+    const isOverflowing = contentEl.scrollHeight > contentEl.clientHeight + 20; // +20 de margen
+    
+    if (isOverflowing) {
+        btn.classList.add('visible');
+    } else {
+        btn.classList.remove('visible');
+    }
+}
+
+// ============================================
+// FIN DE GESTIÓN DE EXPANSIÓN
+// ============================================
+
 // Initialize
 initializeData();
 
@@ -7257,173 +7925,85 @@ initializeData();
 
 let promptsList = [];
 let currentPromptIndex = 0;
-let promptsGeneratorState = {
-    isActive: false,
-    prompts: [],
-    currentIndex: 0,
-    wasProcessed: false
-};
 
 function openPromptsGenerator() {
-    // Si ya hay prompts procesados, restaurar el estado
-    if (promptsGeneratorState.wasProcessed && promptsGeneratorState.prompts.length > 0) {
-        promptsList = [...promptsGeneratorState.prompts];
-        currentPromptIndex = promptsGeneratorState.currentIndex;
-        
-        // Mostrar el prompt actual
-        showCurrentPrompt();
-        
-        // Cambiar estados
-        document.getElementById('promptsWaitingState').classList.remove('active');
-        document.getElementById('promptsActiveState').classList.add('active');
-        document.getElementById('promptsProgressIndicator').style.display = 'flex';
-    } else {
-        resetPromptsGenerator();
-    }
-    
-    promptsGeneratorState.isActive = true;
+    resetPromptsGenerator();
     document.getElementById('promptsGeneratorModal').classList.add('active');
+    loadReferencesInPromptsModule();
+    document.getElementById('promptsPasteArea').focus();
 }
 
 function closePromptsGenerator() {
-    // Guardar el estado actual antes de cerrar
-    if (promptsList.length > 0) {
-        promptsGeneratorState.prompts = [...promptsList];
-        promptsGeneratorState.currentIndex = currentPromptIndex;
-        promptsGeneratorState.wasProcessed = true;
-    }
-    
-    promptsGeneratorState.isActive = false;
     document.getElementById('promptsGeneratorModal').classList.remove('active');
-    
-    // NO resetear - mantener el estado para cuando regrese
 }
 
 function resetPromptsGenerator() {
-    // Limpiar datos
     promptsList = [];
     currentPromptIndex = 0;
-
-    // Resetear estados visuales
+    document.getElementById('promptsPasteArea').value = '';
     document.getElementById('promptsWaitingState').classList.add('active');
     document.getElementById('promptsActiveState').classList.remove('active');
     document.getElementById('promptsCompletedState').classList.remove('active');
-    document.getElementById('promptsProgressIndicator').style.display = 'none';
-    
-    // Resetear botón de copiar
-    const copyBtn = document.getElementById('promptsCopyBtn');
-    const copyBtnText = document.getElementById('promptsCopyBtnText');
-    copyBtn.classList.remove('copied');
-    copyBtnText.textContent = 'Copiar Prompt';
 }
 
-async function processPromptsFromClipboard() {
+function processPromptsFromTextArea() {
+    const content = document.getElementById('promptsPasteArea').value;
     const btn = document.getElementById('promptsProcessBtn');
     const originalHTML = btn.innerHTML;
-    
-    try {
-        // Deshabilitar botón
-        btn.disabled = true;
-        btn.innerHTML = '<span>Leyendo portapapeles...</span>';
-        
-        // Leer del portapapeles
-        const content = await navigator.clipboard.readText();
-        
-        if (!content || content.trim().length === 0) {
-            alert('El portapapeles está vacío.\n\nPor favor, copia primero la lista de prompts generados.');
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-            return;
-        }
-        
-        // LIMPIEZA: Eliminar asteriscos (*)
-        const cleanedContent = content.replace(/\*/g, '');
-        
-        // CORREGIDO: Procesar el contenido capturando descripciones completas con saltos de línea
-        promptsList = [];
-        
-        // Dividir por enumeraciones: buscar patrones como "1.", "2.", "3." al inicio de línea
-        // Usamos lookahead para no consumir el separador
-        const promptBlocks = cleanedContent.split(/(?=^\d+\.\s)/m);
-        
-        promptBlocks.forEach(block => {
-            const trimmedBlock = block.trim();
-            if (!trimmedBlock) return; // Saltar bloques vacíos
-            
-            // Verificar que empiece con número seguido de punto
-            if (/^\d+\.\s/.test(trimmedBlock)) {
-                // Guardar el bloque completo (incluye todo el texto hasta el siguiente número)
-                promptsList.push(trimmedBlock);
-            }
-        });
-        
-        // Validar que se encontraron prompts
-        if (promptsList.length === 0) {
-            alert('No se detectaron prompts en el formato correcto.\n\nAsegúrate de que cada prompt comience con un número seguido de punto (1., 2., 3., etc.)');
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-            return;
-        }
-        
-        // Iniciar visualización
-        currentPromptIndex = 0;
-        
-        // COPIAR AUTOMÁTICAMENTE EL PRIMER PROMPT
-        await copyPromptToClipboard(promptsList[0]);
-        
-        // Mostrar el primer prompt
-        showCurrentPrompt();
-        
-        // Cambiar estados
-        document.getElementById('promptsWaitingState').classList.remove('active');
-        document.getElementById('promptsActiveState').classList.add('active');
-        document.getElementById('promptsProgressIndicator').style.display = 'flex';
-        
-        // Restaurar botón
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
-        
-    } catch (err) {
-        console.error('Error al leer el portapapeles:', err);
-        alert('No se pudo acceder al portapapeles.\n\nAsegúrate de haber dado permisos al navegador o copia el texto manualmente.');
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
+
+    if (!content || content.trim().length === 0) {
+        alert('El área de texto está vacía. Pega los prompts antes de procesar.');
+        return;
     }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>Procesando...</span>';
+
+    // Limpieza y parseo de prompts
+    const cleanedContent = content.replace(/\*/g, '');
+    const promptBlocks = cleanedContent.split(/(?=^\d+\.\s)/m);
+    
+    promptsList = promptBlocks.map(b => b.trim()).filter(b => b && /^\d+\.\s/.test(b));
+
+    if (promptsList.length === 0) {
+        alert('No se detectaron prompts en el formato correcto (ej: "1. Texto del prompt...").');
+        btn.disabled = false;
+        btn.innerHTML = originalHTML;
+        return;
+    }
+
+    currentPromptIndex = 0;
+    copyPromptToClipboard(promptsList[0]);
+    showCurrentPrompt();
+
+    document.getElementById('promptsWaitingState').classList.remove('active');
+    document.getElementById('promptsActiveState').classList.add('active');
+
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
 }
 
-// Función auxiliar para copiar al portapapeles
 async function copyPromptToClipboard(promptText) {
     try {
         await navigator.clipboard.writeText(promptText);
-        console.log('✓ Prompt copiado automáticamente:', promptText);
     } catch (err) {
         console.error('Error al copiar automáticamente:', err);
     }
 }
 
 function showCurrentPrompt() {
-    if (currentPromptIndex >= promptsList.length) {
-        // Ya terminamos todos los prompts
-        showCompletedState();
-        return;
-    }
-    
-    const currentPrompt = promptsList[currentPromptIndex];
-    
-    // Extraer solo el texto sin el número para visualización
-    const match = currentPrompt.match(/^\d+\.\s*(.+)$/);
-    const displayText = match ? match[1] : currentPrompt;
-    
-    // Actualizar contenido (mostrar sin número)
-    document.getElementById('promptsCurrentContent').textContent = displayText;    document.getElementById('promptsCurrentBadge').textContent = `Prompt ${currentPromptIndex + 1} de ${promptsList.length}`;
-    document.getElementById('promptsProgressText').textContent = `${currentPromptIndex + 1} de ${promptsList.length}`;
-    
-    // Actualizar botón "Siguiente"
+    const prompt = promptsList[currentPromptIndex];
+    const match = prompt.match(/^\d+\.\s*(.*)$/s);
+    const displayText = match ? match[1].trim() : prompt.trim();
+
+    document.getElementById('promptsCurrentContent').textContent = displayText;
+    document.getElementById('promptsCurrentBadge').textContent = `Prompt ${currentPromptIndex + 1} de ${promptsList.length}`;
+
+    setTimeout(checkPromptHeight, 50);
+
     const nextBtn = document.getElementById('promptsNextBtn');
     const nextBtnText = document.getElementById('promptsNextBtnText');
-    
     if (currentPromptIndex === promptsList.length - 1) {
-        // Es el último prompt
         nextBtnText.textContent = 'Finalizar';
         nextBtn.classList.add('finish');
     } else {
@@ -7431,64 +8011,34 @@ function showCurrentPrompt() {
         nextBtn.classList.remove('finish');
     }
 
-    // NUEVO: Gestionar el botón de Retroceso
-    const prevBtn = document.getElementById('promptsPrevBtn');
-    
-    if (currentPromptIndex === 0) {
-        // Es el primer prompt - deshabilitar retroceso
-        prevBtn.disabled = true;
-        prevBtn.style.opacity = '0.5';
-        prevBtn.style.cursor = 'not-allowed';
-    } else {
-        prevBtn.disabled = false;
-        prevBtn.style.opacity = '1';
-        prevBtn.style.cursor = 'pointer';
-    }
-    
-    // Resetear estado del botón de copiar
+    document.getElementById('promptsPrevBtn').disabled = currentPromptIndex === 0;
+
     const copyBtn = document.getElementById('promptsCopyBtn');
-    const copyBtnText = document.getElementById('promptsCopyBtnText');
     copyBtn.classList.remove('copied');
-    copyBtnText.textContent = 'Copiar Prompt';
+    document.getElementById('promptsCopyBtnText').textContent = 'Copiar Prompt';
 }
 
 async function copyCurrentPrompt() {
-    const currentPrompt = promptsList[currentPromptIndex];
+    if (!promptsList[currentPromptIndex]) return;
+    await copyPromptToClipboard(promptsList[currentPromptIndex]);
     const copyBtn = document.getElementById('promptsCopyBtn');
-    const copyBtnText = document.getElementById('promptsCopyBtnText');
-    
-    // Copiar con el formato completo (incluye número)
-    await copyPromptToClipboard(currentPrompt);
-    
-    // Feedback visual
     copyBtn.classList.add('copied');
-    copyBtnText.textContent = '¡Copiado!';
-    
-    setTimeout(() => {
-    
-    copyBtn.classList.remove('copied');
-        copyBtnText.textContent = 'Copiar Prompt';
-    }, 2000);
+    document.getElementById('promptsCopyBtnText').textContent = '¡Copiado!';
 }
 
 async function nextPrompt() {
-    currentPromptIndex++;
-    
-    if (currentPromptIndex >= promptsList.length) {
-        showCompletedState();
-    } else {
-        // COPIAR AUTOMÁTICAMENTE EL SIGUIENTE PROMPT
+    if (currentPromptIndex < promptsList.length - 1) {
+        currentPromptIndex++;
         await copyPromptToClipboard(promptsList[currentPromptIndex]);
         showCurrentPrompt();
+    } else {
+        showCompletedState();
     }
 }
 
-// NUEVA FUNCIÓN: Retroceder al prompt anterior
 async function prevPrompt() {
     if (currentPromptIndex > 0) {
         currentPromptIndex--;
-        
-        // COPIAR AUTOMÁTICAMENTE EL PROMPT ANTERIOR
         await copyPromptToClipboard(promptsList[currentPromptIndex]);
         showCurrentPrompt();
     }
@@ -7497,23 +8047,34 @@ async function prevPrompt() {
 function showCompletedState() {
     document.getElementById('promptsActiveState').classList.remove('active');
     document.getElementById('promptsCompletedState').classList.add('active');
-    document.getElementById('promptsProgressIndicator').style.display = 'none';
+}
+
+// ============================================
+// GESTIÓN DE EXPANSIÓN DE PROMPTS LARGOS
+// ============================================
+
+function togglePromptExpansion() {
+    const contentEl = document.getElementById('promptsCurrentContent');
+    const btn = document.getElementById('promptsReadMoreBtn');
+    contentEl.classList.toggle('expanded');
+    btn.classList.toggle('expanded');
+    btn.querySelector('span').textContent = contentEl.classList.contains('expanded') ? 'Mostrar Menos' : 'Leer Más';
+    if (!contentEl.classList.contains('expanded')) contentEl.scrollTop = 0;
+}
+
+function checkPromptHeight() {
+    const contentEl = document.getElementById('promptsCurrentContent');
+    const btn = document.getElementById('promptsReadMoreBtn');
+    if (!contentEl || !btn) return;
     
-    // CORREGIDO: Cierre inmediato sin retraso
-    // Limpiar el estado para permitir nuevo proceso
-    promptsGeneratorState = {
-        isActive: false,
-        prompts: [],
-        currentIndex: 0,
-        wasProcessed: false
-    };
-    promptsList = [];
-    currentPromptIndex = 0;
-    
-    // Cerrar inmediatamente con transición CSS suave
-    setTimeout(() => {
-        closePromptsGenerator();
-    }, 300); // Solo 300ms para transición visual suave
+    contentEl.classList.remove('expanded');
+    btn.classList.remove('expanded', 'visible');
+    btn.querySelector('span').textContent = 'Leer Más';
+
+    const isOverflowing = contentEl.scrollHeight > contentEl.clientHeight;
+    if (isOverflowing) {
+        btn.classList.add('visible');
+    }
 }
     </script>
 </body>
