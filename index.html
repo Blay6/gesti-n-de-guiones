@@ -4582,7 +4582,7 @@ body {
                 </div>
                 <div class="form-group">
                     <label>Ruta de Exportación del Video <span style="color: #ef4444;">*</span></label>
-                    <input type="text" id="editCategoryExportPath" placeholder="Ej: C:\Videos\Exportados" class="path-input" required>
+                    <input type="text" id="editCategoryExportPath" placeholder="Ej: C:\Videos\Exportados (si se deja vacío no se guardará ruta)" class="path-input">
                 </div>
                 <div class="form-group">
                     <label>Prompt de Generación de Imágenes/Video</label>
@@ -5432,7 +5432,8 @@ function addCategory() {
     
     const categoryName = nameInput.value.trim();
     const categoryPath = pathInput.value.trim();
-    const categoryExportPath = exportPathInput.value.trim();
+    // ✨ MODIFICACIÓN: Si el campo está vacío, se asigna 'Descargas'.
+    const categoryExportPath = exportPathInput.value.trim() || 'Descargas';
     
     const categoryPrompt = (promptInput && promptInput.value.trim()) 
         ? promptInput.value.trim() 
@@ -5443,11 +5444,7 @@ function addCategory() {
         return;
     }
     
-    if (!categoryExportPath) {
-        alert('Por favor, ingresa la ruta de exportación del video (campo obligatorio)');
-        exportPathInput.focus();
-        return;
-    }
+    // ✨ ELIMINADO: Se elimina el bloque de validación para la ruta de exportación.
     
     if (categories.some(cat => cat.name === categoryName)) {
         alert('Ya existe una categoría con ese nombre');
@@ -6198,6 +6195,57 @@ function copyCategoryPath() {
     }).catch(err => {
         console.error('❌ Error al copiar:', err);
         alert('No se pudo copiar la ruta');
+    });
+}
+
+// ============================================
+// ✨ NUEVA FUNCIÓN AÑADIDA
+// ============================================
+function copyCategoryExportPath() {
+    const pathElement = document.getElementById('categoryExportPath');
+    
+    if (!pathElement) {
+        console.error('❌ No se encontró el elemento categoryExportPath');
+        alert('No se encontró la ruta de exportación');
+        return;
+    }
+    
+    const pathText = pathElement.textContent.trim();
+    
+    if (!pathText || pathText.length === 0) {
+        alert('No hay ruta de exportación disponible para copiar');
+        return;
+    }
+    
+    console.log('📋 Copiando ruta de exportación:', pathText);
+    
+    navigator.clipboard.writeText(pathText).then(() => {
+        console.log('✅ Ruta de exportación copiada exitosamente');
+        
+        const btn = document.querySelector('.sidebar-action-btn.export-btn[onclick*="copyCategoryExportPath"]');
+        
+        if (btn) {
+            const btnTitle = btn.querySelector('.action-btn-title');
+            if (btnTitle) {
+                const originalText = btnTitle.textContent;
+                btnTitle.textContent = '✓ ¡Copiado!';
+                btn.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
+                btn.style.borderColor = '#16a34a';
+                btn.style.color = 'white';
+                
+                setTimeout(() => {
+                    btnTitle.textContent = originalText;
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }, 2000);
+            }
+        } else {
+            showToast('✓ Ruta de exportación copiada al portapapeles');
+        }
+    }).catch(err => {
+        console.error('❌ Error al copiar:', err);
+        alert('No se pudo copiar la ruta de exportación');
     });
 }
 
