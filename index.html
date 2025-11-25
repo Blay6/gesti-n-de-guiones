@@ -3927,6 +3927,131 @@ body {
         margin: 0 2px;
     }
 }
+
+/* --- INICIO CÓDIGO NUEVO FILTROS --- */
+.filter-creation-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.filter-inputs-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.filter-arrow {
+    color: #a3a3a3;
+    flex-shrink: 0;
+}
+
+.category-tags-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+}
+
+.cat-tag-option {
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    font-weight: 500;
+    color: #525252;
+}
+
+.cat-tag-option:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.cat-tag-option.selected {
+    background: #eff6ff;
+    border-color: #2563eb;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.filter-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+}
+
+.filter-item-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.filter-words-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.filter-replacement-arrow {
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.filter-categories-badges {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.mini-cat-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    color: #737373;
+    border: 1px solid #e5e5e5;
+}
+
+.btn-add-filter {
+    width: 100%;
+    padding: 12px;
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-add-filter:hover {
+    background: #000;
+    transform: translateY(-1px);
+}
+/* --- FIN CÓDIGO NUEVO FILTROS --- */
     </style>
 </head>
 <body>
@@ -4762,6 +4887,129 @@ body {
                         <label>Contenido del Guión</label>
                         <textarea id="editScriptContent" required></textarea>
                     </div>
+                    <!-- INICIO: NUEVA SECCIÓN REFERENCIAS VISUALES (EDITAR GUION) -->
+                <div class="visual-references-section" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e5e5;">
+                    <div class="visual-references-header">
+                        <div class="visual-references-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                        <div class="visual-references-title-group">
+                            <h3>🖼️ Referencias Visuales del Guion</h3>
+                            <p class="visual-references-subtitle">Personaliza las imágenes específicas para este guion</p>
+                        </div>
+                    </div>
+                    
+                    <div class="visual-references-grid">
+                        <!-- Referencia: Asunto -->
+                        <div class="visual-reference-card">
+                            <div class="visual-reference-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                Asunto
+                            </div>
+                            <div class="visual-reference-preview" id="editScriptPreviewAsunto">
+                                <!-- Se llena dinámicamente -->
+                                <div class="visual-reference-placeholder">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    <span class="visual-reference-placeholder-text" style="opacity:0.6">Sin imagen</span>
+                                </div>
+                            </div>
+                            <div class="visual-reference-actions">
+                                <input type="file" id="editScriptInputAsunto" class="visual-reference-input" accept="image/*" onchange="handleScriptReferenceUpload('asunto', event)">
+                                <label for="editScriptInputAsunto" class="btn-upload-reference">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    Subir
+                                </label>
+                                <button type="button" class="btn-remove-reference" id="editScriptBtnRemoveAsunto" onclick="removeScriptReference('asunto')" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Referencia: Escena -->
+                        <div class="visual-reference-card">
+                            <div class="visual-reference-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                Escena
+                            </div>
+                            <div class="visual-reference-preview" id="editScriptPreviewEscena">
+                                <!-- Se llena dinámicamente -->
+                                <div class="visual-reference-placeholder">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    <span class="visual-reference-placeholder-text" style="opacity:0.6">Sin imagen</span>
+                                </div>
+                            </div>
+                            <div class="visual-reference-actions">
+                                <input type="file" id="editScriptInputEscena" class="visual-reference-input" accept="image/*" onchange="handleScriptReferenceUpload('escena', event)">
+                                <label for="editScriptInputEscena" class="btn-upload-reference">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    Subir
+                                </label>
+                                <button type="button" class="btn-remove-reference" id="editScriptBtnRemoveEscena" onclick="removeScriptReference('escena')" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Referencia: Estilo -->
+                        <div class="visual-reference-card">
+                            <div class="visual-reference-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                </svg>
+                                Estilo
+                            </div>
+                            <div class="visual-reference-preview" id="editScriptPreviewEstilo">
+                                <!-- Se llena dinámicamente -->
+                                <div class="visual-reference-placeholder">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    <span class="visual-reference-placeholder-text" style="opacity:0.6">Sin imagen</span>
+                                </div>
+                            </div>
+                            <div class="visual-reference-actions">
+                                <input type="file" id="editScriptInputEstilo" class="visual-reference-input" accept="image/*" onchange="handleScriptReferenceUpload('estilo', event)">
+                                <label for="editScriptInputEstilo" class="btn-upload-reference">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    Subir
+                                </label>
+                                <button type="button" class="btn-remove-reference" id="editScriptBtnRemoveEstilo" onclick="removeScriptReference('estilo')" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- FIN: NUEVA SECCIÓN REFERENCIAS VISUALES -->
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal('editScriptModal')">Cancelar</button>
                         <button type="submit" class="btn-save">Guardar cambios</button>
@@ -4830,25 +5078,42 @@ body {
         <div class="modal-body" style="padding: 0;">
             <!-- Sistema de Pestañas para Configuración -->
             <div class="config-tabs-container">
-                <div class="config-tabs">
-                    <button class="config-tab-button active" onclick="switchConfigTab('formulas')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                            <path d="M3 9h18"></path>
-                            <path d="M9 21V9"></path>
-                        </svg>
-                        <span>Fórmulas Base</span>
-                    </button>
-                    <button class="config-tab-button" onclick="switchConfigTab('prompts')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                        </svg>
-                        <span>Prompts para IA</span>
-                    </button>
-                </div>
-            </div>
+<div class="config-tabs">
+    <!-- Botón 1: Fórmulas Base -->
+    <button class="config-tab-button active" onclick="switchConfigTab('formulas')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M3 9h18"></path>
+            <path d="M9 21V9"></path>
+        </svg>
+        <span>Fórmulas Base</span>
+    </button>
+    
+    <!-- Botón 2: Prompts para IA (ESTE ES EL QUE FALTABA) -->
+    <button class="config-tab-button" onclick="switchConfigTab('prompts')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+        </svg>
+        <span>Prompts para IA</span>
+    </button>
 
-            <!-- Contenido de las Pestañas -->
+    <!-- Botón 3: Filtros de Texto -->
+    <button class="config-tab-button" onclick="switchConfigTab('filters')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 21v-7"></path>
+            <path d="M4 10V3"></path>
+            <path d="M12 21v-9"></path>
+            <path d="M12 8V3"></path>
+            <path d="M20 21v-5"></path>
+            <path d="M20 12V3"></path>
+            <path d="M1 14h6"></path>
+            <path d="M9 8h6"></path>
+            <path d="M17 16h6"></path>
+        </svg>
+        <span>Filtros de Texto</span>
+    </button>
+</div>            <!-- Contenido de las Pestañas -->
+
             <div class="config-tab-content-wrapper">
                 <!-- PESTAÑA 1: Fórmulas Base -->
                 <div class="config-tab-content active" id="configTabFormulas">
@@ -4984,6 +5249,68 @@ body {
 
                         <!-- Lista de Prompts por Categoría -->
                         <div id="configPromptsContainer"></div>
+                    </div>
+                </div>
+                <!-- PESTAÑA 3: Filtros de Texto -->
+                <div class="config-tab-content" id="configTabFilters">
+                    <div style="padding: 32px;">
+                        <!-- Header Explicativo -->
+                        <div style="background: linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%); border-left: 4px solid #525252; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                            <div style="display: flex; align-items: start; gap: 16px;">
+                                <div style="background: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#525252" stroke-width="2">
+                                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                                    </svg>
+                                </div>
+                                <div style="flex: 1;">
+                                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px;">
+                                        Reemplazo Automático
+                                    </h3>
+                                    <p style="font-size: 13px; color: #525252; line-height: 1.6; margin: 0;">
+                                        Define palabras que serán reemplazadas automáticamente al guardar un guion. Útil para corregir terminología técnica o censurar palabras según la categoría.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Área de Creación -->
+                        <div class="filter-creation-card">
+                            <h4 style="font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px;">NUEVA REGLA</h4>
+                            
+                            <div class="filter-inputs-row">
+                                <div style="flex: 1;">
+                                    <label style="font-size: 11px; font-weight: 700; color: #737373; display: block; margin-bottom: 6px;">ORIGINAL</label>
+                                    <input type="text" id="newFilterOriginal" class="search-input" placeholder="Ej: codigo" style="background: #fff;">
+                                </div>
+                                <div class="filter-arrow">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </div>
+                                <div style="flex: 1;">
+                                    <label style="font-size: 11px; font-weight: 700; color: #2563eb; display: block; margin-bottom: 6px;">REEMPLAZO</label>
+                                    <input type="text" id="newFilterReplacement" class="search-input" placeholder="Ej: codix" style="background: #fff; border-color: #bfdbfe;">
+                                </div>
+                            </div>
+
+                            <label style="font-size: 11px; font-weight: 700; color: #737373;">APLICAR EN CATEGORÍAS:</label>
+                            <div class="category-tags-selector" id="newFilterCategories">
+                                <!-- Se llenará con JS -->
+                            </div>
+                            
+                            <button class="btn-add-filter" onclick="addNewFilter()" style="margin-top: 16px;">
+                                + Agregar Regla de Reemplazo
+                            </button>
+                        </div>
+
+                        <!-- Lista de Filtros Existentes -->
+                        <h4 style="font-size: 12px; font-weight: 700; color: #a3a3a3; letter-spacing: 0.05em; margin-bottom: 12px;">REGLAS ACTIVAS</h4>
+                        <div id="activeFiltersList">
+                            <!-- Se llenará con JS -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -5174,6 +5501,7 @@ body {
     <script>
 let scripts = [];
 let categories = [];
+let wordFilters = [];
 let currentFilter = 'all';
 let currentViewIndex = -1;
 let filteredScripts = [];
@@ -5235,8 +5563,10 @@ La respuesta debe ser siempre una lista numerada (1., 2., 3., etc.) de prompts d
 
 function initializeData() {
     scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
-    const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+    // Cargar filtros guardados
+    wordFilters = JSON.parse(localStorage.getItem('wordFilters') || '[]'); // <--- NUEVO
     
+    const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');    
     // Migrar categorías antiguas (strings) a nuevo formato (objetos)
     categories = storedCategories.map(cat => {
         if (typeof cat === 'string') {
@@ -5369,6 +5699,7 @@ function saveData() {
     localStorage.setItem('scripts', JSON.stringify(scripts));
     localStorage.setItem('categories', JSON.stringify(categories));
     localStorage.setItem('config', JSON.stringify(config));
+    localStorage.setItem('wordFilters', JSON.stringify(wordFilters));
 }
 
 // ============================================
@@ -5648,6 +5979,105 @@ function removeNewReference(type) {
             }
         }
 
+        // --- INICIO LÓGICA REFERENCIAS VISUALES (GUION INDIVIDUAL) ---
+
+        // Variable temporal para almacenar las referencias mientras se edita
+        let tempScriptVisualReferences = {
+            asunto: null,
+            escena: null,
+            estilo: null
+        };
+
+        // Función para cargar las referencias existentes en la interfaz
+        function loadScriptVisualReferences(references) {
+            // Si existen referencias previas, las usamos, si no, null
+            tempScriptVisualReferences = {
+                asunto: references?.asunto || null,
+                escena: references?.escena || null,
+                estilo: references?.estilo || null
+            };
+            
+            // Actualizar la vista previa de cada tipo
+            ['asunto', 'escena', 'estilo'].forEach(type => {
+                const preview = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                const btnRemove = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                
+                if (tempScriptVisualReferences[type]) {
+                    preview.innerHTML = `<img src="${tempScriptVisualReferences[type]}" alt="Referencia ${type}" style="width:100%; height:100%; object-fit:contain;">`;
+                    preview.classList.add('has-image');
+                    if(btnRemove) btnRemove.disabled = false;
+                } else {
+                    resetScriptReferencePreview(type);
+                }
+            });
+        }
+
+        // Función para manejar la subida de archivos desde el input
+        function handleScriptReferenceUpload(type, event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor, selecciona un archivo de imagen válido');
+                return;
+            }
+            
+            // Límite de tamaño opcional (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('La imagen es demasiado grande. Máximo 5MB.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64String = e.target.result;
+                tempScriptVisualReferences[type] = base64String;
+                
+                // Actualizar UI inmediatamente
+                const preview = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                const btnRemove = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                
+                preview.innerHTML = `<img src="${base64String}" alt="Referencia ${type}" style="width:100%; height:100%; object-fit:contain;">`;
+                preview.classList.add('has-image');
+                if(btnRemove) btnRemove.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Función para eliminar una referencia específica
+        function removeScriptReference(type) {
+            tempScriptVisualReferences[type] = null;
+            resetScriptReferencePreview(type);
+            // Limpiar el input file para permitir subir la misma imagen si se desea
+            const input = document.getElementById(`editScriptInput${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            if(input) input.value = '';
+        }
+
+        // Función auxiliar para resetear la vista previa al placeholder
+        function resetScriptReferencePreview(type) {
+            const preview = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            const btnRemove = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            
+            const placeholders = {
+                asunto: 'Sin imagen<br>de asunto',
+                escena: 'Sin imagen<br>de escena',
+                estilo: 'Sin imagen<br>de estilo'
+            };
+            
+            preview.innerHTML = `
+                <div class="visual-reference-placeholder">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="3" y1="3" x2="21" y2="21"></line>
+                    </svg>
+                    <span class="visual-reference-placeholder-text" style="opacity:0.6">${placeholders[type]}</span>
+                </div>
+            `;
+            preview.classList.remove('has-image');
+            if(btnRemove) btnRemove.disabled = true;
+        }
+        // --- FIN LÓGICA REFERENCIAS VISUALES ---
+
         function openEditScriptModal() {
             if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
                 const script = filteredScripts[currentViewIndex];
@@ -5661,12 +6091,15 @@ function removeNewReference(type) {
                 document.getElementById('editScriptTitle').value = originalScript.title;
                 document.getElementById('editScriptContent').value = originalScript.content;
                 
-                // Actualizar select de categorías
-                updateEditScriptCategorySelect();
-                document.getElementById('editScriptCategory').value = originalScript.category;
+// Actualizar select de categorías
+    updateEditScriptCategorySelect();
+    document.getElementById('editScriptCategory').value = originalScript.category;
 
-                // Cerrar modal de visualización y abrir modal de edición
-                closeModal('viewModal');
+    // --- CÓDIGO NUEVO: Cargar Referencias Visuales del Guion ---
+    loadScriptVisualReferences(originalScript.visualReferences || null);
+    // ---------------------------------------------------
+
+    // Cerrar modal de visualización y abrir modal de edición                closeModal('viewModal');
                 document.getElementById('editScriptModal').classList.add('active');
                 document.getElementById('editScriptTitle').focus();
             }
@@ -5720,15 +6153,39 @@ function removeNewReference(type) {
                     categories.push({ name: 'General', path: '' });
                 }
             }
+
+            // --- APLICAR FILTROS ---
+            // Reemplazamos el contenido original por el procesado
+            const processedContent = processTextReplacement(content, category);
+            // -----------------------
+            
+            scripts.push({
+                id: Date.now(),
+                title,
+                category,
+                content: processedContent, // <--- CAMBIA 'content' por 'processedContent'
+                used: false,
+                createdAt: new Date().toISOString()
+            });
             
             // Buscar y actualizar el script
             const scriptIndex = scripts.findIndex(s => s.id === scriptId);
             if (scriptIndex !== -1) {
+                // --- APLICAR FILTROS ---
+                const processedContent = processTextReplacement(content, category);
+                // -----------------------
+
                 scripts[scriptIndex].title = title;
                 scripts[scriptIndex].category = category;
-                scripts[scriptIndex].content = content;
-                scripts[scriptIndex].updatedAt = new Date().toISOString();
+                scripts[scriptIndex].content = processedContent;
                 
+                // --- CÓDIGO NUEVO: Guardar Referencias Visuales Específicas ---
+                // Usamos spread operator {...} para clonar el objeto y evitar referencias cruzadas
+                scripts[scriptIndex].visualReferences = { ...tempScriptVisualReferences };
+                // -------------------------------------------------------
+                
+                scripts[scriptIndex].updatedAt = new Date().toISOString();
+
                 saveData();
                 updateUI();
                 closeModal('editScriptModal');
@@ -6041,57 +6498,124 @@ if (category && category.promptTemplate) {
         }
 
 // ============================================
-// FUNCIONES DE COPIA CORREGIDAS
+// FUNCIONES DE COPIA INTELIGENTES (Mejoradas)
 // ============================================
 
+// 1. Función auxiliar para generar ID único basado en fecha (AAAA-MM-DD_HH-MM-SS)
+function generateTimestampTitle() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ms = String(now.getMilliseconds()).padStart(3, '0');
+    
+    return `${year}${month}${day}_${hours}${minutes}${seconds}_${ms}`;
+}
+
+// 2. Función principal de copiado de título
 function copyScriptTitle() {
+    // A. Obtener elemento visual
     const titleElement = document.getElementById('viewTitle');
     
     if (!titleElement) {
         console.error('❌ No se encontró el elemento viewTitle');
-        alert('No se encontró el título del guion');
         return;
     }
     
-    const titleText = titleElement.textContent.trim();
-    
-    if (!titleText || titleText.length === 0) {
-        alert('El título está vacío');
+    // B. Validar datos del guion activo
+    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) {
+        // Fallback por si falla el índice: Copiar lo que se ve en pantalla
+        const visibleText = titleElement.textContent.trim();
+        if(visibleText) {
+            navigator.clipboard.writeText(visibleText);
+            showToast('✓ Título Copiado');
+        }
         return;
     }
-    
-    console.log('📋 Copiando título:', titleText);
-    
-    // Intentar copiar al portapapeles
-    navigator.clipboard.writeText(titleText).then(() => {
-        console.log('✅ Título copiado exitosamente');
+
+    const currentScript = filteredScripts[currentViewIndex];
+    const categoryName = currentScript.category.trim(); // Ej: "General"
+    const currentTitle = currentScript.title.trim();    // Ej: "General 1" o "Mi Video"
+
+    let textToCopy = currentTitle;
+    let isDefault = false;
+
+    // C. LÓGICA DE DETECCIÓN INTELIGENTE
+    try {
+        // 1. Escapamos caracteres especiales de la categoría (por si se llama "C++" o "Preguntas?")
+        const escapedCat = categoryName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         
-        // Buscar el botón para feedback visual (puede no existir si viene de atajo)
+        // 2. Creamos el patrón estricto:
+        // ^           -> Empieza exactamente con...
+        // escapedCat  -> El nombre de la categoría
+        // (\s+\d+)?   -> Opcionalmente un espacio y números (ej: " 1", " 15")
+        // $           -> Termina exactamente ahí
+        // 'i'         -> Ignora mayúsculas/minúsculas
+        const defaultPattern = new RegExp(`^${escapedCat}(\\s+\\d+)?$`, 'i');
+
+        // 3. Comprobamos si el título actual cumple el patrón de "Título por defecto"
+        if (defaultPattern.test(currentTitle)) {
+            isDefault = true;
+            textToCopy = generateTimestampTitle(); // Generar ID único por fecha
+            console.log(`🔄 Patrón por defecto detectado. ID generado: ${textToCopy}`);
+        } else {
+            console.log(`✨ Título personalizado detectado. Copiando: ${textToCopy}`);
+        }
+    } catch (e) {
+        console.error("Error en validación regex:", e);
+    }
+
+    // D. Copiar al portapapeles con Feedback Visual Estético
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        
+        // Buscar el botón en el sidebar para animarlo
         const btn = document.querySelector('.sidebar-action-btn[onclick*="copyScriptTitle"]');
         
         if (btn) {
             const btnTitle = btn.querySelector('.action-btn-title');
+            const btnSubtitle = btn.querySelector('.action-btn-subtitle');
+            let originalTitle = '';
+            let originalSubtitle = '';
+
             if (btnTitle) {
-                const originalText = btnTitle.textContent;
-                btnTitle.textContent = '✓ ¡Copiado!';
-                btn.style.background = 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)';
-                btn.style.borderColor = '#8b5cf6';
-                btn.style.color = 'white';
-                
-                setTimeout(() => {
-                    btnTitle.textContent = originalText;
-                    btn.style.background = '';
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
-                }, 2000);
+                originalTitle = btnTitle.textContent;
+                // Cambiar texto según si fue ID o Título normal
+                btnTitle.textContent = isDefault ? '✓ ID Generado' : '✓ Título Copiado';
             }
+            
+            if (btnSubtitle) {
+                originalSubtitle = btnSubtitle.textContent;
+                // Mostrar brevemente lo que se copió si es un ID
+                if(isDefault) btnSubtitle.textContent = textToCopy;
+            }
+            
+            // Aplicar estilos estéticos de éxito
+            // Púrpura vibrante para ID generado, Verde para copiado normal (opcional, aquí uso púrpura para ambos para mantener consistencia con "Copiar Título")
+            btn.style.background = 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)';
+            btn.style.borderColor = '#8b5cf6';
+            btn.style.color = 'white';
+            btn.style.transform = 'scale(0.98)';
+            
+            // Restaurar estado original después de 2 segundos
+            setTimeout(() => {
+                if(btnTitle) btnTitle.textContent = originalTitle;
+                if(btnSubtitle) btnSubtitle.textContent = originalSubtitle;
+                
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                btn.style.color = '';
+                btn.style.transform = '';
+            }, 2000);
         } else {
-            // Feedback visual alternativo para atajos de teclado
-            showToast('✓ Título copiado al portapapeles');
+            // Feedback visual si se usó atajo de teclado (Ctrl+Shift+F)
+            showToast(isDefault ? `✓ ID generado: ${textToCopy}` : '✓ Título copiado');
         }
     }).catch(err => {
         console.error('❌ Error al copiar:', err);
-        alert('No se pudo copiar el título');
+        alert('No se pudo copiar el texto al portapapeles');
     });
 }
 
@@ -7288,10 +7812,14 @@ function agregarGuionesMasivos() {
     let duplicados = 0;
     
     // Procesar cada guion
-    guiones.forEach((contenido, index) => {
+    guiones.forEach((contenidoRaw, index) => {
+        // --- APLICAR FILTROS ---
+        const contenido = processTextReplacement(contenidoRaw.trim(), category);
+        // -----------------------
+
         // Verificar si ya existe (comparando contenido exacto en la misma categoría)
         const existe = scripts.some(s => 
-            s.content.trim() === contenido.trim() && 
+            s.content.trim() === contenido && // Ya comparamos con el contenido filtrado
             s.category === category
         );
         
@@ -7543,13 +8071,168 @@ function switchConfigTab(tabName) {
     const contents = document.querySelectorAll('.config-tab-content');
     contents.forEach(content => content.classList.remove('active'));
     
-    if (tabName === 'formulas') {
+if (tabName === 'formulas') {
         tabs[0].classList.add('active');
         document.getElementById('configTabFormulas').classList.add('active');
     } else if (tabName === 'prompts') {
         tabs[1].classList.add('active');
         document.getElementById('configTabPrompts').classList.add('active');
+    } else if (tabName === 'filters') { // <--- NUEVO BLOQUE
+        tabs[2].classList.add('active');
+        document.getElementById('configTabFilters').classList.add('active');
+        renderConfigFilters(); // Función que crearemos en el siguiente paso
     }
+}
+
+// ============================================
+// LÓGICA DE FILTROS Y REEMPLAZO (NUEVO)
+// ============================================
+
+function renderConfigFilters() {
+    // 1. Renderizar selector de categorías
+    const catSelector = document.getElementById('newFilterCategories');
+    if(catSelector) {
+        catSelector.innerHTML = '';
+        
+        // Opción "Todas"
+        const allOption = document.createElement('div');
+        allOption.className = 'cat-tag-option';
+        allOption.textContent = 'Todas';
+        allOption.onclick = function() { 
+            // Si seleccionas "Todas", desmarca las demás
+            const siblings = this.parentElement.children;
+            for(let el of siblings) el.classList.remove('selected');
+            this.classList.add('selected'); 
+        };
+        catSelector.appendChild(allOption);
+
+        categories.forEach(cat => {
+            const opt = document.createElement('div');
+            opt.className = 'cat-tag-option';
+            opt.textContent = cat.name;
+            opt.dataset.value = cat.name;
+            opt.onclick = function() { 
+                // Si seleccionas una específica, desmarca "Todas"
+                allOption.classList.remove('selected');
+                this.classList.toggle('selected'); 
+            };
+            catSelector.appendChild(opt);
+        });
+    }
+
+    // 2. Renderizar lista de filtros activos
+    const list = document.getElementById('activeFiltersList');
+    if(list) {
+        list.innerHTML = '';
+
+        if (wordFilters.length === 0) {
+            list.innerHTML = '<div style="text-align:center; padding: 20px; color:#a3a3a3; font-size:13px;">No hay reglas de reemplazo activas</div>';
+            return;
+        }
+
+        wordFilters.forEach((filter, index) => {
+            const item = document.createElement('div');
+            item.className = 'filter-item-card';
+            
+            // Mostrar categorías bonitas
+            const catsDisplay = filter.categories.includes('all') 
+                ? '<span class="mini-cat-badge">Todas las categorías</span>' 
+                : filter.categories.map(c => `<span class="mini-cat-badge">${c}</span>`).join('');
+
+            item.innerHTML = `
+                <div style="flex:1;">
+                    <div class="filter-words-display">
+                        <span>${filter.original}</span>
+                        <svg class="filter-replacement-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                        <span style="color: #2563eb;">${filter.replacement}</span>
+                    </div>
+                    <div class="filter-categories-badges">
+                        ${catsDisplay}
+                    </div>
+                </div>
+                <button class="icon-btn delete" onclick="deleteFilter(${index})" title="Eliminar regla" style="width:32px; height:32px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            `;
+            list.appendChild(item);
+        });
+    }
+}
+
+function addNewFilter() {
+    const original = document.getElementById('newFilterOriginal').value.trim();
+    const replacement = document.getElementById('newFilterReplacement').value.trim();
+    
+    // Obtener categorías seleccionadas
+    const selectedCats = [];
+    const options = document.querySelectorAll('#newFilterCategories .cat-tag-option.selected');
+    
+    options.forEach(opt => {
+        if (opt.textContent === 'Todas') selectedCats.push('all');
+        else selectedCats.push(opt.dataset.value);
+    });
+
+    if (!original || !replacement) {
+        alert('Por favor completa la palabra original y su reemplazo.');
+        return;
+    }
+
+    if (selectedCats.length === 0) {
+        alert('Selecciona al menos una categoría para aplicar el filtro.');
+        return;
+    }
+
+    wordFilters.push({
+        id: Date.now(),
+        original,
+        replacement,
+        categories: selectedCats
+    });
+
+    saveData();
+    renderConfigFilters();
+    
+    // Limpiar inputs
+    document.getElementById('newFilterOriginal').value = '';
+    document.getElementById('newFilterReplacement').value = '';
+    document.querySelectorAll('.cat-tag-option').forEach(el => el.classList.remove('selected'));
+}
+
+function deleteFilter(index) {
+    if(confirm('¿Eliminar esta regla de reemplazo?')) {
+        wordFilters.splice(index, 1);
+        saveData();
+        renderConfigFilters();
+    }
+}
+
+// FUNCIÓN DE PROCESAMIENTO PRINCIPAL (El Cerebro)
+function processTextReplacement(text, categoryName) {
+    if (!text) return text;
+    let processedText = text;
+
+    wordFilters.forEach(filter => {
+        // Verificar si aplica a esta categoría o a "todas"
+        const applies = filter.categories.includes('all') || filter.categories.includes(categoryName);
+        
+        if (applies) {
+            // Crear Regex Global Case-Insensitive para reemplazar todas las ocurrencias
+            // Escapamos caracteres especiales para evitar errores de regex
+            const escapedOriginal = filter.original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            
+            // Usamos 'gi' para que sea global e ignore mayúsculas/minúsculas
+            const regex = new RegExp(escapedOriginal, 'gi');
+            processedText = processedText.replace(regex, filter.replacement);
+        }
+    });
+
+    return processedText;
 }
 
 // ============================================
