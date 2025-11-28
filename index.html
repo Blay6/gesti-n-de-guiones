@@ -6264,6 +6264,21 @@ if (category && category.promptTemplate) {
 // FUNCIONES DE COPIA CORREGIDAS
 // ============================================
 
+// ✨ NUEVO: Función auxiliar para generar ID único basado en tiempo
+function generateTimeBasedID() {
+    const now = new Date();
+    const YYYY = now.getFullYear();
+    const MM = String(now.getMonth() + 1).padStart(2, '0');
+    const DD = String(now.getDate()).padStart(2, '0');
+    const HH = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    const ms = String(now.getMilliseconds()).padStart(3, '0');
+    
+    // Formato: 20231128_153022_123
+    return `${YYYY}${MM}${DD}_${HH}${mm}${ss}_${ms}`;
+}
+
 function copyScriptTitle() {
     const titleElement = document.getElementById('viewTitle');
     
@@ -6273,41 +6288,86 @@ function copyScriptTitle() {
         return;
     }
     
-    const titleText = titleElement.textContent.trim();
+    // Obtener el título visual actual
+    const originalTitle = titleElement.textContent.trim();
     
-    if (!titleText || titleText.length === 0) {
+    if (!originalTitle || originalTitle.length === 0) {
         alert('El título está vacío');
         return;
     }
+
+    // --- LÓGICA INTELIGENTE DE DETECCIÓN DE TÍTULO ---
+    let textToCopy = originalTitle;
+    let isGeneratedID = false;
+
+    // Obtenemos el script actual desde la memoria para comparar con su categoría
+    if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
+        const currentScript = filteredScripts[currentViewIndex];
+        const categoryName = currentScript.category || 'General';
+
+        // DEFINICIÓN DE "POR DEFECTO":
+        // 1. Si el título es idéntico a la categoría (ej: "Youtube" en categoría "Youtube")
+        // 2. Si el título sigue el patrón de carga masiva (ej: "Youtube 1", "Youtube 25")
+        // 3. Si el título es "Nuevo Guión" (título default del sistema)
+        const isExactMatch = originalTitle === categoryName;
+        const isBulkPattern = new RegExp(`^${categoryName}\\s\\d+$`).test(originalTitle);
+        const isSystemDefault = originalTitle === "Nuevo Guión";
+
+        if (isExactMatch || isBulkPattern || isSystemDefault) {
+            textToCopy = generateTimeBasedID();
+            isGeneratedID = true;
+            console.log('⚡ Título genérico detectado. Generando ID único:', textToCopy);
+        } else {
+            console.log('📝 Título personalizado detectado. Manteniendo:', textToCopy);
+        }
+    }
     
-    console.log('📋 Copiando título:', titleText);
-    
-    // Intentar copiar al portapapeles
-    navigator.clipboard.writeText(titleText).then(() => {
-        console.log('✅ Título copiado exitosamente');
-        
-        // Buscar el botón para feedback visual (puede no existir si viene de atajo)
+    // Copiar al portapapeles
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        // Feedback Visual Avanzado
         const btn = document.querySelector('.sidebar-action-btn[onclick*="copyScriptTitle"]');
         
         if (btn) {
             const btnTitle = btn.querySelector('.action-btn-title');
+            const btnSubtitle = btn.querySelector('.action-btn-subtitle');
+            
             if (btnTitle) {
                 const originalText = btnTitle.textContent;
-                btnTitle.textContent = '✓ ¡Copiado!';
-                btn.style.background = 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)';
-                btn.style.borderColor = '#8b5cf6';
-                btn.style.color = 'white';
+                const originalSub = btnSubtitle ? btnSubtitle.textContent : '';
+
+                // ESTÉTICA: Si es ID generado usamos Púrpura (Tech), si es Normal usamos Verde (Success)
+                if (isGeneratedID) {
+                    btnTitle.textContent = '✓ ID Generado';
+                    if(btnSubtitle) btnSubtitle.textContent = textToCopy; // Muestra el ID brevemente
+                    // Gradiente Púrpura Estético
+                    btn.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)';
+                    btn.style.borderColor = '#7c3aed';
+                    btn.style.color = 'white';
+                    // Icono blanco
+                    const icon = btn.querySelector('.action-btn-icon');
+                    if(icon) icon.style.background = 'rgba(255,255,255,0.2)';
+                } else {
+                    btnTitle.textContent = '✓ Título Copiado';
+                    // Gradiente Verde Estético
+                    btn.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
+                    btn.style.borderColor = '#16a34a';
+                    btn.style.color = 'white';
+                }
                 
+                // Restaurar estado original después de 2 segundos
                 setTimeout(() => {
                     btnTitle.textContent = originalText;
+                    if(btnSubtitle) btnSubtitle.textContent = originalSub;
                     btn.style.background = '';
                     btn.style.borderColor = '';
                     btn.style.color = '';
+                    const icon = btn.querySelector('.action-btn-icon');
+                    if(icon) icon.style.background = ''; // Restaurar gradiente original del icono
                 }, 2000);
             }
         } else {
-            // Feedback visual alternativo para atajos de teclado
-            showToast('✓ Título copiado al portapapeles');
+            // Feedback para atajos de teclado
+            showToast(isGeneratedID ? `✓ ID Generado: ${textToCopy}` : '✓ Título copiado al portapapeles');
         }
     }).catch(err => {
         console.error('❌ Error al copiar:', err);
