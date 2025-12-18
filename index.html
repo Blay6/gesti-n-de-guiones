@@ -8456,14 +8456,29 @@ function processPromptsFromTextArea() {
     btn.disabled = true;
     btn.innerHTML = '<span>Procesando...</span>';
 
-    // Limpieza y parseo de prompts
-    const cleanedContent = content.replace(/\*/g, '');
-    const promptBlocks = cleanedContent.split(/(?=^\d+\.\s)/m);
+    // --- INICIO DE LA MEJORA INTELIGENTE ---
+    // 1. Detección de formato: ¿Es una lista numerada?
+    const isNumberedList = /^\s*\d+\.\s/m.test(content);
     
-    promptsList = promptBlocks.map(b => b.trim()).filter(b => b && /^\d+\.\s/.test(b));
+    if (isNumberedList) {
+        console.log("Formato de lista numerada detectado.");
+        // Lógica original para listas numeradas
+        const cleanedContent = content.replace(/\*/g, '');
+        const promptBlocks = cleanedContent.split(/(?=^\s*\d+\.\s)/m);
+        promptsList = promptBlocks.map(b => b.trim()).filter(b => b && /^\s*\d+\.\s/.test(b));
+    } else {
+        console.log("Formato de párrafos detectado. Procesando por saltos de línea.");
+        // 2. Nueva lógica para párrafos separados por saltos de línea
+        // Divide por una o más líneas en blanco, limpia cada párrafo y filtra los vacíos.
+        promptsList = content.split(/\n\s*\n+/)
+            .map(p => p.trim())
+            .filter(p => p.length > 0);
+    }
+    // --- FIN DE LA MEJORA INTELIGENTE ---
 
     if (promptsList.length === 0) {
-        alert('No se detectaron prompts en el formato correcto (ej: "1. Texto del prompt...").');
+        // Mensaje de error más genérico y útil
+        alert('No se detectaron prompts válidos. Asegúrate de que sea una lista numerada (1., 2., ...) o párrafos separados por líneas en blanco.');
         btn.disabled = false;
         btn.innerHTML = originalHTML;
         return;
