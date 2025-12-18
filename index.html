@@ -5406,6 +5406,11 @@ let config = {
 // NUEVO: Prompt maestro por defecto para generación cinematográfica
 const DEFAULT_PROMPT_TEMPLATE = `Sistema de Generación de Prompts Cinematográficos para IA
 
+Por favor solo responde a lo que te pido, no adicciones elementos extras ni estructuras de respuestas diferentes a la que te pido
+
+Pide en cada prompt utilizar la base el estilo, escena y asunto de estas imagenes. Siempre que se pueda y vea necesario
+
+
 [REGLA CRÍTICA] **NO GENERAR IMÁGENES**. Solo se debe producir el texto del prompt de imagen según el formato y las especificaciones.
 
 [REGLA ESTRICTA] Responde siempre breve, directo, sin explicaciones ni comentarios adicionales. No improvises ni te salgas de las instrucciones. No utilices emojis en ningún caso.
@@ -5439,7 +5444,11 @@ La respuesta debe ser siempre una lista numerada (1., 2., 3., etc.) de prompts d
 * Técnica: Fotografía Cinematográfica (lentes *anamórficos*), Pintura Digital, o Estilo 3D Fotorrealista (especificar).
 * Resolución: 8K (ultra detallado).
 * Detalle: Extremadamente detallado, hiperrealista, con enfoque en la textura de la piel, ropa y entorno.
-* Ánimo: Estado de ánimo cinematográfico y atmósfera visualmente consistente en todos los fotogramas, manteniendo la cohesión.`;
+* Ánimo: Estado de ánimo cinematográfico y atmósfera visualmente consistente en todos los fotogramas, manteniendo la cohesión.
+
+PIDE EN CADA PROMPT QUE EN MEDIDA DE LO POSIBLE, EN TODAS LAS ESCENAS UTILICE EL ASUNTO, ESCENA Y ESTILO. 
+
+TAMBIEN ES DEMASIADO IMPORTANTE QUE NO DES INSTRUCCIONES REFERENTES A GENERACION DE TITULOS O TEXTOS EN ESTAS ESCENAS, ES DECIR No coloques texto, REEMPLAZA TEXTO POR solo iconos referentes o emojis etc`;
 
 function initializeData() {
     scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
