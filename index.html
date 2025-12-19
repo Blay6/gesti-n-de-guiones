@@ -4051,6 +4051,37 @@ body {
     background: #000;
     transform: translateY(-1px);
 }
+
+.prompts-current-badge {
+    display: inline-flex; 
+    align-items: center; 
+    gap: 12px; /* Aumentamos el gap para dar espacio al LED */
+    padding: 6px 14px; 
+    background: white;
+    /* ... resto de estilos existentes ... */
+}
+
+/* --- NUEVOS ESTILOS PARA EL LED --- */
+.scene-coherence-led {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #d1d5db; /* Color por defecto/apagado */
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.scene-coherence-led.creation {
+    background-color: #f59e0b; /* Naranja: Iniciar un nuevo ciclo de creación */
+    box-shadow: 0 0 10px #f59e0b, inset 0 0 3px white;
+}
+
+.scene-coherence-led.coherence {
+    background-color: #22c55e; /* Verde: Mantener coherencia con la escena anterior */
+    box-shadow: 0 0 10px #22c55e, inset 0 0 3px white;
+}
+/* --- FIN DE NUEVOS ESTILOS --- */
 /* --- FIN CÓDIGO NUEVO FILTROS --- */
     </style>
 </head>
@@ -5078,6 +5109,32 @@ body {
                                     </div>
                                 </div>
                             </div>
+<!-- Control 3: Coherencia de Escena -->
+                            <div class="config-control-card">
+                                <div class="config-control-header">
+                                    <div class="config-control-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                            <path d="M2 12h20M7 7l-5 5 5 5M17 7l5 5-5 5"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="config-control-label">Ciclo de Coherencia</div>
+                                        <div class="config-control-value" id="configCoherenceDisplay">5<span style="font-size: 14px; font-weight: 400; color: #737373;"> escenas</span></div>
+                                    </div>
+                                </div>
+                                <div class="config-control-body">
+                                    <input type="range" id="configSceneCoherenceLength" min="0" max="15" value="5" 
+                                           class="config-slider" oninput="updateConfigDisplay()">
+                                    <div class="config-slider-labels">
+                                        <span>0</span>
+                                        <span style="color: #f59e0b; font-weight: 600;">Escenas por ciclo</span>
+                                        <span>15</span>
+                                    </div>
+                                    <div class="config-help-text">
+                                        🎨 Un valor de 0 desactiva la función.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Vista Previa de la Fórmula -->
@@ -5309,6 +5366,7 @@ body {
                                     <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
                                 </svg>
                                 <span id="promptsCurrentBadge">Prompt 1</span>
+                                <div id="sceneCoherenceLed" class="scene-coherence-led" title="Indicador de Coherencia de Escena"></div>
                             </div>
                             <div class="prompts-current-content" id="promptsCurrentContent">
                                 <!-- El prompt actual se mostrará aquí -->
@@ -5400,7 +5458,8 @@ let confirmCallback = null;
 // NUEVO: Variables de configuración para cálculo de escenas
 let config = {
     charactersPerScene: 83,
-    secondsPerScene: 5
+    secondsPerScene: 5,
+    sceneCoherenceLength: 5 // <-- AÑADIR ESTA LÍNEA
 };
 
 // NUEVO: Prompt maestro por defecto para generación cinematográfica
@@ -5494,8 +5553,11 @@ function initializeData() {
     // Cargar configuración guardada
     const storedConfig = JSON.parse(localStorage.getItem('config') || 'null');
     if (storedConfig) {
-        config = storedConfig;
+        // Unimos la configuración por defecto con la guardada
+        // para asegurar que las nuevas propiedades existan.
+        config = { ...config, ...storedConfig };
     }
+
     
     saveData();
     updateUI();
@@ -7675,7 +7737,8 @@ function openConfigModal() {
     // Cargar valores actuales en los controles
     document.getElementById('configCharactersPerScene').value = config.charactersPerScene;
     document.getElementById('configSecondsPerScene').value = config.secondsPerScene;
-    
+    document.getElementById('configSceneCoherenceLength').value = config.sceneCoherenceLength;
+
     // Actualizar displays
     updateConfigDisplay();
     
@@ -7685,12 +7748,15 @@ function openConfigModal() {
     document.getElementById('configModal').classList.add('active');
 }
 
+// Después:
 function updateConfigDisplay() {
     const chars = document.getElementById('configCharactersPerScene').value;
     const seconds = document.getElementById('configSecondsPerScene').value;
+    const coherence = document.getElementById('configSceneCoherenceLength').value; // <-- AÑADIR
     
     document.getElementById('configCharactersDisplay').textContent = chars;
     document.getElementById('configSecondsDisplay').textContent = seconds;
+    document.getElementById('configCoherenceDisplay').innerHTML = `${coherence}<span style="font-size: 14px; font-weight: 400; color: #737373;"> escenas</span>`; // <-- AÑADIR
     document.getElementById('previewChars').textContent = chars;
     document.getElementById('previewSeconds').textContent = seconds;
 }
@@ -7766,8 +7832,7 @@ function saveConfiguration() {
     // Guardar valores de fórmula
     config.charactersPerScene = parseInt(document.getElementById('configCharactersPerScene').value);
     config.secondsPerScene = parseInt(document.getElementById('configSecondsPerScene').value);
-    
-    // Guardar prompts de categorías
+    config.sceneCoherenceLength = parseInt(document.getElementById('configSceneCoherenceLength').value);    // Guardar prompts de categorías
     categories.forEach((cat, index) => {
         const promptTextarea = document.getElementById(`configPrompt_${index}`);
         if (promptTextarea) {
@@ -8538,11 +8603,36 @@ async function copyPromptToClipboard(promptText) {
 
 function showCurrentPrompt() {
     const prompt = promptsList[currentPromptIndex];
-    const match = prompt.match(/^\d+\.\s*(.*)$/s);
-    const displayText = match ? match[1].trim() : prompt.trim();
+    // Limpiamos el prompt de números y asteriscos para mostrarlo limpio
+    const match = prompt.match(/^\s*\d+\.\s*(.*)$/s);
+    const displayText = match ? match[1].trim().replace(/\*/g, '') : prompt.trim().replace(/\*/g, '');
 
     document.getElementById('promptsCurrentContent').textContent = displayText;
     document.getElementById('promptsCurrentBadge').textContent = `Prompt ${currentPromptIndex + 1} de ${promptsList.length}`;
+
+// --- NUEVA LÓGICA DEL LED DE COHERENCIA ---
+    const led = document.getElementById('sceneCoherenceLed');
+    const cycleLength = config.sceneCoherenceLength;
+
+    // Si el ciclo es 0 o 1, la función está desactivada. El LED permanece apagado (gris).
+    if (cycleLength <= 1) {
+        led.className = 'scene-coherence-led';
+        led.title = 'Ciclo de coherencia desactivado.';
+    } else {
+        // El índice dentro del ciclo actual (0 es el primero, 1 es el segundo, etc.)
+        const indexInCycle = currentPromptIndex % cycleLength;
+
+        if (indexInCycle === 0) {
+            // Es el PRIMER prompt del ciclo: LED de CREACIÓN (Naranja)
+            led.className = 'scene-coherence-led creation';
+            led.title = `NUEVO CICLO: Crea una nueva escena base (${currentPromptIndex + 1}/${promptsList.length})`;
+        } else {
+            // Es un prompt DENTRO del ciclo: LED de COHERENCIA (Verde)
+            led.className = 'scene-coherence-led coherence';
+            led.title = `MANTENER COHERENCIA: Sigue el estilo de la escena anterior (${indexInCycle + 1}/${cycleLength})`;
+        }
+    }
+    // --- FIN DE LA NUEVA LÓGICA ---
 
     setTimeout(checkPromptHeight, 50);
 
