@@ -7767,7 +7767,7 @@ function renderCategories() {
     categoryList.appendChild(allCategory);
 
     categories.forEach(cat => {
-        const count = scripts.filter(s => s.category === cat.name).length;
+        const count = scripts.filter(s => s.category === cat.name && !s.used).length; // <--- LÍNEA MODIFICADA
         const div = document.createElement('div');
         div.className = 'category-item';
         div.innerHTML = `
@@ -7798,6 +7798,7 @@ function renderCategories() {
         filterCategoriesDisplay(currentSearchTerm);
     }
 }
+
 
         function renderScripts() {
             const grid = document.getElementById('scriptsGrid');
@@ -7884,7 +7885,7 @@ function renderCategories() {
             document.getElementById('totalScripts').textContent = total;
             document.getElementById('availableScripts').textContent = available;
             document.getElementById('usedScripts').textContent = used;
-            document.getElementById('count-all').textContent = total;
+            document.getElementById('count-all').textContent = available; // <--- LÍNEA MODIFICADA
         }
 
         function updateUI() {
