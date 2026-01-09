@@ -4083,6 +4083,71 @@ body {
 }
 /* --- FIN DE NUEVOS ESTILOS --- */
 /* --- FIN CÓDIGO NUEVO FILTROS --- */
+
+/* --- INICIO CÓDIGO NUEVO SECCIÓN VISUALES PERSONALIZADAS --- */
+.custom-visuals-details {
+    margin-bottom: 24px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.custom-visuals-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fafafa;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #525252;
+    list-style: none; /* Ocultar flecha por defecto */
+    transition: background 0.2s;
+}
+
+.custom-visuals-summary:hover {
+    background: #f5f5f5;
+}
+
+.custom-visuals-summary::-webkit-details-marker {
+    display: none; /* Ocultar flecha en Chrome/Safari */
+}
+
+.summary-chevron {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.custom-visuals-details[open] > .custom-visuals-summary .summary-chevron {
+    transform: rotate(180deg);
+}
+
+.custom-visuals-content {
+    padding: 16px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.custom-visuals-info {
+    font-size: 12px;
+    color: #737373;
+    background: #eff6ff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #bfdbfe;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* Estilo para mostrar la imagen de categoría como fallback */
+.visual-reference-preview.fallback-preview img {
+    opacity: 0.4;
+    filter: grayscale(80%);
+    border: 2px dashed #a3a3a3;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+/* --- FIN CÓDIGO NUEVO --- */
     </style>
 </head>
 <body>
@@ -4946,6 +5011,58 @@ body {
                         <label>Contenido del Guión</label>
                         <textarea id="editScriptContent" required></textarea>
                     </div>
+                    
+                    <!-- === INICIO CÓDIGO NUEVO === -->
+                    <details class="custom-visuals-details">
+                        <summary class="custom-visuals-summary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <span>Ajustes de Referencias Visuales (Opcional)</span>
+                            <div class="summary-chevron">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </summary>
+                        <div class="custom-visuals-content">
+                            <p class="custom-visuals-info">
+                                Sobrescribe las referencias de la categoría <strong>solo para este guion</strong>. Si dejas un campo vacío, se usará la imagen de la categoría por defecto.
+                            </p>
+                            <div class="visual-references-grid" id="editScriptVisualsGrid">
+                                <!-- Asunto -->
+                                <div class="visual-reference-card">
+                                    <div class="visual-reference-label">Asunto</div>
+                                    <div class="visual-reference-preview" id="editScriptPreviewAsunto"></div>
+                                    <div class="visual-reference-actions">
+                                        <input type="file" id="editScriptInputAsunto" class="visual-reference-input" accept="image/*" onchange="handleCustomReferenceUpload('asunto', event)">
+                                        <label for="editScriptInputAsunto" class="btn-upload-reference">Subir</label>
+                                        <button type="button" class="btn-remove-reference" id="editScriptBtnRemoveAsunto" onclick="removeCustomReference('asunto')" disabled>Quitar</button>
+                                    </div>
+                                </div>
+                                <!-- Escena -->
+                                <div class="visual-reference-card">
+                                    <div class="visual-reference-label">Escena</div>
+                                    <div class="visual-reference-preview" id="editScriptPreviewEscena"></div>
+                                    <div class="visual-reference-actions">
+                                        <input type="file" id="editScriptInputEscena" class="visual-reference-input" accept="image/*" onchange="handleCustomReferenceUpload('escena', event)">
+                                        <label for="editScriptInputEscena" class="btn-upload-reference">Subir</label>
+                                        <button type="button" class="btn-remove-reference" id="editScriptBtnRemoveEscena" onclick="removeCustomReference('escena')" disabled>Quitar</button>
+                                    </div>
+                                </div>
+                                <!-- Estilo -->
+                                <div class="visual-reference-card">
+                                    <div class="visual-reference-label">Estilo</div>
+                                    <div class="visual-reference-preview" id="editScriptPreviewEstilo"></div>
+                                    <div class="visual-reference-actions">
+                                        <input type="file" id="editScriptInputEstilo" class="visual-reference-input" accept="image/*" onchange="handleCustomReferenceUpload('estilo', event)">
+                                        <label for="editScriptInputEstilo" class="btn-upload-reference">Subir</label>
+                                        <button type="button" class="btn-remove-reference" id="editScriptBtnRemoveEstilo" onclick="removeCustomReference('estilo')" disabled>Quitar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                    <!-- === FIN CÓDIGO NUEVO === -->
+
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal('editScriptModal')">Cancelar</button>
                         <button type="submit" class="btn-save">Guardar cambios</button>
@@ -5970,29 +6087,35 @@ function removeNewReference(type) {
             }
         }
 
-        function openEditScriptModal() {
-            if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
-                const script = filteredScripts[currentViewIndex];
-                const originalScript = scripts.find(s => s.id === script.id);
-                
-                if (!originalScript) return;
+// DESPUÉS (Código nuevo y mejorado)
+function openEditScriptModal() {
+    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) return;
 
-                // Llenar el formulario con los datos actuales
-                document.getElementById('editCurrentScriptTitle').textContent = originalScript.title;
-                document.getElementById('editScriptId').value = originalScript.id;
-                document.getElementById('editScriptTitle').value = originalScript.title;
-                document.getElementById('editScriptContent').value = originalScript.content;
-                
-                // Actualizar select de categorías
-                updateEditScriptCategorySelect();
-                document.getElementById('editScriptCategory').value = originalScript.category;
+    const script = filteredScripts[currentViewIndex];
+    const originalScript = scripts.find(s => s.id === script.id);
+    if (!originalScript) return;
 
-                // Cerrar modal de visualización y abrir modal de edición
-                closeModal('viewModal');
-                document.getElementById('editScriptModal').classList.add('active');
-                document.getElementById('editScriptTitle').focus();
-            }
-        }
+    // Llenar formulario básico
+    document.getElementById('editCurrentScriptTitle').textContent = originalScript.title;
+    document.getElementById('editScriptId').value = originalScript.id;
+    document.getElementById('editScriptTitle').value = originalScript.title;
+    document.getElementById('editScriptContent').value = originalScript.content;
+
+    // Actualizar y establecer categoría
+    updateEditScriptCategorySelect();
+    document.getElementById('editScriptCategory').value = originalScript.category;
+
+    // === INICIO CÓDIGO NUEVO ===
+    // Cargar referencias visuales personalizadas
+    const category = categories.find(cat => cat.name === originalScript.category) || {};
+    loadCustomVisualsEditor(originalScript.customVisuals, category.visualReferences);
+    // === FIN CÓDIGO NUEVO ===
+
+    // Abrir modal
+    closeModal('viewModal');
+    document.getElementById('editScriptModal').classList.add('active');
+    document.getElementById('editScriptTitle').focus();
+}
 
         function updateEditScriptCategorySelect() {
             const select = document.getElementById('editScriptCategory');
@@ -6021,47 +6144,54 @@ function removeNewReference(type) {
             }
         }
 
-        function saveEditScript(event) {
-            event.preventDefault();
-            
-            const scriptId = parseInt(document.getElementById('editScriptId').value);
-            const title = document.getElementById('editScriptTitle').value.trim();
-            let category = document.getElementById('editScriptCategory').value.trim();
-            const content = document.getElementById('editScriptContent').value.trim();
-            
-            // Validar que el título no esté vacío
-            if (!title) {
-                alert('Por favor, ingresa un título para el guión');
-                return;
-            }
-            
-            // Si no hay categoría seleccionada, asignar "General"
-            if (!category) {
-                category = 'General';
-                if (!categories.some(cat => cat.name === 'General')) {
-                    categories.push({ name: 'General', path: '' });
-                }
-            }
-            
-// Buscar y actualizar el script
-            const scriptIndex = scripts.findIndex(s => s.id === scriptId);
-            if (scriptIndex !== -1) {
-                // --- APLICAR FILTROS ---
-                const processedContent = processTextReplacement(content, category);
-                // -----------------------
-
-                scripts[scriptIndex].title = title;
-                scripts[scriptIndex].category = category;
-                scripts[scriptIndex].content = processedContent; // <--- CAMBIA 'content' por 'processedContent'
-                scripts[scriptIndex].updatedAt = new Date().toISOString();                
-                saveData();
-                updateUI();
-                closeModal('editScriptModal');
-                
-                // Mostrar mensaje de confirmación
-                alert('¡Guión actualizado exitosamente!');
-            }
+// DESPUÉS (Código nuevo y mejorado)
+function saveEditScript(event) {
+    event.preventDefault();
+    
+    const scriptId = parseInt(document.getElementById('editScriptId').value);
+    const title = document.getElementById('editScriptTitle').value.trim();
+    let category = document.getElementById('editScriptCategory').value.trim();
+    const content = document.getElementById('editScriptContent').value.trim();
+    
+    if (!title) {
+        alert('Por favor, ingresa un título para el guión');
+        return;
+    }
+    
+    if (!category) {
+        category = 'General';
+        if (!categories.some(cat => cat.name === 'General')) {
+            categories.push({ name: 'General', path: '' });
         }
+    }
+    
+    const scriptIndex = scripts.findIndex(s => s.id === scriptId);
+    if (scriptIndex !== -1) {
+        const processedContent = processTextReplacement(content, category);
+
+        scripts[scriptIndex].title = title;
+        scripts[scriptIndex].category = category;
+        scripts[scriptIndex].content = processedContent;
+        scripts[scriptIndex].updatedAt = new Date().toISOString();
+
+        // === INICIO CÓDIGO NUEVO ===
+        // Guardar referencias visuales personalizadas
+        const hasCustomVisuals = Object.values(tempCustomVisuals).some(val => val !== null);
+        if (hasCustomVisuals) {
+            scripts[scriptIndex].customVisuals = tempCustomVisuals;
+        } else {
+            // Si todos los campos están vacíos, elimina la propiedad para mantener los datos limpios
+            delete scripts[scriptIndex].customVisuals;
+        }
+        // === FIN CÓDIGO NUEVO ===
+        
+        saveData();
+        updateUI();
+        closeModal('editScriptModal');
+        
+        alert('¡Guión actualizado exitosamente!');
+    }
+}
 
         function deleteCategory(categoryName) {
             const scriptsInCategory = scripts.filter(s => s.category === categoryName).length;
@@ -8275,6 +8405,14 @@ let tempVisualReferences = {
     estilo: null
 };
 
+// === INICIO CÓDIGO NUEVO ===
+let tempCustomVisuals = {
+    asunto: null,
+    escena: null,
+    estilo: null
+};
+// === FIN CÓDIGO NUEVO ===
+
 function loadVisualReferences(references) {
     tempVisualReferences = {
         asunto: references.asunto || null,
@@ -8409,82 +8547,71 @@ function downloadReference(type, base64Data, categoryName) {
     URL.revokeObjectURL(url);
 }
 
+// DESPUÉS (Código nuevo y mejorado)
 function loadReferencesInPromptsModule() {
-    // Obtener el guion actual
     if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) {
         return;
     }
     
     const script = filteredScripts[currentViewIndex];
-    const category = categories.find(cat => cat.name === script.category);
+    const category = categories.find(cat => cat.name === script.category) || {};
+
+    // === INICIO LÓGICA DE PRIORIDAD NUEVA ===
+    const categoryRefs = category.visualReferences || {};
+    const scriptRefs = script.customVisuals || {};
+
+    // Fusionar, dando prioridad a las referencias del guion
+    const finalRefs = {
+        asunto: scriptRefs.asunto || categoryRefs.asunto || null,
+        escena: scriptRefs.escena || categoryRefs.escena || null,
+        estilo: scriptRefs.estilo || categoryRefs.estilo || null,
+    };
+    // === FIN LÓGICA DE PRIORIDAD NUEVA ===
+
+    const hasAnyReference = Object.values(finalRefs).some(ref => ref !== null);
     
-    if (!category || !category.visualReferences) {
-        // No hay referencias, ocultar panel
-        document.getElementById('promptsReferencesPanel').style.display = 'none';
-        return;
-    }
-    
-    const refs = category.visualReferences;
-    const hasAnyReference = refs.asunto || refs.escena || refs.estilo;
-    
+    const panel = document.getElementById('promptsReferencesPanel');
     if (!hasAnyReference) {
-        // No hay referencias, ocultar panel
-        document.getElementById('promptsReferencesPanel').style.display = 'none';
+        panel.style.display = 'none';
         return;
     }
     
-    // Hay referencias, mostrar panel
-    document.getElementById('promptsReferencesPanel').style.display = 'block';
+    panel.style.display = 'block';
     
-    // Construir HTML de referencias
     const referencesHTML = ['asunto', 'escena', 'estilo']
-        .filter(type => refs[type])
+        .filter(type => finalRefs[type])
         .map(type => {
-            const labels = {
-                asunto: 'Asunto',
-                escena: 'Escena',
-                estilo: 'Estilo'
-            };
-            
+            // ... (El resto de la lógica de renderizado de esta función permanece igual) ...
+            const labels = { asunto: 'Asunto', escena: 'Escena', estilo: 'Estilo' };
             const icons = {
                 asunto: '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle>',
                 escena: '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>',
                 estilo: '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>'
             };
-            
-            // ✨ NUEVO: Colores distintivos por tipo
-            const accentColors = {
-                asunto: '#8b5cf6',  // Púrpura
-                escena: '#3b82f6',  // Azul
-                estilo: '#10b981'   // Verde
-            };
+            const accentColors = { asunto: '#8b5cf6', escena: '#3b82f6', estilo: '#10b981' };
             
             return `
                 <div class="prompts-reference-item" style="border-left: 3px solid ${accentColors[type]};">
                     <div class="prompts-reference-image-container">
-                        <img src="${refs[type]}" alt="Referencia ${type}">
+                        <img src="${finalRefs[type]}" alt="Referencia ${type}">
                     </div>
                     <button class="btn-download-reference-minimal" 
-                            onclick="downloadReference('${type}', \`${refs[type]}\`, '${category.name}')"
+                            onclick="downloadReference('${type}', \`${finalRefs[type]}\`, '${category.name}')"
                             style="background: ${accentColors[type]}15; color: ${accentColors[type]}; border-color: ${accentColors[type]}40;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            ${icons[type]}
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icons[type]}</svg>
                         <span style="font-weight: 600;">${labels[type]}</span>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: auto;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: auto;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     </button>
                 </div>
-            `;        })
+            `;
+        })
         .join('');
     
+    const grid = document.getElementById('promptsReferencesGrid');
     if (referencesHTML) {
-        document.getElementById('promptsReferencesGrid').innerHTML = referencesHTML;
+        grid.innerHTML = referencesHTML;
     } else {
-        document.getElementById('promptsReferencesGrid').innerHTML = '<div class="prompts-references-empty">No hay referencias visuales configuradas</div>';
+        grid.innerHTML = '<div class="prompts-references-empty">No hay referencias visuales.</div>';
     }
 }
 
@@ -8771,6 +8898,99 @@ function selectCategoryType(selectedButton, containerId) {
     container.querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
     selectedButton.classList.add('active');
 }
+// === INICIO CÓDIGO NUEVO: Lógica del editor de referencias personalizadas ===
+
+function loadCustomVisualsEditor(customRefs, categoryRefs) {
+    customRefs = customRefs || {};
+    categoryRefs = categoryRefs || {};
+    
+    // Inicializar estado temporal
+    tempCustomVisuals = {
+        asunto: customRefs.asunto || null,
+        escena: customRefs.escena || null,
+        estilo: customRefs.estilo || null,
+    };
+
+    ['asunto', 'escena', 'estilo'].forEach(type => {
+        const previewEl = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const btnRemoveEl = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const inputEl = document.getElementById(`editScriptInput${type.charAt(0).toUpperCase() + type.slice(1)}`);
+
+        // Limpiar input de archivo
+        if (inputEl) inputEl.value = '';
+        
+        // Prioridad 1: Mostrar referencia personalizada si existe
+        if (tempCustomVisuals[type]) {
+            previewEl.innerHTML = `<img src="${tempCustomVisuals[type]}" alt="Referencia personalizada de ${type}">`;
+            previewEl.classList.remove('fallback-preview');
+            btnRemoveEl.disabled = false;
+        } 
+        // Prioridad 2: Mostrar referencia de categoría como guía
+        else if (categoryRefs[type]) {
+            previewEl.innerHTML = `<img src="${categoryRefs[type]}" alt="Referencia de categoría (por defecto)">`;
+            previewEl.classList.add('fallback-preview');
+            btnRemoveEl.disabled = true; // No se puede quitar la de la categoría desde aquí
+        } 
+        // Prioridad 3: Mostrar placeholder si no hay ninguna
+        else {
+            previewEl.innerHTML = `
+                <div class="visual-reference-placeholder">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    <span class="visual-reference-placeholder-text">Sin referencia</span>
+                </div>`;
+            previewEl.classList.remove('fallback-preview');
+            btnRemoveEl.disabled = true;
+        }
+    });
+}
+
+function handleCustomReferenceUpload(type, event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecciona un archivo de imagen.');
+        return;
+    }
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert('La imagen es demasiado grande. El límite es 5MB.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64String = e.target.result;
+        tempCustomVisuals[type] = base64String;
+        
+        // Actualizar UI
+        const previewEl = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const btnRemoveEl = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        
+        previewEl.innerHTML = `<img src="${base64String}" alt="Nueva referencia de ${type}">`;
+        previewEl.classList.remove('fallback-preview');
+        btnRemoveEl.disabled = false;
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeCustomReference(type) {
+    if (confirm(`¿Quitar la referencia personalizada para "${type}"? Se usará la de la categoría si existe.`)) {
+        tempCustomVisuals[type] = null;
+        
+        // Volver a cargar el editor para que muestre el fallback de la categoría o el placeholder
+        const scriptId = parseInt(document.getElementById('editScriptId').value);
+        const script = scripts.find(s => s.id === scriptId);
+        const category = categories.find(cat => cat.name === script.category) || {};
+        
+        // Creamos un objeto `customRefs` actualizado para la recarga
+        const updatedCustomRefs = { ...script.customVisuals };
+        delete updatedCustomRefs[type]; // Eliminamos la clave para que la función sepa que ya no existe
+
+        loadCustomVisualsEditor(updatedCustomRefs, category.visualReferences);
+    }
+}
+
+// === FIN CÓDIGO NUEVO ===
     </script>
 </body>
 </html>
