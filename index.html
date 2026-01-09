@@ -2949,114 +2949,6 @@ body {
             box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
         }
 
-        /* ============================================
-   ESTILOS NUEVOS: MÓDULO PUBLICACIÓN
-   ============================================ */
-
-/* Previsualización de Miniatura en Edición */
-.thumbnail-upload-container {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #fafafa;
-    border: 2px dashed #d1d5db;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.2s ease;
-    max-width: 320px; /* Limitar ancho visual */
-}
-
-.thumbnail-upload-container:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
-}
-
-.thumbnail-upload-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-
-.thumbnail-upload-container.has-image {
-    border-style: solid;
-    border-color: #e5e5e5;
-}
-
-.thumbnail-upload-container.has-image img {
-    display: block;
-}
-
-.thumbnail-upload-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: #a3a3a3;
-    pointer-events: none;
-}
-
-/* Sección de Publicación en View Modal */
-.publication-preview-card {
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 12px;
-}
-
-.publication-thumbnail-view {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 6px;
-    background: #e5e5e5;
-    overflow: hidden;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.publication-thumbnail-view img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.publication-desc-view {
-    font-size: 12px;
-    color: #525252;
-    background: white;
-    padding: 10px;
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    max-height: 100px;
-    overflow-y: auto;
-    line-height: 1.5;
-    white-space: pre-wrap;
-}
-
-/* Botón Prompt Miniatura */
-.sidebar-action-btn.thumbnail-btn {
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    border-color: #f59e0b;
-}
-
-.sidebar-action-btn.thumbnail-btn:hover {
-    background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
-    border-color: #d97706;
-}
-
-.thumbnail-btn .action-btn-icon {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    color: white;
-}
-
 /* ============================================
    MÓDULO DE REFERENCIAS VISUALES
    ============================================ */
@@ -4289,12 +4181,23 @@ body {
                 </svg>
             </button>
         </div>
-        <div class="category-input" id="categoryInput">
-            <div class="category-input-group">
-                <input type="text" id="newCategoryInput" placeholder="Nombre de la categoría" style="width: 100%;">
-                <div class="category-input-row">
-                    <input type="text" id="newCategoryPath" placeholder="Ruta de los clips (opcional)" class="path-input" style="flex: 1;">
-                </div>
+<div class="category-input" id="categoryInput">
+    <div class="category-input-group">
+        <input type="text" id="newCategoryInput" placeholder="Nombre de la categoría" style="width: 100%;">
+        
+        <!-- === INICIO CÓDIGO NUEVO === -->
+        <div style="margin-top: 8px;">
+            <label style="font-size: 11px; font-weight: 600; color: #737373; display: block; margin-bottom: 6px;">TIPO DE CONTENIDO</label>
+            <div id="newCategoryTypeSelector" style="display: flex; gap: 6px;">
+                <button type="button" class="filter-option active" data-type="short" onclick="selectCategoryType(this, 'newCategoryTypeSelector')">Corto</button>
+                <button type="button" class="filter-option" data-type="long" onclick="selectCategoryType(this, 'newCategoryTypeSelector')">Largo</button>
+            </div>
+        </div>
+        <!-- === FIN CÓDIGO NUEVO === -->
+
+        <div class="category-input-row">
+            <input type="text" id="newCategoryPath" placeholder="Ruta de los clips (opcional)" class="path-input" style="flex: 1;">
+        </div>
                 <div class="category-input-row">
                     <input type="text" id="newCategoryExportPath" placeholder="Ruta de exportación del video (requerido)" class="path-input" style="flex: 1;">
                 </div>
@@ -4665,90 +4568,6 @@ body {
                         </div>
                     </div>
 
-                    <!-- ✨ NUEVA SECCIÓN: Publicación (Con Quick Edit) -->
-                <div class="actions-section" id="publicationSection" style="display: none; border-top: 1px solid #e5e5e5; padding-top: 24px; margin-top: 24px;">
-                    <!-- Header de Sección con Botón de Editar -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h3 class="sidebar-section-title" style="margin-bottom: 0;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                               <path d="M20 10.5v7.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7.5"></path><path d="m16 2-4.12 4.12"></path><path d="m14 4 6 6"></path>
-                            </svg>
-                            Publicación
-                        </h3>
-                        <button id="btnToggleQuickEdit" onclick="toggleQuickEditMetadata()" style="background: none; border: none; cursor: pointer; color: #a3a3a3; padding: 4px; border-radius: 4px; transition: all 0.2s;" title="Edición Rápida" onmouseover="this.style.color='#2563eb'; this.style.background='#eff6ff'" onmouseout="this.style.color='#a3a3a3'; this.style.background='none'">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- ESTADO 1: MODO LECTURA (Visible por defecto) -->
-                    <div id="pubReadMode">
-                        <!-- Visualización Miniatura -->
-                        <div style="margin-bottom: 16px;">
-                            <label class="metric-label" style="margin-bottom: 8px; display: block;">Miniatura</label>
-                            <div class="publication-thumbnail-view" id="viewThumbnailContainer" style="width: 100%; aspect-ratio: 16/9; background: #fafafa; border: 1.5px solid #e5e5e5; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                                <img id="viewThumbnailPreview" src="" style="display: none; width: 100%; height: 100%; object-fit: cover;">
-                                <span id="viewThumbnailPlaceholder" style="font-size: 12px; color: #a3a3a3; display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                                    No asignada
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <!-- Visualización Descripción -->
-                        <div style="margin-bottom: 16px;">
-                            <label class="metric-label" style="margin-bottom: 8px; display: block;">Descripción</label>
-                            <div id="viewDescriptionContent" class="publication-desc-view" style="font-size: 12px; color: #525252; background: white; padding: 10px; border: 1px solid #e5e5e5; border-radius: 8px; max-height: 100px; overflow-y: auto; line-height: 1.5; white-space: pre-wrap;">Sin descripción.</div>
-                        </div>
-                        
-                        <!-- Botón Generar Prompt -->
-                        <button id="btnCopyThumbnailPrompt" class="sidebar-action-btn thumbnail-btn" onclick="copyThumbnailPrompt()" title="Copiar prompt de mejora" style="border-color: #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
-                            <div class="action-btn-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
-                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
-                                 </svg>
-                            </div>
-                            <div class="action-btn-content">
-                                <div class="action-btn-title" id="copyThumbnailPromptText">Prompt de Miniatura</div>
-                                <div class="action-btn-subtitle">Generar con IA</div>
-                            </div>
-                        </button>
-                    </div>
-
-                    <!-- ESTADO 2: MODO EDICIÓN RÁPIDA (Oculto por defecto) -->
-                    <div id="pubEditMode" style="display: none; animation: fadeIn 0.2s ease-out;">
-                        <!-- Input Miniatura -->
-                        <div style="margin-bottom: 12px;">
-                            <label class="metric-label" style="margin-bottom: 8px; display: block; color: #2563eb;">Cambiar Miniatura</label>
-                            <div onclick="document.getElementById('quickEditThumbInput').click()" style="width: 100%; aspect-ratio: 16/9; background: #eff6ff; border: 2px dashed #2563eb; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: all 0.2s;">
-                                <img id="quickEditThumbPreview" src="" style="display: none; width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
-                                <div style="position: absolute; text-align: center; color: #2563eb; display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 2;">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                    <div style="font-size: 10px; font-weight: 700;">Click para subir</div>
-                                </div>
-                            </div>
-                            <input type="file" id="quickEditThumbInput" accept="image/*" style="display: none;" onchange="handleQuickThumbnailPreview(event)">
-                            <div style="text-align: center; margin-top: 6px;">
-                                <button type="button" onclick="removeQuickThumbnail()" style="border: none; background: none; color: #ef4444; font-size: 11px; cursor: pointer; text-decoration: underline;">Eliminar miniatura actual</button>
-                            </div>
-                        </div>
-
-                        <!-- Input Descripción -->
-                        <div style="margin-bottom: 12px;">
-                            <label class="metric-label" style="margin-bottom: 8px; display: block; color: #2563eb;">Editar Descripción</label>
-                            <textarea id="quickEditDescInput" style="width: 100%; min-height: 80px; padding: 10px; border: 1.5px solid #2563eb; border-radius: 8px; font-size: 12px; font-family: inherit; resize: vertical; background: #fff;" placeholder="Escribe la descripción..."></textarea>
-                        </div>
-
-                        <!-- Botones Acción -->
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="saveQuickMetadata()" style="flex: 1; padding: 10px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Guardar</button>
-                            <button onclick="toggleQuickEditMetadata()" style="flex: 1; padding: 10px; background: white; color: #525252; border: 1.5px solid #e5e5e5; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-
                     <!-- Sección de Estado -->
                     <div class="status-section">
                         <button class="sidebar-status-btn" id="btnMarkUsed" onclick="toggleUsedStatus()">
@@ -4822,42 +4641,6 @@ body {
                     <div class="form-group">
                         <label>Contenido del Guión</label>
                         <textarea id="scriptContent" required></textarea>
-                    </div>
-                    <!-- ✨ NUEVO: Campos para Video Largo -->
-                    <div id="addLongFormFields" style="display: none; border-top: 1px solid #e5e5e5; margin-top: 20px; padding-top: 20px;">
-                        <h4 style="font-size: 12px; font-weight: 700; color: #737373; text-transform: uppercase; margin-bottom: 16px;">
-                            Detalles de Publicación
-                        </h4>
-                        
-                        <div class="form-group">
-                            <label>Descripción del Video</label>
-                            <textarea id="addScriptDescription" placeholder="Escribe aquí la descripción para YouTube..." style="min-height: 120px;"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Miniatura del Video</label>
-                            
-                            <div class="thumbnail-upload-container" id="addThumbnailContainer" onclick="document.getElementById('addScriptThumbnail').click();">
-                                <img id="addThumbnailPreview" src="" alt="Vista previa">
-                                <div class="thumbnail-upload-placeholder" id="addThumbnailPlaceholder">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="17 8 12 3 7 8"></polyline>
-                                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                                    </svg>
-                                    <span style="font-size: 12px;">Subir miniatura (Max 5MB)</span>
-                                </div>
-                            </div>
-                            
-                            <input type="file" id="addScriptThumbnail" accept="image/*" onchange="handleThumbnailUpload('add')" style="display: none;">
-                            
-                            <button type="button" id="addBtnRemoveThumbnail" onclick="removeThumbnail('add')" style="display:none; margin-top: 8px; font-size: 12px; color: #ef4444; background: none; border: none; cursor: pointer; padding: 4px;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
-                                    <polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                </svg>
-                                Eliminar miniatura actual
-                            </button>
-                        </div>
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal('addModal')">Cancelar</button>
@@ -4954,13 +4737,30 @@ body {
                     </div>
                 </div>
 
-            <form onsubmit="saveEditCategory(event)">
-                <input type="hidden" id="editCategoryOriginalName">
-                <div class="form-group">
-                    <label>Nuevo Nombre de la Categoría</label>
-                    <input type="text" id="editCategoryName" required>
-                </div>
-                <div class="form-group">
+<form onsubmit="saveEditCategory(event)">
+    <input type="hidden" id="editCategoryOriginalName">
+    <div class="form-group">
+        <label>Nuevo Nombre de la Categoría</label>
+        <input type="text" id="editCategoryName" required>
+    </div>
+
+    <!-- === INICIO CÓDIGO NUEVO === -->
+    <div class="form-group">
+        <label>Tipo de Contenido</label>
+        <div id="editCategoryTypeSelector" style="display: flex; gap: 8px;">
+            <button type="button" class="filter-option" data-type="short" onclick="selectCategoryType(this, 'editCategoryTypeSelector')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>
+                Contenido Corto
+            </button>
+            <button type="button" class="filter-option" data-type="long" onclick="selectCategoryType(this, 'editCategoryTypeSelector')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                Contenido Largo
+            </button>
+        </div>
+    </div>
+    <!-- === FIN CÓDIGO NUEVO === -->
+
+    <div class="form-group">
                     <label>Ruta de los Clips</label>
                     <input type="text" id="editCategoryPath" placeholder="Ej: C:\Videos\Clips" class="path-input">
                 </div>
@@ -4969,28 +4769,11 @@ body {
                     <input type="text" id="editCategoryExportPath" placeholder="Ej: C:\Videos\Exportados (si se deja vacío no se guardará ruta)" class="path-input">
                 </div>
                 <div class="form-group">
-                    <label>Prompt de Generación de Imágenes/Video (Guion)</label>
+                    <label>Prompt de Generación de Imágenes/Video</label>
                     <textarea id="editCategoryPrompt" placeholder="Usa (X) para el número de escenas. Ej: Genera (X) prompts..." class="path-input" style="min-height: 80px; resize: vertical;"></textarea>
                     <small style="font-size: 11px; color: #737373; margin-top: 4px; display: block;">
-                        💡 Para el contenido del video. Usa <strong>(X)</strong> para el número de escenas.
+                        💡 Usa <strong>(X)</strong> donde quieras que aparezca el número de escenas calculado
                     </small>
-                </div>
-
-                <!-- ✨ NUEVO: Template de Miniatura Específico -->
-                <div class="form-group" style="background: #fdfce7; padding: 10px; border-radius: 8px; border: 1px solid #fef08a;">
-                    <label style="color: #854d0e;">Template de Prompt para Miniatura (Opcional)</label>
-                    <textarea id="editCategoryThumbPrompt" placeholder="- Video Title: (TITLE)&#10;- Video Description: (DESCRIPTION)" class="path-input" style="min-height: 80px; resize: vertical; background: #fff;"></textarea>                    <small style="font-size: 11px; color: #a16207; margin-top: 4px; display: block;">
-                        💡 Sobrescribe la configuración global. Variables aceptadas: <strong>[TÍTULO]</strong>, <strong>[DESCRIPCIÓN]</strong>.
-                    </small>
-                </div>
-                <!-- ✨ NUEVO: Selector de Tipo de Contenido -->
-                <div class="form-group">
-                    <label>Tipo de Contenido</label>
-                    <div style="display: flex; gap: 8px; border: 1.5px solid #e5e5e5; border-radius: 8px; padding: 4px; background: #fafafa;">
-                        <button type="button" id="editCatTypeLong" onclick="setCategoryType('long', 'edit')" class="filter-option active" style="flex: 1; margin: 0;">Video Largo</button>
-                        <button type="button" id="editCatTypeShort" onclick="setCategoryType('short', 'edit')" class="filter-option" style="flex: 1; margin: 0;">Video Corto (Short)</button>
-                    </div>
-                    <input type="hidden" id="editCategoryFormType" value="long">
                 </div>
                 <!-- NUEVA SECCIÓN: Referencias Visuales -->
                 <div class="visual-references-section">
@@ -5163,25 +4946,6 @@ body {
                         <label>Contenido del Guión</label>
                         <textarea id="editScriptContent" required></textarea>
                     </div>
-                    <!-- ✨ NUEVO: Campos para Video Largo -->
-                    <div id="editLongFormFields" style="display: none; border-top: 1px solid #e5e5e5; margin-top: 20px; padding-top: 20px;">
-                        <div class="form-group">
-                            <label>Descripción del Video</label>
-                            <textarea id="editScriptDescription" placeholder="Escribe aquí la descripción para YouTube..." style="min-height: 120px;"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Miniatura del Video</label>
-                            <div class="thumbnail-upload-container" id="editThumbnailContainer" onclick="document.getElementById('editScriptThumbnail').click();">
-                                <img id="editThumbnailPreview" src="" alt="Vista previa">
-                                <div class="thumbnail-upload-placeholder" id="editThumbnailPlaceholder">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                    <span style="font-size: 12px;">Subir miniatura (Max 5MB)</span>
-                                </div>
-                            </div>
-                            <input type="file" id="editScriptThumbnail" accept="image/*" onchange="handleThumbnailUpload('edit')" style="display: none;">
-                            <button type="button" id="editBtnRemoveThumbnail" onclick="removeThumbnail('edit')" style="display:none; margin-top: 8px; font-size: 12px; color: #ef4444; background: none; border: none; cursor: pointer;">Eliminar miniatura</button>
-                        </div>
-                    </div>
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal('editScriptModal')">Cancelar</button>
                         <button type="submit" class="btn-save">Guardar cambios</button>
@@ -5286,152 +5050,136 @@ body {
         <span>Filtros de Texto</span>
     </button>
 </div>
-<!-- ✨ NUEVO: Botón 4: Contenido -->
-    <button class="config-tab-button" onclick="switchConfigTab('content')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-        <span>Contenido</span>
-    </button>
             </div>
 
             <!-- Contenido de las Pestañas -->
             <div class="config-tab-content-wrapper">
                 <!-- PESTAÑA 1: Fórmulas Base -->
-                <div class="config-tab-content active" id="configTabFormulas">
-                    <div style="padding: 32px;">
-                        <!-- Header Explicativo -->
-                        <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #2563eb; border-radius: 12px; padding: 20px; margin-bottom: 32px;">
-                            <div style="display: flex; align-items: start; gap: 16px;">
-                                <div style="background: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                    </svg>
-                                </div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
-                                        🧮 Fórmula de Cálculo Automático
-                                    </h3>
-                                    <p style="font-size: 13px; color: #1e40af; line-height: 1.6; margin: 0;">
-                                        Estos parámetros determinan cómo se calculan automáticamente las <strong>escenas requeridas</strong> y la <strong>duración estimada</strong> de cada guion.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+<div class="config-tab-content active" id="configTabFormulas">
+    <div style="padding: 32px;">
+        <!-- Grid de Controles -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
 
-                        <!-- Grid de Controles -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
-                            <!-- Control 1: Caracteres por Escena -->
-                            <div class="config-control-card">
-                                <div class="config-control-header">
-                                    <div class="config-control-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                            <polyline points="14 2 14 8 20 8"></polyline>
-                                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="config-control-label">Base de Caracteres</div>
-                                        <div class="config-control-value" id="configCharactersDisplay">83</div>
-                                    </div>
-                                </div>
-                                <div class="config-control-body">
-                                    <input type="range" id="configCharactersPerScene" min="50" max="150" value="83" 
-                                           class="config-slider" oninput="updateConfigDisplay()">
-                                    <div class="config-slider-labels">
-                                        <span>50</span>
-                                        <span style="color: #2563eb; font-weight: 600;">Caracteres por escena</span>
-                                        <span>150</span>
-                                    </div>
-                                    <div class="config-help-text">
-                                        💡 Valores menores = Más escenas generadas
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Control 2: Segundos por Escena -->
-                            <div class="config-control-card">
-                                <div class="config-control-header">
-                                    <div class="config-control-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="config-control-label">Duración por Escena</div>
-                                        <div class="config-control-value" id="configSecondsDisplay">5<span style="font-size: 14px; font-weight: 400; color: #737373;">s</span></div>
-                                    </div>
-                                </div>
-                                <div class="config-control-body">
-                                    <input type="range" id="configSecondsPerScene" min="3" max="10" value="5" 
-                                           class="config-slider" oninput="updateConfigDisplay()">
-                                    <div class="config-slider-labels">
-                                        <span>3s</span>
-                                        <span style="color: #10b981; font-weight: 600;">Segundos por escena</span>
-                                        <span>10s</span>
-                                    </div>
-                                    <div class="config-help-text">
-                                        ⏱️ Define el ritmo del video
-                                    </div>
-                                </div>
-                            </div>
-<!-- Control 3: Coherencia de Escena -->
-                            <div class="config-control-card">
-                                <div class="config-control-header">
-                                    <div class="config-control-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                            <path d="M2 12h20M7 7l-5 5 5 5M17 7l5 5-5 5"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="config-control-label">Ciclo de Coherencia</div>
-                                        <div class="config-control-value" id="configCoherenceDisplay">5<span style="font-size: 14px; font-weight: 400; color: #737373;"> escenas</span></div>
-                                    </div>
-                                </div>
-                                <div class="config-control-body">
-                                    <input type="range" id="configSceneCoherenceLength" min="0" max="15" value="5" 
-                                           class="config-slider" oninput="updateConfigDisplay()">
-                                    <div class="config-slider-labels">
-                                        <span>0</span>
-                                        <span style="color: #f59e0b; font-weight: 600;">Escenas por ciclo</span>
-                                        <span>15</span>
-                                    </div>
-                                    <div class="config-help-text">
-                                        🎨 Un valor de 0 desactiva la función.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Vista Previa de la Fórmula -->
-                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; border-radius: 12px; padding: 24px;">
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                                <div style="background: white; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2);">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
-                                        <path d="M9 11l3 3L22 4"></path>
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                    </svg>
-                                </div>
-                                <h4 style="font-size: 14px; font-weight: 700; color: #92400e; margin: 0;">
-                                    Vista Previa del Cálculo
-                                </h4>
-                            </div>
-                            <div style="background: white; border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; color: #78350f; line-height: 1.8;">
-                                <div style="margin-bottom: 8px;">
-                                    <strong>Escenas =</strong> Total de caracteres ÷ <strong style="color: #2563eb;" id="previewChars">83</strong>
-                                </div>
-                                <div>
-                                    <strong>Duración =</strong> Escenas × <strong style="color: #10b981;" id="previewSeconds">5</strong> segundos
-                                </div>
-                            </div>
-                        </div>
+            <!-- Columna: Contenido Corto -->
+            <div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 14px; font-weight: 700; color: #1a1a1a; margin: 0;">Parámetros para Contenido Corto</h3>
+                        <p style="font-size: 12px; color: #737373; margin: 2px 0 0 0;">(Shorts, Reels, TikToks)</p>
                     </div>
                 </div>
+
+                <!-- Control 1: Caracteres por Escena (Corto) -->
+                <div class="config-control-card" style="margin-bottom: 16px;">
+                    <div class="config-control-header">
+                        <div class="config-control-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        </div>
+                        <div>
+                            <div class="config-control-label">Base de Caracteres</div>
+                            <div class="config-control-value" id="configCharactersShortDisplay">83</div>
+                        </div>
+                    </div>
+                    <div class="config-control-body">
+                        <input type="range" id="configCharactersShort" min="50" max="150" value="83" class="config-slider" oninput="updateConfigDisplay()">
+                        <div class="config-slider-labels"><span>50</span><span>150</span></div>
+                    </div>
+                </div>
+
+                <!-- Control 2: Segundos por Escena (Corto) -->
+                <div class="config-control-card">
+                    <div class="config-control-header">
+                        <div class="config-control-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <div class="config-control-label">Duración por Escena</div>
+                            <div class="config-control-value" id="configSecondsShortDisplay">5<span style="font-size: 14px;">s</span></div>
+                        </div>
+                    </div>
+                    <div class="config-control-body">
+                        <input type="range" id="configSecondsShort" min="3" max="10" value="5" class="config-slider" oninput="updateConfigDisplay()">
+                        <div class="config-slider-labels"><span>3s</span><span>10s</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna: Contenido Largo -->
+            <div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="background: #f1f5f9; border: 1.5px solid #e2e8f0; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    </div>
+                     <div>
+                        <h3 style="font-size: 14px; font-weight: 700; color: #1a1a1a; margin: 0;">Parámetros para Contenido Largo</h3>
+                        <p style="font-size: 12px; color: #737373; margin: 2px 0 0 0;">(YouTube, Documentales)</p>
+                    </div>
+                </div>
+                 <!-- Control 3: Caracteres por Escena (Largo) -->
+                <div class="config-control-card" style="margin-bottom: 16px;">
+                    <div class="config-control-header">
+                        <div class="config-control-icon" style="background: linear-gradient(135deg, #64748b 0%, #475569 100%);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        </div>
+                        <div>
+                            <div class="config-control-label">Base de Caracteres</div>
+                            <div class="config-control-value" id="configCharactersLongDisplay">600</div>
+                        </div>
+                    </div>
+                    <div class="config-control-body">
+                        <input type="range" id="configCharactersLong" min="150" max="1000" step="10" value="600" class="config-slider" oninput="updateConfigDisplay()">
+                        <div class="config-slider-labels"><span>150</span><span>1000</span></div>
+                    </div>
+                </div>
+
+                <!-- Control 4: Segundos por Escena (Largo) -->
+                <div class="config-control-card">
+                    <div class="config-control-header">
+                        <div class="config-control-icon" style="background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <div class="config-control-label">Duración por Escena</div>
+                            <div class="config-control-value" id="configSecondsLongDisplay">20<span style="font-size: 14px;">s</span></div>
+                        </div>
+                    </div>
+                    <div class="config-control-body">
+                        <input type="range" id="configSecondsLong" min="10" max="30" value="20" class="config-slider" oninput="updateConfigDisplay()">
+                        <div class="config-slider-labels"><span>10s</span><span>30s</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Fin del grid -->
+
+        <!-- Control de Coherencia (Se mantiene) -->
+        <div class="config-control-card" style="margin-top: 24px;">
+            <div class="config-control-header">
+                <div class="config-control-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M2 12h20M7 7l-5 5 5 5M17 7l5 5-5 5"></path></svg>
+                </div>
+                <div>
+                    <div class="config-control-label">Ciclo de Coherencia</div>
+                    <div class="config-control-value" id="configCoherenceDisplay">5<span style="font-size: 14px; font-weight: 400; color: #737373;"> escenas</span></div>
+                </div>
+            </div>
+            <div class="config-control-body">
+                <input type="range" id="configSceneCoherenceLength" min="0" max="15" value="5" class="config-slider" oninput="updateConfigDisplay()">
+                <div class="config-slider-labels">
+                    <span>0</span>
+                    <span style="color: #f59e0b; font-weight: 600;">Escenas por ciclo</span>
+                    <span>15</span>
+                </div>
+                <div class="config-help-text">
+                    🎨 Un valor de 0 desactiva la función de coherencia.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- PESTAÑA 2: Generadores de IA -->
                 <div class="config-tab-content" id="configTabPrompts">
@@ -5521,50 +5269,6 @@ body {
                         </div>
                     </div>
                 </div>
-                <!-- ✨ NUEVO: PESTAÑA 4: Contenido (CORREGIDO Y ÚNICO) -->
-            <div class="config-tab-content" id="configTabContent">
-                <div style="padding: 32px;">
-                    <div style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-left: 4px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-                        <div style="display: flex; align-items: start; gap: 16px;">
-                            <div style="background: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
-                                </svg>
-                            </div>
-                            <div style="flex: 1;">
-                                <h3 style="font-size: 16px; font-weight: 700; color: #92400e; margin-bottom: 8px;">
-                                    Configuración de Publicación (Global)
-                                </h3>
-                                <p style="font-size: 13px; color: #92400e; line-height: 1.6; margin: 0;">
-                                    Define la plantilla base para generar miniaturas. <strong>Nota:</strong> Puedes personalizar esto para cada categoría individualmente editando la categoría (ícono de lápiz en el sidebar).
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="prompt-category-card">
-                        <div class="prompt-category-header active" style="cursor: default;">
-                            <div class="prompt-category-info">
-                                <div class="prompt-category-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="prompt-category-title">Plantilla Global de Miniatura</div>
-                                    <div class="prompt-category-count">Se aplica por defecto</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="prompt-category-body active">
-                            <textarea id="configThumbnailPrompt" class="prompt-textarea" style="min-height: 250px;"></textarea>
-                            <div class="prompt-hint">
-                                <span>Usa <code>[TÍTULO]</code> y <code>[DESCRIPCIÓN]</code> para insertar los datos automáticamente.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
 
@@ -5772,9 +5476,17 @@ let confirmCallback = null;
 
 // NUEVO: Variables de configuración para cálculo de escenas
 let config = {
-    charactersPerScene: 83,
-    secondsPerScene: 5,
-    sceneCoherenceLength: 5 // <-- AÑADIR ESTA LÍNEA
+    formulas: {
+        short: {
+            charactersPerScene: 83,
+            secondsPerScene: 5
+        },
+        long: {
+            charactersPerScene: 600,
+            secondsPerScene: 20
+        }
+    },
+    sceneCoherenceLength: 5
 };
 
 // NUEVO: Prompt maestro por defecto para generación cinematográfica
@@ -5824,381 +5536,44 @@ PIDE EN CADA PROMPT QUE EN MEDIDA DE LO POSIBLE, EN TODAS LAS ESCENAS UTILICE EL
 
 TAMBIEN ES DEMASIADO IMPORTANTE QUE NO DES INSTRUCCIONES REFERENTES A GENERACION DE TITULOS O TEXTOS EN ESTAS ESCENAS, ES DECIR No coloques texto, REEMPLAZA TEXTO POR solo iconos referentes o emojis etc`;
 
-// NUEVO: Template por defecto para Miniaturas
-const DEFAULT_THUMBNAIL_TEMPLATE = `- Video Title: (TITLE)
-- Video Description: (DESCRIPTION)`;
-
-// ============================================
-// FUNCIONES AUXILIARES: MÓDULO PUBLICACIÓN
-// ============================================
-
-/**
- * Maneja la subida de la miniatura, validando tamaño y tipo.
- * @param {string} context - 'edit' o 'new' (para reutilización futura)
- */
-function handleThumbnailUpload(context) {
-    const input = document.getElementById(`${context}ScriptThumbnail`);
-    const preview = document.getElementById(`${context}ThumbnailPreview`);
-    const placeholder = document.getElementById(`${context}ThumbnailPlaceholder`); // Asegurarse que este ID exista en HTML
-    const container = document.getElementById(`${context}ThumbnailPreviewContainer`) || document.getElementById(`${context}ThumbnailContainer`); // Compatibilidad de IDs
-    const btnRemove = document.getElementById(`${context}BtnRemoveThumbnail`);
-    
-    // Safety check
-    if (!input || !input.files || !input.files[0]) return;
-
-    const file = input.files[0];
-
-    // 1. Validación de Tipo
-    if (!file.type.startsWith('image/')) {
-        alert('Formato no válido. Por favor, selecciona un archivo de imagen (JPG, PNG).');
-        input.value = '';
-        return;
-    }
-
-    // 2. Validación de Tamaño (5MB Límite duro para localStorage)
-    if (file.size > 5 * 1024 * 1024) { 
-        alert('La imagen es demasiado grande (Máx 5MB). Por favor comprímela antes de subir.');
-        input.value = '';
-        return;
-    }
-
-    // 3. Lectura y Previsualización
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        if (preview) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        }
-        
-        // Ocultar placeholder si existe
-        if (placeholder) placeholder.style.display = 'none';
-        
-        // Mostrar botón de eliminar
-        if (btnRemove) btnRemove.style.display = 'inline-block'; // O 'flex' según diseño
-        
-        // Añadir clase de estado al contenedor para estilos CSS
-        if (container) container.classList.add('has-image');
-    };
-    
-    reader.onerror = function() {
-        alert('Error al leer el archivo de imagen.');
-    };
-
-    reader.readAsDataURL(file);
-}
-
-/**
- * Elimina la miniatura seleccionada y resetea la vista.
- */
-function removeThumbnail(context) {
-    const input = document.getElementById(`${context}ScriptThumbnail`);
-    const preview = document.getElementById(`${context}ThumbnailPreview`);
-    const placeholder = document.getElementById(`${context}ThumbnailPlaceholder`);
-    const container = document.getElementById(`${context}ThumbnailPreviewContainer`) || document.getElementById(`${context}ThumbnailContainer`);
-    const btnRemove = document.getElementById(`${context}BtnRemoveThumbnail`);
-
-    if (input) input.value = ''; // Reset input file
-    
-    if (preview) {
-        preview.src = '';
-        preview.style.display = 'none';
-    }
-    
-    if (placeholder) placeholder.style.display = 'flex'; // O block/flex según CSS original
-    if (btnRemove) btnRemove.style.display = 'none';
-    if (container) container.classList.remove('has-image');
-}
-
-/**
- * Genera el prompt de la miniatura reemplazando variables y lo copia.
- * Lógica mejorada: Categoría Específica > Global > Default.
- * Limpieza estricta de variables.
- */
-function copyThumbnailPrompt() {
-    // Validar que hay un script activo
-    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) return;
-
-    const script = filteredScripts[currentViewIndex];
-    
-    // 1. Buscar la categoría del script actual
-    const category = categories.find(cat => cat.name === script.category);
-
-    // 2. Determinar qué plantilla usar (Lógica de Prioridad)
-    let template = "";
-    
-    // PRIORIDAD 1: Si la categoría tiene un template específico, úsalo.
-    if (category && category.thumbnailPromptTemplate && category.thumbnailPromptTemplate.trim() !== "") {
-        template = category.thumbnailPromptTemplate;
-        console.log("Usando plantilla individual de categoría:", category.name);
-    } 
-    // PRIORIDAD 2: Si no, usa la configuración global del sistema.
-    else if (config.thumbnailPromptTemplate && config.thumbnailPromptTemplate.trim() !== "") {
-        template = config.thumbnailPromptTemplate;
-        console.log("Usando plantilla global de configuración");
-    }
-    // PRIORIDAD 3: Fallback (por si todo está vacío)
-    else {
-        template = DEFAULT_THUMBNAIL_TEMPLATE;
-    }
-
-    // 3. Lógica de Reemplazo Robusta (Case Insensitive y múltiples formatos)
-    // Normalizamos las variables para asegurar limpieza total
-    let finalPrompt = template;
-
-    const titleValue = script.title || '';
-    const descValue = script.description || '';
-
-    // Reemplazo de Título: [TÍTULO], (TITLE), [TITLE], (TITULO)
-    finalPrompt = finalPrompt.replace(/\[TÍTULO\]|\[TITLE\]|\(TÍTULO\)|\(TITLE\)/gi, titleValue);
-    
-    // Reemplazo de Descripción: [DESCRIPCIÓN], (DESCRIPTION), etc.
-    finalPrompt = finalPrompt.replace(/\[DESCRIPCIÓN\]|\[DESCRIPTION\]|\(DESCRIPCIÓN\)|\(DESCRIPTION\)/gi, descValue);
-
-    // Limpieza final de espacios dobles
-    finalPrompt = finalPrompt.replace(/\s+/g, ' ').trim();
-
-    // Copiar al portapapeles con Feedback Visual
-    navigator.clipboard.writeText(finalPrompt).then(() => {
-        const btn = document.getElementById('btnCopyThumbnailPrompt');
-        const textEl = document.getElementById('copyThumbnailPromptText');
-        
-        if (btn && textEl) {
-            const originalText = textEl.textContent;
-            
-            // Estado de Éxito Visual
-            textEl.textContent = '✓ ¡Copiado!';
-            btn.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
-            btn.style.borderColor = '#16a34a';
-            
-            // Forzar color de texto blanco para asegurar contraste en éxito
-            const titleGroup = btn.querySelectorAll('*'); 
-            titleGroup.forEach(el => el.style.color = 'white');
-
-            // Revertir estado después de 2s
-            setTimeout(() => {
-                textEl.textContent = originalText;
-                btn.style.background = ''; // Revertir a CSS original
-                btn.style.borderColor = '';
-                titleGroup.forEach(el => el.style.color = '');
-            }, 2000);
-        } else {
-            // Fallback si no encuentra elementos del DOM
-            alert('Prompt copiado al portapapeles');
-        }
-    }).catch(err => {
-        console.error('Error al copiar el prompt de miniatura:', err);
-        alert('No se pudo copiar el prompt al portapapeles. Revisa los permisos del navegador.');
-    });
-}
-
-// ============================================
-// LÓGICA DE EDICIÓN RÁPIDA (QUICK EDIT) - NUEVO
-// ============================================
-
-let isQuickEditMode = false;
-
-/**
- * Alterna entre el modo de solo lectura y el modo de edición en el panel lateral.
- * Se encarga de cargar los datos actuales en los inputs cuando se activa.
- */
-function toggleQuickEditMetadata() {
-    // Validar que hay un script activo
-    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) return;
-    const script = filteredScripts[currentViewIndex];
-
-    const readMode = document.getElementById('pubReadMode');
-    const editMode = document.getElementById('pubEditMode');
-    const toggleBtn = document.getElementById('btnToggleQuickEdit');
-
-    isQuickEditMode = !isQuickEditMode;
-
-    if (isQuickEditMode) {
-        // ENTRAR EN MODO EDICIÓN
-        readMode.style.display = 'none';
-        editMode.style.display = 'block';
-        
-        // Estilo activo para el botón de editar
-        toggleBtn.style.color = '#2563eb';
-        toggleBtn.style.background = '#eff6ff';
-
-        // 1. Cargar descripción actual
-        document.getElementById('quickEditDescInput').value = script.description || '';
-        
-        // 2. Cargar miniatura actual en el preview de edición
-        const thumbPreview = document.getElementById('quickEditThumbPreview');
-        if (script.thumbnail) {
-            thumbPreview.src = script.thumbnail;
-            thumbPreview.style.display = 'block';
-        } else {
-            thumbPreview.src = '';
-            thumbPreview.style.display = 'none';
-        }
-        
-        // 3. Resetear el input file (para detectar el evento onchange incluso si se sube el mismo archivo)
-        document.getElementById('quickEditThumbInput').value = '';
-
-    } else {
-        // SALIR DE MODO EDICIÓN (CANCELAR)
-        readMode.style.display = 'block';
-        editMode.style.display = 'none';
-        
-        // Restaurar estilo botón
-        toggleBtn.style.color = '#a3a3a3';
-        toggleBtn.style.background = 'none';
-    }
-}
-
-/**
- * Maneja la previsualización de la imagen al seleccionarla desde el archivo.
- * Valida tipo y tamaño antes de mostrarla.
- */
-function handleQuickThumbnailPreview(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // Validaciones básicas
-    if (!file.type.startsWith('image/')) {
-        alert('Formato no válido. Solo se permiten imágenes.');
-        event.target.value = '';
-        return;
-    }
-    
-    if (file.size > 5 * 1024 * 1024) { // 5MB
-        alert('Imagen demasiado grande (Máx 5MB).');
-        event.target.value = '';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const preview = document.getElementById('quickEditThumbPreview');
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-}
-
-/**
- * Elimina visualmente la miniatura en el modo edición.
- */
-function removeQuickThumbnail() {
-    const preview = document.getElementById('quickEditThumbPreview');
-    preview.src = ''; // Marcador de "vacío"
-    preview.style.display = 'none';
-    document.getElementById('quickEditThumbInput').value = '';
-}
-
-/**
- * Guarda los cambios realizados en el modo edición rápida.
- * Actualiza el objeto en memoria, localStorage y la UI de lectura.
- */
-function saveQuickMetadata() {
-    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) return;
-    
-    // 1. Obtener referencias al script actual
-    const script = filteredScripts[currentViewIndex];
-    // Es crucial buscar el script en el array principal 'scripts' para asegurar persistencia global
-    const originalScript = scripts.find(s => s.id === script.id);
-    
-    if (!originalScript) return;
-
-    // 2. Leer valores de los inputs de edición
-    const newDesc = document.getElementById('quickEditDescInput').value.trim();
-    const thumbPreview = document.getElementById('quickEditThumbPreview');
-    
-    // 3. Actualizar datos en memoria
-    originalScript.description = newDesc;
-    script.description = newDesc; // Actualizar también la referencia filtrada para consistencia inmediata
-
-    // Lógica para guardar la miniatura:
-    // Si el preview tiene un src válido (base64) y está visible, guardamos eso.
-    // Si el preview está oculto (removeQuickThumbnail fue llamado), guardamos null.
-    if (thumbPreview.src && thumbPreview.style.display !== 'none' && thumbPreview.src.startsWith('data:image')) {
-        originalScript.thumbnail = thumbPreview.src;
-        script.thumbnail = thumbPreview.src;
-    } else if (thumbPreview.style.display === 'none') {
-        originalScript.thumbnail = null;
-        script.thumbnail = null;
-    }
-
-    originalScript.updatedAt = new Date().toISOString();
-
-    // 4. Persistir en localStorage
-    saveData();
-
-    // 5. Actualizar la UI del Modo Lectura inmediatamente
-    const viewThumbPreview = document.getElementById('viewThumbnailPreview');
-    const viewThumbPlaceholder = document.getElementById('viewThumbnailPlaceholder');
-    const viewDesc = document.getElementById('viewDescriptionContent');
-
-    if (script.thumbnail) {
-        viewThumbPreview.src = script.thumbnail;
-        viewThumbPreview.style.display = 'block';
-        if(viewThumbPlaceholder) viewThumbPlaceholder.style.display = 'none';
-    } else {
-        viewThumbPreview.src = '';
-        viewThumbPreview.style.display = 'none';
-        if(viewThumbPlaceholder) viewThumbPlaceholder.style.display = 'flex';
-    }
-
-    viewDesc.textContent = script.description || 'Sin descripción.';
-
-    // 6. Cerrar modo edición y mostrar feedback
-    toggleQuickEditMetadata();
-    showToast('✓ Cambios de publicación guardados');
-}
-
 function initializeData() {
-    // Cargar scripts y realizar migración si es necesario
-    const storedScripts = JSON.parse(localStorage.getItem('scripts') || '[]');
-    scripts = storedScripts.map(script => ({
-        ...script,
-        description: script.description || '', // Añadir campo descripción
-        thumbnail: script.thumbnail || null    // Añadir campo miniatura
-    }));
-
+    scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
     wordFilters = JSON.parse(localStorage.getItem('wordFilters') || '[]');
-    
+
     const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
 
-    // Migrar categorías para asegurar tipo
+    // Migración de categorías a la nueva estructura
     categories = storedCategories.map(cat => {
         if (typeof cat === 'string') {
             return { 
                 name: cat, 
                 path: '', 
                 exportPath: '',
+                contentType: 'short', // <-- AÑADIDO
                 promptTemplate: DEFAULT_PROMPT_TEMPLATE,
-                thumbnailPromptTemplate: DEFAULT_THUMBNAIL_TEMPLATE, // <<-- Añadido este campo default
-                visualReferences: { asunto: null, escena: null, estilo: null },
-                formType: 'long' 
+                visualReferences: { asunto: null, escena: null, estilo: null }
             };
         }
-        return {
-            ...cat,
-            formType: cat.formType || 'long',
-            thumbnailPromptTemplate: cat.thumbnailPromptTemplate || DEFAULT_THUMBNAIL_TEMPLATE // Asegurar que exista en categorías existentes
-        };
+        // Asegurar que las propiedades existen para la compatibilidad hacia atrás
+        cat.exportPath = cat.exportPath || '';
+        cat.contentType = cat.contentType || 'short'; // <-- AÑADIDO (Migración)
+        cat.visualReferences = cat.visualReferences || { asunto: null, escena: null, estilo: null };
+        cat.promptTemplate = cat.promptTemplate || DEFAULT_PROMPT_TEMPLATE;
+        return cat;
     });
     
-    // Cargar configuración, añadiendo la nueva plantilla de miniatura
+    // Carga de configuración con estructura anidada
     const storedConfig = JSON.parse(localStorage.getItem('config') || 'null');
-    
-    // Plantilla por defecto estilo MrBeast
-    const defaultThumbTemplate = `"Dibujo Sencillo: Figuras de palo o personajes muy básicos, con expresiones claras.
-Necesito que utilizando la estrategia que utiliza MrBeast mejores esta miniatura.
-Título del video: [TÍTULO]
-Descripción del video: [DESCRIPCIÓN]"`;
-
-    const defaultConfig = {
-        charactersPerScene: 83,
-        secondsPerScene: 5,
-        sceneCoherenceLength: 5,
-        thumbnailPromptTemplate: defaultThumbTemplate // Nueva configuración
-    };
-
-    // Unir configuración por defecto con la guardada
-    config = { ...defaultConfig, ...storedConfig };
+    if (storedConfig) {
+        // Fusión profunda para mantener la estructura de fórmulas
+        if (storedConfig.formulas) {
+            config.formulas.short = { ...config.formulas.short, ...storedConfig.formulas.short };
+            config.formulas.long = { ...config.formulas.long, ...storedConfig.formulas.long };
+        }
+        if (storedConfig.sceneCoherenceLength !== undefined) {
+            config.sceneCoherenceLength = storedConfig.sceneCoherenceLength;
+        }
+    }
     
     saveData();
     updateUI();
@@ -6299,14 +5674,22 @@ function saveData() {
 // FUNCIONES DE CÁLCULO DE ESCENAS
 // ============================================
 
-function calculateScenes(content) {
+function getFormulaForCategory(categoryName) {
+    const category = categories.find(cat => cat.name === categoryName);
+    const contentType = category ? category.contentType : 'short'; // Por defecto 'short'
+    return config.formulas[contentType] || config.formulas.short;
+}
+
+function calculateScenes(content, categoryName) {
+    const formula = getFormulaForCategory(categoryName);
     const totalCharacters = content.length;
-    const scenes = Math.round(totalCharacters / config.charactersPerScene);
+    const scenes = Math.round(totalCharacters / formula.charactersPerScene);
     return scenes > 0 ? scenes : 1;
 }
 
-function calculateDuration(scenes) {
-    return scenes * config.secondsPerScene;
+function calculateDuration(scenes, categoryName) {
+    const formula = getFormulaForCategory(categoryName);
+    return scenes * formula.secondsPerScene;
 }
 
 function formatDuration(seconds) {
@@ -6375,11 +5758,15 @@ function addCategory() {
         return;
     }
     
-    // ✨ Incluir referencias visuales
+// Obtener tipo de contenido seleccionado
+    const selectedType = document.querySelector('#newCategoryTypeSelector .active').dataset.type;
+
+    // ✨ Incluir referencias visuales y tipo de contenido
     categories.push({
         name: categoryName,
         path: categoryPath || '',
         exportPath: categoryExportPath,
+        contentType: selectedType, // <-- AÑADIDO
         promptTemplate: categoryPrompt,
         visualReferences: {
             asunto: tempNewCategoryReferences.asunto,
@@ -6511,6 +5898,12 @@ function removeNewReference(type) {
                 warningBox.style.display = 'none';
             }
 
+// Establecer el tipo de contenido actual
+            const typeSelector = document.getElementById('editCategoryTypeSelector');
+            typeSelector.querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+            const currentTypeButton = typeSelector.querySelector(`[data-type="${category.contentType || 'short'}"]`);
+            if (currentTypeButton) currentTypeButton.classList.add('active');
+
             // Cargar referencias visuales existentes
             loadVisualReferences(category.visualReferences || { asunto: null, escena: null, estilo: null });
             document.getElementById('editCategoryModal').classList.add('active');
@@ -6544,15 +5937,20 @@ function removeNewReference(type) {
             }
 
             // Actualizar la categoría
+            const newContentType = document.querySelector('#editCategoryTypeSelector .active').dataset.type;
+
+            // Actualizar la categoría
             const categoryIndex = categories.findIndex(cat => cat.name === originalName);
             if (categoryIndex !== -1) {
                 categories[categoryIndex] = {
                     name: newName,
                     path: newPath,
                     exportPath: newExportPath,
+                    contentType: newContentType, // <-- AÑADIDO
                     promptTemplate: newPrompt,
                     visualReferences: tempVisualReferences
                 };
+
 
                 // Actualizar todos los scripts que usan esta categoría
                 scripts.forEach(script => {
@@ -6572,54 +5970,29 @@ function removeNewReference(type) {
             }
         }
 
-function openEditScriptModal() {
-    if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
-        const script = filteredScripts[currentViewIndex];
-        const originalScript = scripts.find(s => s.id === script.id);
-        
-        if (!originalScript) return;
+        function openEditScriptModal() {
+            if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
+                const script = filteredScripts[currentViewIndex];
+                const originalScript = scripts.find(s => s.id === script.id);
+                
+                if (!originalScript) return;
 
-        // Cargar campos básicos (código existente)
-        document.getElementById('editCurrentScriptTitle').textContent = originalScript.title;
-        document.getElementById('editScriptId').value = originalScript.id;
-        document.getElementById('editScriptTitle').value = originalScript.title;
-        document.getElementById('editScriptContent').value = originalScript.content;
-        
-        updateEditScriptCategorySelect();
-        document.getElementById('editScriptCategory').value = originalScript.category;
-        
-        // ✨ NUEVO: Cargar descripción
-        document.getElementById('editScriptDescription').value = originalScript.description || '';
-        
-        // ✨ NUEVO: Lógica de visibilidad (solo video largo)
-        const category = categories.find(c => c.name === originalScript.category);
-        const longFormFields = document.getElementById('editLongFormFields');
-        // Asumimos 'General' como largo por defecto si no tiene config
-        const isLongForm = category ? (category.formType !== 'short') : true; 
-        
-        longFormFields.style.display = isLongForm ? 'block' : 'none';
-        
-        // ✨ NUEVO: Lógica de visualización de miniatura
-        const preview = document.getElementById('editThumbnailPreview');
-        const container = document.getElementById('editThumbnailContainer');
-        const btnRemove = document.getElementById('editBtnRemoveThumbnail');
-        
-        if (originalScript.thumbnail) {
-            preview.src = originalScript.thumbnail;
-            container.classList.add('has-image'); // Asegurarse que el contenedor tenga la clase correcta
-            btnRemove.style.display = 'inline-block';
-        } else {
-            preview.src = '';
-            container.classList.remove('has-image');
-            btnRemove.style.display = 'none';
+                // Llenar el formulario con los datos actuales
+                document.getElementById('editCurrentScriptTitle').textContent = originalScript.title;
+                document.getElementById('editScriptId').value = originalScript.id;
+                document.getElementById('editScriptTitle').value = originalScript.title;
+                document.getElementById('editScriptContent').value = originalScript.content;
+                
+                // Actualizar select de categorías
+                updateEditScriptCategorySelect();
+                document.getElementById('editScriptCategory').value = originalScript.category;
+
+                // Cerrar modal de visualización y abrir modal de edición
+                closeModal('viewModal');
+                document.getElementById('editScriptModal').classList.add('active');
+                document.getElementById('editScriptTitle').focus();
+            }
         }
-        document.getElementById('editScriptThumbnail').value = ''; // Reset input
-
-        closeModal('viewModal');
-        document.getElementById('editScriptModal').classList.add('active');
-        document.getElementById('editScriptTitle').focus();
-    }
-}
 
         function updateEditScriptCategorySelect() {
             const select = document.getElementById('editScriptCategory');
@@ -6648,52 +6021,47 @@ function openEditScriptModal() {
             }
         }
 
-function saveEditScript(event) {
-    event.preventDefault();
-    
-    const scriptId = parseInt(document.getElementById('editScriptId').value);
-    const title = document.getElementById('editScriptTitle').value.trim();
-    let category = document.getElementById('editScriptCategory').value.trim();
-    const content = document.getElementById('editScriptContent').value.trim();
-    
-    // Validar que el título no esté vacío
-    if (!title) {
-        alert('Por favor, ingresa un título para el guión');
-        return;
-    }
-    
-    // Si no hay categoría seleccionada, asignar "General"
-    if (!category) {
-        category = 'General';
-        if (!categories.some(cat => cat.name === 'General')) {
-            categories.push({ name: 'General', path: '' });
-        }
-    }
+        function saveEditScript(event) {
+            event.preventDefault();
+            
+            const scriptId = parseInt(document.getElementById('editScriptId').value);
+            const title = document.getElementById('editScriptTitle').value.trim();
+            let category = document.getElementById('editScriptCategory').value.trim();
+            const content = document.getElementById('editScriptContent').value.trim();
+            
+            // Validar que el título no esté vacío
+            if (!title) {
+                alert('Por favor, ingresa un título para el guión');
+                return;
+            }
+            
+            // Si no hay categoría seleccionada, asignar "General"
+            if (!category) {
+                category = 'General';
+                if (!categories.some(cat => cat.name === 'General')) {
+                    categories.push({ name: 'General', path: '' });
+                }
+            }
+            
+// Buscar y actualizar el script
+            const scriptIndex = scripts.findIndex(s => s.id === scriptId);
+            if (scriptIndex !== -1) {
+                // --- APLICAR FILTROS ---
+                const processedContent = processTextReplacement(content, category);
+                // -----------------------
 
-    // --- APLICAR FILTROS ---
-    // Reemplazamos el contenido original por el procesado
-    const processedContent = processTextReplacement(content, category);
-    // -----------------------
-    
-    const scriptIndex = scripts.findIndex(s => s.id === scriptId);
-    if (scriptIndex !== -1) {
-        scripts[scriptIndex].title = title;
-        scripts[scriptIndex].category = category;
-        scripts[scriptIndex].content = processedContent; // <--- CAMBIA 'content' por 'processedContent'
-        scripts[scriptIndex].updatedAt = new Date().toISOString();
-        
-        // ✨ NUEVO: Guardar datos extra
-        scripts[scriptIndex].description = document.getElementById('editScriptDescription').value.trim();
-        scripts[scriptIndex].thumbnail = getThumbnailData('edit'); // Captura la miniatura del modal de edición
+                scripts[scriptIndex].title = title;
+                scripts[scriptIndex].category = category;
+                scripts[scriptIndex].content = processedContent; // <--- CAMBIA 'content' por 'processedContent'
+                scripts[scriptIndex].updatedAt = new Date().toISOString();                
+                saveData();
+                updateUI();
+                closeModal('editScriptModal');
                 
-        saveData();
-        updateUI();
-        closeModal('editScriptModal');
-        
-        // Mostrar mensaje de confirmación
-        alert('¡Guión actualizado exitosamente!');
-    }
-}
+                // Mostrar mensaje de confirmación
+                alert('¡Guión actualizado exitosamente!');
+            }
+        }
 
         function deleteCategory(categoryName) {
             const scriptsInCategory = scripts.filter(s => s.category === categoryName).length;
@@ -6903,30 +6271,12 @@ function saveScript(event) {
         category,
         content: processedContent, // <--- CAMBIA 'content' por 'processedContent'
         used: false,
-        createdAt: new Date().toISOString(),
-        
-        // --- NUEVOS CAMPOS ---
-        description: document.getElementById('addScriptDescription').value.trim(),
-        thumbnail: getThumbnailData('add') // Captura la miniatura del modal de agregar
+        createdAt: new Date().toISOString()
     });
     
     saveData();
     updateUI();
     closeModal('addModal');
-}
-
-// ✨ NUEVA FUNCIÓN AUXILIAR: Capturar datos de miniatura
-function getThumbnailData(context) {
-    const preview = document.getElementById(`${context}ThumbnailPreview`);
-    const placeholder = document.getElementById(`${context}ThumbnailPlaceholder`);
-    
-    // Verificamos si el preview está visible (lo que implica que se cargó una imagen)
-    // y si el src comienza con 'data:image' (indicando que es una imagen válida en base64)
-    if (preview && preview.style.display === 'block' && preview.src && preview.src.startsWith('data:image')) {
-        return preview.src;
-    } else {
-        return null; // Devolver null si no hay miniatura válida o si se eliminó
-    }
 }
 
         function deleteCurrentScript() {
@@ -6958,8 +6308,8 @@ function getThumbnailData(context) {
                 document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
                 
                 // NUEVO: Calcular escenas y duración
-                const scenes = calculateScenes(script.content);
-                const duration = calculateDuration(scenes);
+const scenes = calculateScenes(script.content, script.category);
+const duration = calculateDuration(scenes, script.category);
                 const totalSeconds = duration;
                 
                 document.getElementById('viewScenes').textContent = scenes;
@@ -7425,8 +6775,8 @@ function showToast(message) {
             document.getElementById('viewDate').textContent = `Creado: ${formatDate(script.createdAt)}`;
             
             // Actualizar cálculos
-            const scenes = calculateScenes(script.content);
-            const duration = calculateDuration(scenes);
+const scenes = calculateScenes(script.content, script.category);
+const duration = calculateDuration(scenes, script.category);
             
             document.getElementById('viewScenes').textContent = scenes;
             document.getElementById('viewCharCount').textContent = script.content.length;
@@ -7767,7 +7117,7 @@ function renderCategories() {
     categoryList.appendChild(allCategory);
 
     categories.forEach(cat => {
-        const count = scripts.filter(s => s.category === cat.name && !s.used).length; // <--- LÍNEA MODIFICADA
+        const count = scripts.filter(s => s.category === cat.name).length;
         const div = document.createElement('div');
         div.className = 'category-item';
         div.innerHTML = `
@@ -7798,7 +7148,6 @@ function renderCategories() {
         filterCategoriesDisplay(currentSearchTerm);
     }
 }
-
 
         function renderScripts() {
             const grid = document.getElementById('scriptsGrid');
@@ -7885,7 +7234,7 @@ function renderCategories() {
             document.getElementById('totalScripts').textContent = total;
             document.getElementById('availableScripts').textContent = available;
             document.getElementById('usedScripts').textContent = used;
-            document.getElementById('count-all').textContent = available; // <--- LÍNEA MODIFICADA
+            document.getElementById('count-all').textContent = total;
         }
 
         function updateUI() {
@@ -8424,31 +7773,41 @@ function resetBulkButton() {
 // ============================================
 
 function openConfigModal() {
-    // Cargar valores actuales en los controles
-    document.getElementById('configCharactersPerScene').value = config.charactersPerScene;
-    document.getElementById('configSecondsPerScene').value = config.secondsPerScene;
+    // Cargar valores para Contenido Corto
+    document.getElementById('configCharactersShort').value = config.formulas.short.charactersPerScene;
+    document.getElementById('configSecondsShort').value = config.formulas.short.secondsPerScene;
+
+    // Cargar valores para Contenido Largo
+    document.getElementById('configCharactersLong').value = config.formulas.long.charactersPerScene;
+    document.getElementById('configSecondsLong').value = config.formulas.long.secondsPerScene;
+
+    // Cargar valor de Coherencia
     document.getElementById('configSceneCoherenceLength').value = config.sceneCoherenceLength;
 
-    // Actualizar displays
     updateConfigDisplay();
-    
-    // Renderizar prompts de categorías
     renderConfigPrompts();
+    renderConfigFilters(); // Asegurarse de que los filtros también se rendericen
     
     document.getElementById('configModal').classList.add('active');
 }
 
 // Después:
 function updateConfigDisplay() {
-    const chars = document.getElementById('configCharactersPerScene').value;
-    const seconds = document.getElementById('configSecondsPerScene').value;
-    const coherence = document.getElementById('configSceneCoherenceLength').value; // <-- AÑADIR
+    // Contenido Corto
+    const charsShort = document.getElementById('configCharactersShort').value;
+    const secondsShort = document.getElementById('configSecondsShort').value;
+    document.getElementById('configCharactersShortDisplay').textContent = charsShort;
+    document.getElementById('configSecondsShortDisplay').innerHTML = `${secondsShort}<span style="font-size: 14px;">s</span>`;
+
+    // Contenido Largo
+    const charsLong = document.getElementById('configCharactersLong').value;
+    const secondsLong = document.getElementById('configSecondsLong').value;
+    document.getElementById('configCharactersLongDisplay').textContent = charsLong;
+    document.getElementById('configSecondsLongDisplay').innerHTML = `${secondsLong}<span style="font-size: 14px;">s</span>`;
     
-    document.getElementById('configCharactersDisplay').textContent = chars;
-    document.getElementById('configSecondsDisplay').textContent = seconds;
-    document.getElementById('configCoherenceDisplay').innerHTML = `${coherence}<span style="font-size: 14px; font-weight: 400; color: #737373;"> escenas</span>`; // <-- AÑADIR
-    document.getElementById('previewChars').textContent = chars;
-    document.getElementById('previewSeconds').textContent = seconds;
+    // Coherencia
+    const coherence = document.getElementById('configSceneCoherenceLength').value;
+    document.getElementById('configCoherenceDisplay').innerHTML = `${coherence}<span style="font-size: 14px; font-weight: 400; color: #737373;"> escenas</span>`;
 }
 
 function renderConfigPrompts() {
@@ -8519,11 +7878,16 @@ function togglePromptCard(index) {
 }
 
 function saveConfiguration() {
-    // Guardar valores de fórmula
-    config.charactersPerScene = parseInt(document.getElementById('configCharactersPerScene').value);
-    config.secondsPerScene = parseInt(document.getElementById('configSecondsPerScene').value);
-    config.sceneCoherenceLength = parseInt(document.getElementById('configSceneCoherenceLength').value);    // Guardar prompts de categorías
-    categories.forEach((cat, index) => {
+    // Guardar valores de fórmula para Contenido Corto
+    config.formulas.short.charactersPerScene = parseInt(document.getElementById('configCharactersShort').value);
+    config.formulas.short.secondsPerScene = parseInt(document.getElementById('configSecondsShort').value);
+    
+    // Guardar valores de fórmula para Contenido Largo
+    config.formulas.long.charactersPerScene = parseInt(document.getElementById('configCharactersLong').value);
+    config.formulas.long.secondsPerScene = parseInt(document.getElementById('configSecondsLong').value);
+
+    // Guardar valor de Coherencia
+    config.sceneCoherenceLength = parseInt(document.getElementById('configSceneCoherenceLength').value);    categories.forEach((cat, index) => {
         const promptTextarea = document.getElementById(`configPrompt_${index}`);
         if (promptTextarea) {
             cat.promptTemplate = promptTextarea.value.trim() || DEFAULT_PROMPT_TEMPLATE;
@@ -9400,6 +8764,12 @@ function checkPromptHeight() {
     if (isOverflowing) {
         btn.classList.add('visible');
     }
+}
+
+function selectCategoryType(selectedButton, containerId) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+    selectedButton.classList.add('active');
 }
     </script>
 </body>
