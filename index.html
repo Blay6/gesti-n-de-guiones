@@ -5720,25 +5720,37 @@ function getImageUrl(imageSource) {
 
 async function initializeData() {
     try {
-        // 1. Migración Legacy (LocalStorage -> IndexedDB)
+        // 1. Verificar migración una única vez
+        // Solo migramos si existen scripts en LocalStorage Y la base de datos está vacía
+        // para evitar sobrescribir datos buenos de DB con datos malos de LocalStorage.
+        const dbCount = await db.scripts.count();
         const localScripts = localStorage.getItem('scripts');
-        if (localScripts) {
-            console.log("📦 Migrando datos antiguos...");
+        
+        if (localScripts && dbCount === 0) {
+            console.log("📦 Migrando datos antiguos a Base de Datos segura...");
             await migrateFromLocalStorage();
+        } else if (localScripts && dbCount > 0) {
+            // Si ya tenemos datos en DB, limpiamos el LocalStorage para evitar conflictos futuros
+            console.log("🧹 Limpiando LocalStorage redundante...");
+            localStorage.removeItem('scripts');
+            localStorage.removeItem('categories');
         }
 
-        // 2. Hydration: Cargar Blobs a Memoria RAM
-        // Esto es crucial: Dexie devuelve los objetos con sus Blobs intactos.
-        // No necesitamos generar URLs aquí, se generan on-the-fly en el renderizado (Lazy Loading).
+        // 2. Hydration: Cargar Datos Reales (Con Imágenes/Blobs) desde IndexedDB
         scripts = await db.scripts.toArray();
         categories = await db.categories.toArray();
         
-        // 3. Cargar Configuración
-        const dbConfig = await db.settings.get('config');
-        if (dbConfig) config = dbConfig.value;
+        // 3. Cargar Configuración (Esta sí viene de LocalStorage o DB Settings)
+        // Intentamos cargar de LocalStorage primero para config ligera
+        const localConfig = localStorage.getItem('config');
+        if (localConfig) {
+            config = JSON.parse(localConfig);
+        }
         
-        const dbFilters = await db.settings.get('wordFilters');
-        wordFilters = dbFilters ? dbFilters.value : [];
+        const localFilters = localStorage.getItem('wordFilters');
+        if (localFilters) {
+            wordFilters = JSON.parse(localFilters);
+        }
 
         // 4. Defaults para instalación limpia
         if (categories.length === 0) {
@@ -5750,16 +5762,17 @@ async function initializeData() {
                 promptTemplate: DEFAULT_PROMPT_TEMPLATE,
                 visualReferences: { asunto: null, escena: null, estilo: null }
             };
+            // Guardamos el default en DB inmediatamente
             await db.categories.add(defaultCat);
             categories.push(defaultCat);
         }
 
-        console.log(`✅ Datos cargados: ${categories.length} cats, ${scripts.length} scripts.`);
+        console.log(`✅ Sistema inicializado: ${categories.length} categorías, ${scripts.length} guiones.`);
         updateUI();
 
     } catch (error) {
-        console.error("❌ Fallo en carga de datos:", error);
-        alert("Error cargando datos. Por favor recarga la página.");
+        console.error("❌ Fallo crítico en inicialización:", error);
+        alert("Error cargando la base de datos. Tus datos están seguros en IndexedDB, pero hubo un error de lectura.");
     }
 }
 
@@ -6019,11 +6032,17 @@ function filterCategoriesDisplay(searchTerm) {
     }
 }
 
+/**
+ * GUARDA SOLO CONFIGURACIÓN LIGERA.
+ * Los Scripts y Categorías (imágenes) se guardan automáticamente 
+ * en IndexedDB (db.put/db.add) en sus respectivas funciones.
+ * NO guardar scripts/categories aquí para evitar serialización destructiva de Blobs.
+ */
 function saveData() {
-    localStorage.setItem('scripts', JSON.stringify(scripts));
-    localStorage.setItem('categories', JSON.stringify(categories));
+    // Solo guardamos preferencias de usuario y filtros en LocalStorage
+    // para mantener la persistencia ligera y rápida.
     localStorage.setItem('config', JSON.stringify(config));
-    localStorage.setItem('wordFilters', JSON.stringify(wordFilters)); // <--- NUEVO
+    localStorage.setItem('wordFilters', JSON.stringify(wordFilters));
 }
 
 // ============================================
@@ -6132,18 +6151,46 @@ function addCategory() {
         }
     };
 
-    // 1. Actualizar estado local (Memoria RAM para reactividad inmediata)
-    categories.push(newCategory);
-    
-    // 2. Guardar en Base de Datos (Persistencia Real)
-    db.categories.put(newCategory).catch(e => {
-        console.error("Error guardando categoría en DB:", e);
-        alert("Error al guardar la categoría en la base de datos.");
+// 1. Guardar en Base de Datos (FUENTE DE LA VERDAD)
+    // Guardamos primero en DB para asegurar que los Blobs se persistan
+    db.categories.put(newCategory).then(() => {
+        // 2. Actualizar estado local
+        categories.push(newCategory);
+        
+        // 3. Limpieza y UI
+        tempNewCategoryReferences = { asunto: null, escena: null, estilo: null };
+        
+        // Resetear inputs visuales
+        ['asunto', 'escena', 'estilo'].forEach(type => {
+            const input = document.getElementById(`newInput${capitalize(type)}`);
+            const label = document.getElementById(`newLabel${capitalize(type)}`);
+            const btn = document.getElementById(`newBtnRemove${capitalize(type)}`);
+            
+            if (input) input.value = '';
+            if (label) {
+                label.textContent = capitalize(type);
+                label.parentElement.style.borderColor = '#d1d5db';
+                label.parentElement.style.borderStyle = 'dashed';
+                label.parentElement.style.background = 'white';
+            }
+            if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
+        });
+        
+        saveData(); // Guarda configs
+        updateUI();
+        
+        // Limpiar formulario
+        nameInput.value = '';
+        pathInput.value = '';
+        exportPathInput.value = '';
+        if(promptInput) promptInput.value = '';
+        toggleCategoryInput();
+
+    }).catch(e => {
+        console.error("Error crítico guardando categoría:", e);
+        alert("Error: No se pudo guardar la imagen en la base de datos.");
     });
-    
-    // Limpiar referencias temporales
-    tempNewCategoryReferences = { asunto: null, escena: null, estilo: null };
-    
+
     // Resetear inputs de archivo visuales
     ['asunto', 'escena', 'estilo'].forEach(type => {
         const input = document.getElementById(`newInput${capitalize(type)}`);
@@ -6362,14 +6409,20 @@ async function saveEditCategory(event) {
             await db.categories.put(updatedCategory);
         });
 
-        // 3. Sincronización de Estado en Memoria (Hydration inmediata)
-        // Actualizar array de categorías
+// 3. Sincronización de Estado en Memoria
+        // IMPORTANTE: Reemplazar el objeto en memoria con el que tiene los Blobs actualizados
         const catIndex = categories.findIndex(c => c.name === originalName);
         if (catIndex !== -1) {
-            categories[catIndex] = updatedCategory;
+            // Si cambiamos el nombre, hay que manejar la referencia en el array
+            if (originalName !== newName) {
+                // Eliminamos la vieja y ponemos la nueva para evitar duplicados en UI
+                categories.splice(catIndex, 1, updatedCategory);
+            } else {
+                categories[catIndex] = updatedCategory;
+            }
         }
 
-        // Actualizar array de scripts en memoria si hubo cambio de nombre
+        // Actualizar referencias en scripts en memoria si cambió el nombre
         if (originalName !== newName) {
             scripts.forEach(s => {
                 if (s.category === originalName) s.category = newName;
@@ -6378,9 +6431,12 @@ async function saveEditCategory(event) {
         }
 
         // 4. Finalizar
-        saveData(); // Guardar config global
+        saveData(); // Guarda solo configuración
         updateUI();
         closeModal('editCategoryModal');
+        
+        // Limpiar temporales para liberar memoria
+        tempVisualReferences = { asunto: null, escena: null, estilo: null };
         
     } catch (err) {
         console.error("Error crítico guardando categoría:", err);
