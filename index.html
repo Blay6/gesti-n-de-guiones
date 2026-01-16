@@ -3054,9 +3054,16 @@ body {
 }
 
 .visual-reference-preview img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta la imagen para llenar el cuadro */
+    border-radius: 6px;
+    transition: filter 0.3s ease;
+}
+
+/* Efecto opcional de carga/estética */
+.visual-reference-preview img.loading {
+    filter: blur(2px);
 }
 
 .visual-reference-placeholder {
@@ -4149,6 +4156,7 @@ body {
 }
 /* --- FIN CÓDIGO NUEVO --- */
     </style>
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 </head>
 <body>
 <!-- Botón Hamburguesa (solo visible en móviles) -->
@@ -5573,46 +5581,55 @@ body {
     </div>
 </div>
     <script>
+// ============================================
+// ARQUITECTURA DE DATOS: INDEXEDDB (DEXIE)
+// ============================================
+
+// 1. Configuración de la Base de Datos
+const db = new Dexie("ScriptsManagerDB");
+
+// Definición del Esquema (Schema)
+// scripts: Almacena los guiones completos.
+// categories: Almacena configuraciones de categorías e imágenes.
+// settings: Almacena configuración global y filtros.
+db.version(1).stores({
+    scripts: 'id, title, category, used, createdAt', // Índices para búsqueda rápida
+    categories: 'name', // 'name' es la llave primaria
+    settings: 'key' 
+});
+
+// 2. Variables Globales de Estado (State Management)
+// Estas variables mantienen una copia en memoria para reactividad de la UI
 let scripts = [];
 let categories = [];
-let wordFilters = []; // <--- NUEVA VARIABLE GLOBAL
-let currentFilter = 'all';
-let currentViewIndex = -1;
-let filteredScripts = [];
-let searchQuery = '';
+let wordFilters = []; 
 
-// Nuevos filtros avanzados
-let statusFilter = 'available';
-let sortFilter = 'recent';
-let filtersActive = false;
-
-// Variables para selección múltiple
-let selectionMode = false;
-let selectedScripts = new Set();
-let confirmCallback = null;
-
-// NUEVO: Variables de configuración para cálculo de escenas
 let config = {
     formulas: {
-        short: {
-            charactersPerScene: 83,
-            secondsPerScene: 5
-        },
-        long: {
-            charactersPerScene: 600,
-            secondsPerScene: 20
-        }
+        short: { charactersPerScene: 83, secondsPerScene: 5 },
+        long: { charactersPerScene: 600, secondsPerScene: 20 }
     },
     sceneCoherenceLength: 5
 };
 
-// NUEVO: Prompt maestro por defecto para generación cinematográfica
+// Variables de UI
+let currentFilter = 'all';
+let currentViewIndex = -1;
+let filteredScripts = [];
+let searchQuery = '';
+let statusFilter = 'available';
+let sortFilter = 'recent';
+let filtersActive = false;
+let selectionMode = false;
+let selectedScripts = new Set();
+let confirmCallback = null;
+
+// Prompt Maestro
 const DEFAULT_PROMPT_TEMPLATE = `Sistema de Generación de Prompts Cinematográficos para IA
 
 Por favor solo responde a lo que te pido, no adicciones elementos extras ni estructuras de respuestas diferentes a la que te pido
 
 Pide en cada prompt utilizar la base el estilo, escena y asunto de estas imagenes. Siempre que se pueda y vea necesario
-
 
 [REGLA CRÍTICA] **NO GENERAR IMÁGENES**. Solo se debe producir el texto del prompt de imagen según el formato y las especificaciones.
 
@@ -5653,49 +5670,269 @@ PIDE EN CADA PROMPT QUE EN MEDIDA DE LO POSIBLE, EN TODAS LAS ESCENAS UTILICE EL
 
 TAMBIEN ES DEMASIADO IMPORTANTE QUE NO DES INSTRUCCIONES REFERENTES A GENERACION DE TITULOS O TEXTOS EN ESTAS ESCENAS, ES DECIR No coloques texto, REEMPLAZA TEXTO POR solo iconos referentes o emojis etc`;
 
-function initializeData() {
-    scripts = JSON.parse(localStorage.getItem('scripts') || '[]');
-    wordFilters = JSON.parse(localStorage.getItem('wordFilters') || '[]');
+// ============================================
+// UTILIDADES DE IMAGEN (OPTIMIZACIÓN DE MEMORIA)
+// ============================================
 
-    const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+/**
+ * Convierte Base64 legacy a Blob eficiente.
+ * Vital para la migración de datos antiguos.
+ */
+function base64ToBlob(base64Data) {
+    if (!base64Data || typeof base64Data !== 'string' || !base64Data.startsWith('data:')) return null;
+    try {
+        const parts = base64Data.split(',');
+        const mime = parts[0].match(/:(.*?);/)[1];
+        const bstr = atob(parts[1]); 
+        let n = bstr.length; 
+        const u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type: mime});
+    } catch (e) {
+        console.error("Error convirtiendo imagen:", e);
+        return null;
+    }
+}
 
-    // Migración de categorías a la nueva estructura
-    categories = storedCategories.map(cat => {
-        if (typeof cat === 'string') {
-            return { 
-                name: cat, 
+/**
+ * Genera una URL temporal para mostrar la imagen.
+ * Implementa Lazy Loading nativo del navegador.
+ */
+function getImageUrl(imageSource) {
+    if (!imageSource) return null;
+    // Si ya es un Blob/File (Nuevo sistema)
+    if (imageSource instanceof Blob || imageSource instanceof File) {
+        return URL.createObjectURL(imageSource);
+    }
+    // Si es string (Legacy o URL externa)
+    return imageSource; 
+}
+
+// ============================================
+// SISTEMA DE INICIALIZACIÓN Y MIGRACIÓN
+// ============================================
+
+async function initializeData() {
+    try {
+        // Paso 1: Verificar si existen datos antiguos en LocalStorage
+        const localScripts = localStorage.getItem('scripts');
+        
+        if (localScripts) {
+            console.log("📦 Datos antiguos detectados. Iniciando migración a IndexedDB...");
+            await migrateFromLocalStorage();
+        }
+
+        // Paso 2: Cargar datos desde IndexedDB a Memoria
+        // Esto mantiene la app rápida al tener los datos listos en RAM
+        scripts = await db.scripts.toArray();
+        categories = await db.categories.toArray();
+        
+        // Cargar configuraciones
+        const dbConfig = await db.settings.get('config');
+        if (dbConfig) config = dbConfig.value;
+        
+        const dbFilters = await db.settings.get('wordFilters');
+        wordFilters = dbFilters ? dbFilters.value : [];
+
+        // Paso 3: Crear categoría por defecto si es una instalación limpia
+        if (categories.length === 0) {
+            console.log("✨ Instalación limpia. Creando categoría General.");
+            const defaultCat = { 
+                name: 'General', 
                 path: '', 
                 exportPath: '',
-                contentType: 'short', // <-- AÑADIDO
+                contentType: 'short',
                 promptTemplate: DEFAULT_PROMPT_TEMPLATE,
                 visualReferences: { asunto: null, escena: null, estilo: null }
             };
+            // Guardamos en DB y en Memoria
+            await db.categories.add(defaultCat);
+            categories.push(defaultCat);
         }
-        // Asegurar que las propiedades existen para la compatibilidad hacia atrás
-        cat.exportPath = cat.exportPath || '';
-        cat.contentType = cat.contentType || 'short'; // <-- AÑADIDO (Migración)
-        cat.visualReferences = cat.visualReferences || { asunto: null, escena: null, estilo: null };
-        cat.promptTemplate = cat.promptTemplate || DEFAULT_PROMPT_TEMPLATE;
-        return cat;
-    });
-    
-    // Carga de configuración con estructura anidada
-    const storedConfig = JSON.parse(localStorage.getItem('config') || 'null');
-    if (storedConfig) {
-        // Fusión profunda para mantener la estructura de fórmulas
-        if (storedConfig.formulas) {
-            config.formulas.short = { ...config.formulas.short, ...storedConfig.formulas.short };
-            config.formulas.long = { ...config.formulas.long, ...storedConfig.formulas.long };
-        }
-        if (storedConfig.sceneCoherenceLength !== undefined) {
-            config.sceneCoherenceLength = storedConfig.sceneCoherenceLength;
-        }
+
+        console.log(`✅ Sistema cargado: ${scripts.length} guiones, ${categories.length} categorías.`);
+        updateUI();
+
+    } catch (error) {
+        console.error("❌ Error crítico iniciando base de datos:", error);
+        alert("Error cargando la base de datos. Tus datos están seguros, recarga la página.");
     }
-    
-    saveData();
-    updateUI();
 }
 
+async function migrateFromLocalStorage() {
+    // Lectura de datos legacy
+    const rawScripts = JSON.parse(localStorage.getItem('scripts') || '[]');
+    const rawCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+    const rawConfig = JSON.parse(localStorage.getItem('config') || 'null');
+    const rawFilters = JSON.parse(localStorage.getItem('wordFilters') || '[]');
+
+    // Transacción atómica: Todo se guarda o nada se guarda
+    await db.transaction('rw', db.scripts, db.categories, db.settings, async () => {
+        
+        // A. Migrar Categorías (y optimizar imágenes)
+        for (const cat of rawCategories) {
+            // Manejo de compatibilidad para strings simples antiguos
+            if (typeof cat === 'string') {
+                await db.categories.put({
+                    name: cat,
+                    path: '',
+                    exportPath: '',
+                    contentType: 'short',
+                    promptTemplate: DEFAULT_PROMPT_TEMPLATE,
+                    visualReferences: { asunto: null, escena: null, estilo: null }
+                });
+                continue;
+            }
+
+            // Conversión Base64 -> Blob (Ahorro de ~30% espacio y +Rendimiento)
+            const visuals = cat.visualReferences || {};
+            const migratedVisuals = {
+                asunto: base64ToBlob(visuals.asunto),
+                escena: base64ToBlob(visuals.escena),
+                estilo: base64ToBlob(visuals.estilo)
+            };
+
+            await db.categories.put({
+                ...cat,
+                exportPath: cat.exportPath || '', // Asegurar campo nuevo
+                contentType: cat.contentType || 'short',
+                promptTemplate: cat.promptTemplate || DEFAULT_PROMPT_TEMPLATE,
+                visualReferences: migratedVisuals
+            });
+        }
+
+        // B. Migrar Guiones
+        for (const script of rawScripts) {
+            const customVis = script.customVisuals || {};
+            const migratedCustom = {
+                asunto: base64ToBlob(customVis.asunto),
+                escena: base64ToBlob(customVis.escena),
+                estilo: base64ToBlob(customVis.estilo)
+            };
+            
+            // Limpieza de objetos vacíos
+            if (!migratedCustom.asunto && !migratedCustom.escena && !migratedCustom.estilo) {
+                delete script.customVisuals;
+            } else {
+                script.customVisuals = migratedCustom;
+            }
+
+            await db.scripts.put(script);
+        }
+
+        // C. Migrar Configuración
+        if (rawConfig) await db.settings.put({ key: 'config', value: rawConfig });
+        if (rawFilters) await db.settings.put({ key: 'wordFilters', value: rawFilters });
+    });
+
+    // Limpieza de LocalStorage para liberar cuota del navegador
+    localStorage.removeItem('scripts');
+    localStorage.removeItem('categories');
+    localStorage.removeItem('config');
+    localStorage.removeItem('wordFilters');
+    console.log("🧹 Migración completada. LocalStorage limpiado.");
+}
+
+// ============================================
+// FUNCIONES DE BÚSQUEDA UI
+// ============================================
+
+function handleCategorySearch() {
+    const searchInput = document.getElementById('categorySearchInput');
+    const clearBtn = document.getElementById('categorySearchClear');
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    if (searchTerm) {
+        clearBtn.style.display = 'flex';
+    } else {
+        clearBtn.style.display = 'none';
+    }
+    
+    filterCategoriesDisplay(searchTerm);
+}
+
+function clearCategorySearch() {
+    const searchInput = document.getElementById('categorySearchInput');
+    const clearBtn = document.getElementById('categorySearchClear');
+    
+    searchInput.value = '';
+    clearBtn.style.display = 'none';
+    searchInput.focus();
+    
+    filterCategoriesDisplay('');
+}
+
+function filterCategoriesDisplay(searchTerm) {
+    const categoryList = document.getElementById('categoryList');
+    const categoryItems = categoryList.querySelectorAll('.category-item');
+    let visibleCount = 0;
+    let hasAllCategory = false;
+    
+    categoryItems.forEach((item, index) => {
+        if (index === 0) {
+            hasAllCategory = true;
+            if (searchTerm) {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
+                }
+            } else {
+                item.classList.remove('hidden');
+                visibleCount++;
+            }
+            return;
+        }
+        
+        const categoryContent = item.querySelector('.category-item-content span');
+        if (categoryContent) {
+            const categoryText = categoryContent.textContent.toLowerCase();
+            
+            if (!searchTerm || categoryText.includes(searchTerm)) {
+                item.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                item.classList.add('hidden');
+            }
+        }
+    });
+    
+    let noResultsMsg = categoryList.querySelector('.category-no-results');
+    
+    if (visibleCount === 0 || (visibleCount === 1 && hasAllCategory && searchTerm)) {
+        if (!noResultsMsg) {
+            noResultsMsg = document.createElement('div');
+            noResultsMsg.className = 'category-no-results';
+            categoryList.appendChild(noResultsMsg);
+        }
+        noResultsMsg.textContent = 'No se encontraron categorías';
+        noResultsMsg.style.display = 'block';
+    } else {
+        if (noResultsMsg) {
+            noResultsMsg.style.display = 'none';
+        }
+    }
+}
+
+/**
+ * Guarda SOLO la configuración global.
+ * Nota: Los guiones y categorías ahora se guardan individualmente en la DB
+ * en sus respectivas funciones (addScript, addCategory, etc).
+ * Mantenemos esta función para guardar preferencias de filtros y config.
+ */
+async function saveData() {
+    try {
+        await db.settings.put({ key: 'config', value: config });
+        await db.settings.put({ key: 'wordFilters', value: wordFilters });
+        // No guardamos scripts/categories aquí para evitar overhead masivo.
+    } catch (e) {
+        console.error("Error guardando configuración:", e);
+    }
+}
         // NUEVAS FUNCIONES: Búsqueda de categorías
 function handleCategorySearch() {
     const searchInput = document.getElementById('categorySearchInput');
@@ -5878,39 +6115,47 @@ function addCategory() {
 // Obtener tipo de contenido seleccionado
     const selectedType = document.querySelector('#newCategoryTypeSelector .active').dataset.type;
 
-    // ✨ Incluir referencias visuales y tipo de contenido
-    categories.push({
+    // Crear el objeto de la nueva categoría
+    const newCategory = {
         name: categoryName,
         path: categoryPath || '',
         exportPath: categoryExportPath,
-        contentType: selectedType, // <-- AÑADIDO
+        contentType: selectedType,
         promptTemplate: categoryPrompt,
         visualReferences: {
+            // Aquí guardamos los ARCHIVOS (Blobs) directamente, no base64
             asunto: tempNewCategoryReferences.asunto,
             escena: tempNewCategoryReferences.escena,
             estilo: tempNewCategoryReferences.estilo
         }
+    };
+
+    // 1. Actualizar estado local (Memoria RAM para reactividad inmediata)
+    categories.push(newCategory);
+    
+    // 2. Guardar en Base de Datos (Persistencia Real)
+    db.categories.put(newCategory).catch(e => {
+        console.error("Error guardando categoría en DB:", e);
+        alert("Error al guardar la categoría en la base de datos.");
     });
     
     // Limpiar referencias temporales
-    tempNewCategoryReferences = {
-        asunto: null,
-        escena: null,
-        estilo: null
-    };
+    tempNewCategoryReferences = { asunto: null, escena: null, estilo: null };
     
-    // Resetear inputs de archivo
+    // Resetear inputs de archivo visuales
     ['asunto', 'escena', 'estilo'].forEach(type => {
-        const input = document.getElementById(`newInput${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const label = document.getElementById(`newLabel${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const btn = document.getElementById(`newBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const input = document.getElementById(`newInput${capitalize(type)}`);
+        const label = document.getElementById(`newLabel${capitalize(type)}`);
+        const btn = document.getElementById(`newBtnRemove${capitalize(type)}`);
         
         if (input) input.value = '';
-        if (label) label.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-        if (btn) {
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
+        if (label) {
+            label.textContent = capitalize(type);
+            label.parentElement.style.borderColor = '#d1d5db';
+            label.parentElement.style.borderStyle = 'dashed';
+            label.parentElement.style.background = 'white';
         }
+        if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
     });
     
     saveData();
@@ -5922,53 +6167,74 @@ function addCategory() {
     toggleCategoryInput();
 }
 
-// ✨ Función para manejar subida de referencias en nueva categoría
-function handleNewReferenceUpload(type, event) {
+// ============================================
+// HELPERS PARA IMÁGENES (OPTIMIZACIÓN BLOB)
+// ============================================
+
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/**
+ * Función maestra para manejar subidas de imágenes.
+ * Guarda el archivo crudo (File/Blob) y genera una vista previa ligera.
+ */
+function handleReferenceUploadGeneric(type, event, targetObject) {
     const file = event.target.files[0];
-    
     if (!file) return;
-    
+
     if (!file.type.startsWith('image/')) {
         alert('Por favor, selecciona un archivo de imagen válido');
-        event.target.value = '';
         return;
     }
+
+    // Guardamos el Archivo directamente en la variable temporal
+    targetObject[type] = file;
+
+    // Lógica para actualizar la UI según dónde estemos
+    let previewId, labelId, btnId;
     
-    if (file.size > 5 * 1024 * 1024) {
-        alert('La imagen es demasiado grande. El tamaño máximo es 5MB');
-        event.target.value = '';
-        return;
-    }
-    
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-        const base64String = e.target.result;
-        tempNewCategoryReferences[type] = base64String;
+    // CASO 1: Nueva Categoría (Sidebar)
+    if (targetObject === tempNewCategoryReferences) {
+        labelId = `newLabel${capitalize(type)}`;
+        btnId = `newBtnRemove${capitalize(type)}`;
         
-        // Actualizar UI
-        const label = document.getElementById(`newLabel${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const btn = document.getElementById(`newBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        
+        const label = document.getElementById(labelId);
+        const btn = document.getElementById(btnId);
         if (label) {
-            label.textContent = `✓ ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            label.textContent = `✓ ${capitalize(type)}`;
             label.parentElement.style.borderColor = '#8b5cf6';
             label.parentElement.style.borderStyle = 'solid';
             label.parentElement.style.background = '#f5f3ff';
         }
+        if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
         
-        if (btn) {
-            btn.disabled = false;
-            btn.style.opacity = '1';
+    } else {
+        // CASO 2 y 3: Editar Categoría o Editar Guión (Modales)
+        if (targetObject === tempCustomVisuals) {
+            previewId = `editScriptPreview${capitalize(type)}`;
+            btnId = `editScriptBtnRemove${capitalize(type)}`;
+        } else {
+            previewId = `preview${capitalize(type)}`;
+            btnId = `btnRemove${capitalize(type)}`;
         }
-    };
-    
-    reader.onerror = function() {
-        alert('Error al leer el archivo. Por favor, intenta de nuevo.');
-        event.target.value = '';
-    };
-    
-    reader.readAsDataURL(file);
+
+        const preview = document.getElementById(previewId);
+        const btnRemove = document.getElementById(btnId);
+        
+        if (preview) {
+            // Creamos una URL temporal solo para visualizar
+            const url = URL.createObjectURL(file);
+            preview.innerHTML = `<img src="${url}" alt="Referencia ${type}" onload="URL.revokeObjectURL(this.src)">`; 
+            preview.classList.add('has-image');
+            preview.classList.remove('fallback-preview');
+        }
+        if (btnRemove) btnRemove.disabled = false;
+    }
+}
+
+// ✨ Función para manejar subida de referencias en nueva categoría
+// ✨ Función optimizada para manejar subida de referencias en nueva categoría
+function handleNewReferenceUpload(type, event) {
+    handleReferenceUploadGeneric(type, event, tempNewCategoryReferences);
 }
 
 // ✨ Función para eliminar referencias en nueva categoría
@@ -6166,30 +6432,35 @@ function saveEditScript(event) {
     }
     
     const scriptIndex = scripts.findIndex(s => s.id === scriptId);
-    if (scriptIndex !== -1) {
+        if (scriptIndex !== -1) {
         const processedContent = processTextReplacement(content, category);
 
-        scripts[scriptIndex].title = title;
-        scripts[scriptIndex].category = category;
-        scripts[scriptIndex].content = processedContent;
-        scripts[scriptIndex].updatedAt = new Date().toISOString();
+        // 1. Actualizar objeto en memoria RAM
+        const scriptToUpdate = scripts[scriptIndex];
+        
+        scriptToUpdate.title = title;
+        scriptToUpdate.category = category;
+        scriptToUpdate.content = processedContent;
+        scriptToUpdate.updatedAt = new Date().toISOString();
 
-        // === INICIO CÓDIGO NUEVO ===
-        // Guardar referencias visuales personalizadas
+        // Gestión de imágenes custom (ahora son Blobs/Files)
         const hasCustomVisuals = Object.values(tempCustomVisuals).some(val => val !== null);
         if (hasCustomVisuals) {
-            scripts[scriptIndex].customVisuals = tempCustomVisuals;
+            scriptToUpdate.customVisuals = tempCustomVisuals;
         } else {
-            // Si todos los campos están vacíos, elimina la propiedad para mantener los datos limpios
-            delete scripts[scriptIndex].customVisuals;
+            delete scriptToUpdate.customVisuals;
         }
-        // === FIN CÓDIGO NUEVO ===
-        
-        saveData();
-        updateUI();
-        closeModal('editScriptModal');
-        
-        alert('¡Guión actualizado exitosamente!');
+
+        // 2. Actualizar en Base de Datos
+        db.scripts.put(scriptToUpdate).then(() => {
+            saveData(); // Guardar config global
+            updateUI();
+            closeModal('editScriptModal');
+            alert('¡Guión actualizado exitosamente!');
+        }).catch(err => {
+            console.error(err);
+            alert("Error al actualizar el guión en la base de datos.");
+        });
     }
 }
 
@@ -6395,18 +6666,29 @@ function saveScript(event) {
     const processedContent = processTextReplacement(content, category);
     // -----------------------
     
-    scripts.push({
+const newScript = {
         id: Date.now(),
         title,
         category,
-        content: processedContent, // <--- CAMBIA 'content' por 'processedContent'
+        content: processedContent,
         used: false,
-        createdAt: new Date().toISOString()
-    });
+        createdAt: new Date().toISOString(),
+        // Nota: Si en el futuro agregas imágenes al crear guion, irían aquí
+    };
     
-    saveData();
-    updateUI();
-    closeModal('addModal');
+    // 1. Actualizar memoria
+    scripts.push(newScript);
+    
+    // 2. Guardar en DB
+    db.scripts.add(newScript).then(() => {
+        // Solo actualizamos UI y cerramos si la DB confirmó el guardado
+        saveData(); // Guardamos configuración global por si acaso
+        updateUI();
+        closeModal('addModal');
+    }).catch(e => {
+        console.error(e);
+        alert("Error crítico: No se pudo guardar el guión en la base de datos.");
+    });
 }
 
         function deleteCurrentScript() {
@@ -8422,14 +8704,19 @@ function loadVisualReferences(references) {
     
     // Cargar vista previa de cada referencia
     ['asunto', 'escena', 'estilo'].forEach(type => {
-        const preview = document.getElementById(`preview${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const btnRemove = document.getElementById(`btnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        const preview = document.getElementById(`preview${capitalize(type)}`);
+        const btnRemove = document.getElementById(`btnRemove${capitalize(type)}`);
+        const blobData = tempVisualReferences[type];
         
-        if (tempVisualReferences[type]) {
-            // Mostrar imagen
-            preview.innerHTML = `<img src="${tempVisualReferences[type]}" alt="Referencia ${type}">`;
+        if (blobData) {
+            // 1. Generar URL temporal desde el Blob
+            const thumbUrl = getImageUrl(blobData);
+            
+            // 2. Insertar imagen con gestión de memoria (revokeObjectURL)
+            preview.innerHTML = `<img src="${thumbUrl}" alt="Referencia ${type}" onload="if(this.src.startsWith('blob:')) URL.revokeObjectURL(this.src)">`;
+            
             preview.classList.add('has-image');
-            btnRemove.disabled = false;
+            if (btnRemove) btnRemove.disabled = false;
         } else {
             // Mostrar placeholder
             resetReferencePreview(type);
@@ -8438,47 +8725,7 @@ function loadVisualReferences(references) {
 }
 
 function handleReferenceUpload(type, event) {
-    const file = event.target.files[0];
-    
-    if (!file) return;
-    
-    // Validar que sea una imagen
-    if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecciona un archivo de imagen válido');
-        event.target.value = '';
-        return;
-    }
-    
-    // Validar tamaño (máximo 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-        alert('La imagen es demasiado grande. El tamaño máximo es 5MB');
-        event.target.value = '';
-        return;
-    }
-    
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-        const base64String = e.target.result;
-        
-        // Guardar en objeto temporal
-        tempVisualReferences[type] = base64String;
-        
-        // Actualizar vista previa
-        const preview = document.getElementById(`preview${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const btnRemove = document.getElementById(`btnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        
-        preview.innerHTML = `<img src="${base64String}" alt="Referencia ${type}">`;
-        preview.classList.add('has-image');
-        btnRemove.disabled = false;
-    };
-    
-    reader.onerror = function() {
-        alert('Error al leer el archivo. Por favor, intenta de nuevo.');
-        event.target.value = '';
-    };
-    
-    reader.readAsDataURL(file);
+    handleReferenceUploadGeneric(type, event, tempVisualReferences);
 }
 
 function removeReference(type) {
@@ -8522,32 +8769,77 @@ function resetReferencePreview(type) {
     btnRemove.disabled = true;
 }
 
-function downloadReference(type, base64Data, categoryName) {
-    // Convertir base64 a blob
-    const byteString = atob(base64Data.split(',')[1]);
-    const mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
+// ============================================
+// SISTEMA DE DESCARGA DE REFERENCIAS (FIX BLOB)
+// ============================================
+
+function downloadReference(type, categoryName) {
+    // 1. Buscar el script y la categoría actuales
+    if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) return;
     
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
+    const script = filteredScripts[currentViewIndex];
+    const category = categories.find(cat => cat.name === script.category) || {};
+
+    // 2. Resolver cuál Blob usar (Prioridad: Guion > Categoría)
+    // Nota: Esto replica la lógica de prioridad visual para asegurar que descargamos lo que vemos
+    const scriptRefs = script.customVisuals || {};
+    const categoryRefs = category.visualReferences || {};
     
-    for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+    const blobToDownload = scriptRefs[type] || categoryRefs[type];
+
+    if (!blobToDownload) {
+        alert("No se encontró el archivo de referencia.");
+        return;
     }
-    
-    const blob = new Blob([ab], { type: mimeString });
-    
-    // Crear enlace de descarga
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${categoryName}_${type}_referencia.${mimeString.split('/')[1]}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+
+    // 3. Crear URL temporal y forzar descarga
+    try {
+        // Si por alguna razón es un string (legacy), intentamos convertirlo o lo usamos directo
+        let url;
+        let isBlob = false;
+
+        if (blobToDownload instanceof Blob || blobToDownload instanceof File) {
+            url = URL.createObjectURL(blobToDownload);
+            isBlob = true;
+        } else {
+            // Soporte fallback para Base64 antiguos no migrados
+            url = blobToDownload; 
+        }
+
+        const a = document.createElement('a');
+        a.href = url;
+        
+        // Determinar extensión basada en el tipo MIME del Blob
+        let ext = 'png';
+        if (isBlob && blobToDownload.type) {
+            const mime = blobToDownload.type.split('/')[1];
+            if (mime) ext = mime.replace('jpeg', 'jpg');
+        }
+
+        // Nombre de archivo limpio
+        const cleanCatName = categoryName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        a.download = `${cleanCatName}_ref_${type}.${ext}`;
+        
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // 4. Limpieza de memoria
+        if (isBlob) {
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        }
+
+    } catch (e) {
+        console.error("Error en descarga:", e);
+        alert("Error al procesar la descarga del archivo.");
+    }
 }
 
 // DESPUÉS (Código nuevo y mejorado)
+// ============================================
+// VISUALIZACIÓN DE REFERENCIAS (FIX RENDER)
+// ============================================
+
 function loadReferencesInPromptsModule() {
     if (currentViewIndex < 0 || !filteredScripts[currentViewIndex]) {
         return;
@@ -8556,21 +8848,19 @@ function loadReferencesInPromptsModule() {
     const script = filteredScripts[currentViewIndex];
     const category = categories.find(cat => cat.name === script.category) || {};
 
-    // === INICIO LÓGICA DE PRIORIDAD NUEVA ===
+    // Lógica de prioridad: Custom Visuals > Category Visuals
     const categoryRefs = category.visualReferences || {};
     const scriptRefs = script.customVisuals || {};
 
-    // Fusionar, dando prioridad a las referencias del guion
     const finalRefs = {
         asunto: scriptRefs.asunto || categoryRefs.asunto || null,
         escena: scriptRefs.escena || categoryRefs.escena || null,
         estilo: scriptRefs.estilo || categoryRefs.estilo || null,
     };
-    // === FIN LÓGICA DE PRIORIDAD NUEVA ===
 
     const hasAnyReference = Object.values(finalRefs).some(ref => ref !== null);
-    
     const panel = document.getElementById('promptsReferencesPanel');
+    
     if (!hasAnyReference) {
         panel.style.display = 'none';
         return;
@@ -8581,7 +8871,6 @@ function loadReferencesInPromptsModule() {
     const referencesHTML = ['asunto', 'escena', 'estilo']
         .filter(type => finalRefs[type])
         .map(type => {
-            // ... (El resto de la lógica de renderizado de esta función permanece igual) ...
             const labels = { asunto: 'Asunto', escena: 'Escena', estilo: 'Estilo' };
             const icons = {
                 asunto: '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle>',
@@ -8590,17 +8879,30 @@ function loadReferencesInPromptsModule() {
             };
             const accentColors = { asunto: '#8b5cf6', escena: '#3b82f6', estilo: '#10b981' };
             
+            // Generar URL visual segura usando el Helper
+            // getImageUrl debe manejar si es Blob o String
+            const imgUrl = getImageUrl(finalRefs[type]);
+
+            // CORRECCIÓN CLAVE: 
+            // 1. Usamos onload en la imagen para liberar memoria si es un Blob URL
+            // 2. En el onclick ya NO pasamos el archivo, solo el tipo. La función de descarga lo buscará en memoria.
             return `
                 <div class="prompts-reference-item" style="border-left: 3px solid ${accentColors[type]};">
                     <div class="prompts-reference-image-container">
-                        <img src="${finalRefs[type]}" alt="Referencia ${type}">
+                        <img src="${imgUrl}" 
+                             alt="Referencia ${type}"
+                             onload="if(this.src.startsWith('blob:')) URL.revokeObjectURL(this.src)"> 
                     </div>
                     <button class="btn-download-reference-minimal" 
-                            onclick="downloadReference('${type}', \`${finalRefs[type]}\`, '${category.name}')"
+                            onclick="downloadReference('${type}', '${category.name.replace(/'/g, "\\'")}')"
                             style="background: ${accentColors[type]}15; color: ${accentColors[type]}; border-color: ${accentColors[type]}40;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icons[type]}</svg>
                         <span style="font-weight: 600;">${labels[type]}</span>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: auto;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: auto;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
                     </button>
                 </div>
             `;
@@ -8912,26 +9214,48 @@ function loadCustomVisualsEditor(customRefs, categoryRefs) {
     };
 
     ['asunto', 'escena', 'estilo'].forEach(type => {
-        const previewEl = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const btnRemoveEl = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const inputEl = document.getElementById(`editScriptInput${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        // IDs con mayúscula inicial para coincidir con el DOM (ej: editScriptPreviewAsunto)
+        const typeCap = type.charAt(0).toUpperCase() + type.slice(1);
+        const previewEl = document.getElementById(`editScriptPreview${typeCap}`);
+        const btnRemoveEl = document.getElementById(`editScriptBtnRemove${typeCap}`);
+        const inputEl = document.getElementById(`editScriptInput${typeCap}`);
 
-        // Limpiar input de archivo
+        // Limpiar input de archivo para permitir subir la misma imagen de nuevo si se desea
         if (inputEl) inputEl.value = '';
         
-        // Prioridad 1: Mostrar referencia personalizada si existe
+        // Lógica de visualización
+        let blobToRender = null;
+        let isFallback = false;
+
+        // Prioridad 1: Referencia personalizada del guion
         if (tempCustomVisuals[type]) {
-            previewEl.innerHTML = `<img src="${tempCustomVisuals[type]}" alt="Referencia personalizada de ${type}">`;
-            previewEl.classList.remove('fallback-preview');
-            btnRemoveEl.disabled = false;
+            blobToRender = tempCustomVisuals[type];
+            isFallback = false;
         } 
-        // Prioridad 2: Mostrar referencia de categoría como guía
+        // Prioridad 2: Referencia heredada de la categoría
         else if (categoryRefs[type]) {
-            previewEl.innerHTML = `<img src="${categoryRefs[type]}" alt="Referencia de categoría (por defecto)">`;
-            previewEl.classList.add('fallback-preview');
-            btnRemoveEl.disabled = true; // No se puede quitar la de la categoría desde aquí
+            blobToRender = categoryRefs[type];
+            isFallback = true;
+        }
+
+        // Renderizado
+        if (blobToRender) {
+            // Generar URL temporal segura para el Blob
+            const thumbUrl = getImageUrl(blobToRender);
+            
+            previewEl.innerHTML = `<img src="${thumbUrl}" alt="Ref ${type}" onload="if(this.src.startsWith('blob:')) URL.revokeObjectURL(this.src)">`;
+            
+            if (isFallback) {
+                previewEl.classList.add('fallback-preview');
+                // Si es fallback, no podemos "quitarla" desde el guion (solo sobrescribirla)
+                if (btnRemoveEl) btnRemoveEl.disabled = true; 
+            } else {
+                previewEl.classList.remove('fallback-preview');
+                if (btnRemoveEl) btnRemoveEl.disabled = false;
+            }
+            previewEl.classList.add('has-image');
         } 
-        // Prioridad 3: Mostrar placeholder si no hay ninguna
+        // Prioridad 3: Placeholder vacío
         else {
             previewEl.innerHTML = `
                 <div class="visual-reference-placeholder">
@@ -8939,38 +9263,14 @@ function loadCustomVisualsEditor(customRefs, categoryRefs) {
                     <span class="visual-reference-placeholder-text">Sin referencia</span>
                 </div>`;
             previewEl.classList.remove('fallback-preview');
-            btnRemoveEl.disabled = true;
+            previewEl.classList.remove('has-image');
+            if (btnRemoveEl) btnRemoveEl.disabled = true;
         }
     });
 }
 
 function handleCustomReferenceUpload(type, event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecciona un archivo de imagen.');
-        return;
-    }
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        alert('La imagen es demasiado grande. El límite es 5MB.');
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const base64String = e.target.result;
-        tempCustomVisuals[type] = base64String;
-        
-        // Actualizar UI
-        const previewEl = document.getElementById(`editScriptPreview${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        const btnRemoveEl = document.getElementById(`editScriptBtnRemove${type.charAt(0).toUpperCase() + type.slice(1)}`);
-        
-        previewEl.innerHTML = `<img src="${base64String}" alt="Nueva referencia de ${type}">`;
-        previewEl.classList.remove('fallback-preview');
-        btnRemoveEl.disabled = false;
-    };
-    reader.readAsDataURL(file);
+    handleReferenceUploadGeneric(type, event, tempCustomVisuals);
 }
 
 function removeCustomReference(type) {
