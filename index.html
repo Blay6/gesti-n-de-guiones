@@ -5714,31 +5714,34 @@ function getImageUrl(imageSource) {
 // SISTEMA DE INICIALIZACIÓN Y MIGRACIÓN
 // ============================================
 
+// ============================================
+// CARGA INICIAL (HYDRATION)
+// ============================================
+
 async function initializeData() {
     try {
-        // Paso 1: Verificar si existen datos antiguos en LocalStorage
+        // 1. Migración Legacy (LocalStorage -> IndexedDB)
         const localScripts = localStorage.getItem('scripts');
-        
         if (localScripts) {
-            console.log("📦 Datos antiguos detectados. Iniciando migración a IndexedDB...");
+            console.log("📦 Migrando datos antiguos...");
             await migrateFromLocalStorage();
         }
 
-        // Paso 2: Cargar datos desde IndexedDB a Memoria
-        // Esto mantiene la app rápida al tener los datos listos en RAM
+        // 2. Hydration: Cargar Blobs a Memoria RAM
+        // Esto es crucial: Dexie devuelve los objetos con sus Blobs intactos.
+        // No necesitamos generar URLs aquí, se generan on-the-fly en el renderizado (Lazy Loading).
         scripts = await db.scripts.toArray();
         categories = await db.categories.toArray();
         
-        // Cargar configuraciones
+        // 3. Cargar Configuración
         const dbConfig = await db.settings.get('config');
         if (dbConfig) config = dbConfig.value;
         
         const dbFilters = await db.settings.get('wordFilters');
         wordFilters = dbFilters ? dbFilters.value : [];
 
-        // Paso 3: Crear categoría por defecto si es una instalación limpia
+        // 4. Defaults para instalación limpia
         if (categories.length === 0) {
-            console.log("✨ Instalación limpia. Creando categoría General.");
             const defaultCat = { 
                 name: 'General', 
                 path: '', 
@@ -5747,17 +5750,16 @@ async function initializeData() {
                 promptTemplate: DEFAULT_PROMPT_TEMPLATE,
                 visualReferences: { asunto: null, escena: null, estilo: null }
             };
-            // Guardamos en DB y en Memoria
             await db.categories.add(defaultCat);
             categories.push(defaultCat);
         }
 
-        console.log(`✅ Sistema cargado: ${scripts.length} guiones, ${categories.length} categorías.`);
+        console.log(`✅ Datos cargados: ${categories.length} cats, ${scripts.length} scripts.`);
         updateUI();
 
     } catch (error) {
-        console.error("❌ Error crítico iniciando base de datos:", error);
-        alert("Error cargando la base de datos. Tus datos están seguros, recarga la página.");
+        console.error("❌ Fallo en carga de datos:", error);
+        alert("Error cargando datos. Por favor recarga la página.");
     }
 }
 
@@ -6293,65 +6295,98 @@ function removeNewReference(type) {
             document.getElementById('editCategoryName').focus();
         }
 
-        function saveEditCategory(event) {
-            event.preventDefault();
+// ============================================
+// PERSISTENCIA DE CATEGORÍAS (FIX SAVE)
+// ============================================
+
+async function saveEditCategory(event) {
+    event.preventDefault();
+    
+    const originalName = document.getElementById('editCategoryOriginalName').value;
+    const newName = document.getElementById('editCategoryName').value.trim();
+    const newPath = document.getElementById('editCategoryPath').value.trim();
+    const newExportPath = document.getElementById('editCategoryExportPath').value.trim();
+    const newPrompt = document.getElementById('editCategoryPrompt').value.trim() || DEFAULT_PROMPT_TEMPLATE;
+    const newContentType = document.querySelector('#editCategoryTypeSelector .active').dataset.type;
+
+    if (!newName) {
+        alert('Por favor, ingresa un nombre para la categoría');
+        return;
+    }
+    
+    if (!newExportPath) {
+        alert('Por favor, ingresa la ruta de exportación del video (campo obligatorio)');
+        document.getElementById('editCategoryExportPath').focus();
+        return;
+    }
+
+    // Validación de duplicados
+    if (newName !== originalName && categories.some(cat => cat.name === newName)) {
+        alert('Ya existe una categoría con ese nombre');
+        return;
+    }
+
+    try {
+        // 1. Preparar el objeto actualizado con los Blobs de imagen
+        const updatedCategory = {
+            name: newName, // PK
+            path: newPath,
+            exportPath: newExportPath,
+            contentType: newContentType,
+            promptTemplate: newPrompt,
+            visualReferences: {
+                // Usamos las referencias temporales que contienen los Blobs/Files
+                asunto: tempVisualReferences.asunto,
+                escena: tempVisualReferences.escena,
+                estilo: tempVisualReferences.estilo
+            }
+        };
+
+        // 2. Transacción de Base de Datos (Atomicidad)
+        await db.transaction('rw', db.categories, db.scripts, async () => {
             
-            const originalName = document.getElementById('editCategoryOriginalName').value;
-            const newName = document.getElementById('editCategoryName').value.trim();
-            const newPath = document.getElementById('editCategoryPath').value.trim();
-            const newExportPath = document.getElementById('editCategoryExportPath').value.trim();
-            const newPrompt = document.getElementById('editCategoryPrompt').value.trim() || 'Genera (X) prompts de imágenes para el siguiente guion';
-
-            if (!newName) {
-                alert('Por favor, ingresa un nombre para la categoría');
-                return;
-            }
-            
-            if (!newExportPath) {
-                alert('Por favor, ingresa la ruta de exportación del video (campo obligatorio)');
-                document.getElementById('editCategoryExportPath').focus();
-                return;
-            }
-
-            // Verificar si el nuevo nombre ya existe (excepto si es el mismo)
-            if (newName !== originalName && categories.some(cat => cat.name === newName)) {
-                alert('Ya existe una categoría con ese nombre');
-                return;
-            }
-
-            // Actualizar la categoría
-            const newContentType = document.querySelector('#editCategoryTypeSelector .active').dataset.type;
-
-            // Actualizar la categoría
-            const categoryIndex = categories.findIndex(cat => cat.name === originalName);
-            if (categoryIndex !== -1) {
-                categories[categoryIndex] = {
-                    name: newName,
-                    path: newPath,
-                    exportPath: newExportPath,
-                    contentType: newContentType, // <-- AÑADIDO
-                    promptTemplate: newPrompt,
-                    visualReferences: tempVisualReferences
-                };
-
-
-                // Actualizar todos los scripts que usan esta categoría
-                scripts.forEach(script => {
-                    if (script.category === originalName) {
-                        script.category = newName;
-                    }
-                });
-
-                // Si estamos viendo esta categoría, actualizar el filtro
-                if (currentFilter === originalName) {
-                    currentFilter = newName;
+            // Si el nombre cambió, debemos migrar los datos y borrar la entrada vieja
+            if (originalName !== newName) {
+                // A. Borrar categoría antigua
+                await db.categories.delete(originalName);
+                
+                // B. Actualizar todos los guiones huérfanos
+                const relatedScripts = await db.scripts.where('category').equals(originalName).toArray();
+                for (const script of relatedScripts) {
+                    script.category = newName;
+                    await db.scripts.put(script);
                 }
-
-                saveData();
-                updateUI();
-                closeModal('editCategoryModal');
             }
+
+            // C. Guardar la categoría actualizada (Insertar o Sobrescribir)
+            await db.categories.put(updatedCategory);
+        });
+
+        // 3. Sincronización de Estado en Memoria (Hydration inmediata)
+        // Actualizar array de categorías
+        const catIndex = categories.findIndex(c => c.name === originalName);
+        if (catIndex !== -1) {
+            categories[catIndex] = updatedCategory;
         }
+
+        // Actualizar array de scripts en memoria si hubo cambio de nombre
+        if (originalName !== newName) {
+            scripts.forEach(s => {
+                if (s.category === originalName) s.category = newName;
+            });
+            if (currentFilter === originalName) currentFilter = newName;
+        }
+
+        // 4. Finalizar
+        saveData(); // Guardar config global
+        updateUI();
+        closeModal('editCategoryModal');
+        
+    } catch (err) {
+        console.error("Error crítico guardando categoría:", err);
+        alert("Hubo un error al guardar en la base de datos. Revisa la consola.");
+    }
+}
 
 // DESPUÉS (Código nuevo y mejorado)
 function openEditScriptModal() {
