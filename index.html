@@ -9188,8 +9188,8 @@ function showCurrentPrompt() {
     const led = document.getElementById('sceneCoherenceLed');
     const cycleLength = config.sceneCoherenceLength;
 
-    // Si el ciclo es 0 o 1, la función está desactivada. El LED permanece apagado (gris).
-    if (cycleLength <= 1) {
+    // Si el ciclo es 0, la función está desactivada. El LED permanece apagado (gris).
+    if (cycleLength <= 0) {
         led.className = 'scene-coherence-led';
         led.title = 'Ciclo de coherencia desactivado.';
     } else {
