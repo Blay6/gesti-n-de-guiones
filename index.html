@@ -7219,52 +7219,63 @@ function showToast(message) {
             }
         }
 
-        function toggleUsedStatus() {
+        async function toggleUsedStatus() {
             if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
                 const script = filteredScripts[currentViewIndex];
                 const originalScript = scripts.find(s => s.id === script.id);
                 
-                if (!originalScript.used) {
-                    // Marcar como utilizado
-                    originalScript.used = true;
-                    script.used = true;
-                    saveData();
+                // Determinar el nuevo estado
+                const newStatus = !originalScript.used;
+
+                try {
+                    // 1. Actualizar en memoria
+                    originalScript.used = newStatus;
+                    script.used = newStatus;
+
+                    // 2. PERSISTENCIA EN BASE DE DATOS (Fix Crítico)
+                    await db.scripts.put(originalScript);
+                    
+                    // 3. Actualizar UI y Configuración
+                    saveData(); 
                     updateStats();
                     
-                    // Obtener la lista actualizada ANTES de renderizar
-                    const availableScripts = getFilteredScripts();
-                    
-                    // Si hay más guiones disponibles, cargar el siguiente
-                    if (availableScripts.length > 0) {
-                        // Ajustar el índice si es necesario
-                        if (currentViewIndex >= availableScripts.length) {
-                            currentViewIndex = 0;
+                    // 4. Lógica de UI según el estado
+                    if (newStatus) {
+                        // === Lógica: Marcar como utilizado (Auto-avance) ===
+                        
+                        // Obtener la lista actualizada de disponibles
+                        const availableScripts = getFilteredScripts();
+                        
+                        if (availableScripts.length > 0) {
+                            // Ajustar índice si es necesario
+                            if (currentViewIndex >= availableScripts.length) {
+                                currentViewIndex = 0;
+                            }
+                            
+                            // Cargar el siguiente guion disponible inmediatamente
+                            const nextScript = availableScripts[currentViewIndex];
+                            loadScriptInModal(nextScript);
+                            renderScripts();
+                        } else {
+                            // No quedan más guiones: cerrar y felicitar
+                            closeModal('viewModal');
+                            renderScripts();
+                            setTimeout(() => {
+                                alert('🎉 ¡Excelente trabajo! Has completado todos los guiones disponibles en esta categoría.');
+                            }, 300);
                         }
-                        
-                        // Cargar el siguiente guion disponible
-                        const nextScript = availableScripts[currentViewIndex];
-                        loadScriptInModal(nextScript);
-                        
-                        // Actualizar la lista visual en segundo plano
-                        renderScripts();
                     } else {
-                        // No hay más guiones disponibles
-                        closeModal('viewModal');
+                        // === Lógica: Desmarcar (Volver a disponible) ===
+                        updateMarkUsedButton(false);
                         renderScripts();
-                        
-                        // Mostrar mensaje de felicitación
-                        setTimeout(() => {
-                            alert('🎉 ¡Excelente trabajo! Has completado todos los guiones disponibles en esta categoría.');
-                        }, 300);
                     }
-                } else {
-                    // Desmarcar como utilizado (volver a disponible)
-                    originalScript.used = false;
-                    script.used = false;
-                    saveData();
-                    updateMarkUsedButton(script.used);
-                    renderScripts();
-                    updateStats();
+
+                } catch (err) {
+                    console.error("Error crítico guardando estado:", err);
+                    // Revertir cambio en memoria si falla la DB
+                    originalScript.used = !newStatus;
+                    script.used = !newStatus;
+                    alert("Error: No se pudo guardar el estado en la base de datos.");
                 }
             }
         }
