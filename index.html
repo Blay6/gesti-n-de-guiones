@@ -4848,6 +4848,12 @@ body {
                         💡 Usa <strong>(X)</strong> donde quieras que aparezca el número de escenas calculado
                     </small>
                 </div>
+
+                <div class="form-group">
+                    <label>Enlace de música por defecto</label>
+                    <input type="text" id="editCategoryDefaultMusic" placeholder="https://enlace-musica.com/..." class="path-input">
+                </div>
+                
                 <!-- NUEVA SECCIÓN: Referencias Visuales -->
                 <div class="visual-references-section">
                     <div class="visual-references-header">
@@ -5018,6 +5024,13 @@ body {
                     <div class="form-group">
                         <label>Contenido del Guión</label>
                         <textarea id="editScriptContent" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Enlace de música</label>
+                        <input type="text" id="editScriptMusic" placeholder="Heredado: (sin música)" class="path-input">
+                        <small style="font-size: 11px; color: #737373; margin-top: 4px; display: block;">
+                            💡 Si lo dejas vacío, se usará el enlace de música de la categoría (si existe).
+                        </small>
                     </div>
                     
                     <!-- === INICIO CÓDIGO NUEVO === -->
@@ -6317,6 +6330,7 @@ function removeNewReference(type) {
             document.getElementById('editCategoryPath').value = category.path || '';
             document.getElementById('editCategoryExportPath').value = category.exportPath || '';
             document.getElementById('editCategoryPrompt').value = category.promptTemplate || 'Genera (X) prompts de imágenes para el siguiente guion';
+            document.getElementById('editCategoryDefaultMusic').value = category.defaultMusic || '';
 
             // Contar scripts afectados
             const affectedCount = scripts.filter(s => s.category === categoryName).length;
@@ -6375,12 +6389,14 @@ async function saveEditCategory(event) {
 
     try {
         // 1. Preparar el objeto actualizado con los Blobs de imagen
+        const newDefaultMusic = document.getElementById('editCategoryDefaultMusic').value.trim();
         const updatedCategory = {
             name: newName, // PK
             path: newPath,
             exportPath: newExportPath,
             contentType: newContentType,
             promptTemplate: newPrompt,
+            defaultMusic: newDefaultMusic || null,
             visualReferences: {
                 // Usamos las referencias temporales que contienen los Blobs/Files
                 asunto: tempVisualReferences.asunto,
@@ -6466,6 +6482,13 @@ function openEditScriptModal() {
     // Cargar referencias visuales personalizadas
     const category = categories.find(cat => cat.name === originalScript.category) || {};
     loadCustomVisualsEditor(originalScript.customVisuals, category.visualReferences);
+
+    // Cargar campo de música
+    const musicInput = document.getElementById('editScriptMusic');
+    musicInput.value = originalScript.music || '';
+    musicInput.placeholder = category.defaultMusic
+        ? `Heredado: ${category.defaultMusic}`
+        : 'Heredado: (sin música)';
     // === FIN CÓDIGO NUEVO ===
 
     // Abrir modal
@@ -6533,6 +6556,14 @@ function saveEditScript(event) {
         scriptToUpdate.category = category;
         scriptToUpdate.content = processedContent;
         scriptToUpdate.updatedAt = new Date().toISOString();
+
+        // Gestión del campo música
+        const musicValue = document.getElementById('editScriptMusic').value.trim();
+        if (musicValue) {
+            scriptToUpdate.music = musicValue;
+        } else {
+            delete scriptToUpdate.music;
+        }
 
         // Gestión de imágenes custom (ahora son Blobs/Files)
         const hasCustomVisuals = Object.values(tempCustomVisuals).some(val => val !== null);
@@ -6892,6 +6923,14 @@ function generateTimeBasedID() {
     return `${YYYY}${MM}${DD}_${HH}${mm}${ss}_${ms}`;
 }
 
+function resolveMusic(script) {
+    if (script.music && script.music.trim() !== '') {
+        return script.music.trim();
+    }
+    const category = categories.find(cat => cat.name === script.category);
+    return (category && category.defaultMusic) ? category.defaultMusic.trim() : null;
+}
+
 function copyScriptTitle() {
     const titleElement = document.getElementById('viewTitle');
     
@@ -6935,8 +6974,16 @@ function copyScriptTitle() {
         }
     }
     
+// Resolver música del guion actual
+    let musicLine = '';
+    if (currentViewIndex >= 0 && filteredScripts[currentViewIndex]) {
+        const resolvedMusic = resolveMusic(filteredScripts[currentViewIndex]);
+        musicLine = resolvedMusic || '';
+    }
+    const finalCopyText = `Titulo: ${textToCopy}\nMusica: ${musicLine}`;
+
     // Copiar al portapapeles
-    navigator.clipboard.writeText(textToCopy).then(() => {
+    navigator.clipboard.writeText(finalCopyText).then(() => {
         // Feedback Visual Avanzado
         const btn = document.querySelector('.sidebar-action-btn[onclick*="copyScriptTitle"]');
         
